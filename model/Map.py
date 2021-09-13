@@ -1,4 +1,5 @@
 from model.Element import Element
+import pygame
 
 
 class Map:
@@ -14,5 +15,8 @@ class Map:
         self.elements.remove(element)
 
     # TODO define this method with the PyGame Library
-    # @property
-    # def createInterface(self, draw):
+    def createInterface(self, screen):
+        for element in self.elements:
+            image = pygame.image.load(element.image_path)
+            image = pygame.transform.scale(image, (100, 100))
+            screen.blit(image, (element.x * 100, element.y * 100))

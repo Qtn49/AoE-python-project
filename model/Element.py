@@ -3,8 +3,8 @@ import abc
 
 class Element:
 
-    def __init__(self, x, y, appearance=None):
-        self.appearance = appearance
+    def __init__(self, x, y, image_path=None):
+        self.image_path = image_path
         self.x = x
         self.y = y
         self.present = True
@@ -19,5 +19,5 @@ class Element:
     def get_y(self):
         return self.y
 
-    def get_appearance(self):
-        return self.appearance
+    def get_image_path(self):
+        return self.image_path
