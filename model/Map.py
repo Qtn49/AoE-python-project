@@ -8,11 +8,14 @@ class Map:
         self.elements = []
         self.background = background
 
-    def addElement(self, element):
-        self.elements.append(element)
+    def addElement(self, position, element):
+        self.elements[position] = element
 
-    def removeElement(self, element):
-        self.elements.remove(element)
+    def removeElement(self, position):
+        del self.elements[position]
+
+    def getElement(self, position):
+        return self.elements[position]
 
     # TODO define this method with the PyGame Library
     def createInterface(self, screen):
