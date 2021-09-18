@@ -27,7 +27,8 @@ class Game():
                 self.playing = False
             #self.display.fill(self.back)
             self.display.blit(self.back,(0,0))
-            self.draw_game("Merci de jouer",20,self.DISPLAY_W/2,self.DISPLAY_H/2)
+            #self.draw_game("Merci de jouer",20,self.DISPLAY_W/2,self.DISPLAY_H/2)
+            self.draw_game(" ", 20, self.DISPLAY_W / 2, self.DISPLAY_H / 2)
             self.window.blit(self.display,(0,0))
             pygame.display.update()
             self.reset_keys()
