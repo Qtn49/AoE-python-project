@@ -49,8 +49,15 @@ class Game():
                 if event.key == pygame.K_UP:
                     self.UP_KEY = True
             if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
                 p = pygame.mouse.get_pressed()
-                if p:
+                if self.main_menu.quitx-70 <= pos[0] <= self.main_menu.quitx+70 and self.main_menu.quity-10 <= pos[1] <= self.main_menu.quity+10:
+                    self.running, self.playing = False, False
+                    self.curr_menu.run_display = False
+                if self.main_menu.creditsx-70 <= pos[0] <= self.main_menu.creditsx+70 and self.main_menu.creditsy-10 <= pos[1] <= self.main_menu.creditsy+10:
+                    self.running, self.playing = False, False
+                    self.curr_menu.run_display = False
+                if self.main_menu.optionsx-70 <= pos[0] <= self.main_menu.optionsx+70 and self.main_menu.optionsy-10 <= pos[1] <= self.main_menu.optionsy+10:
                     self.running, self.playing = False, False
                     self.curr_menu.run_display = False
 

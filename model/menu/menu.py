@@ -21,9 +21,9 @@ class MainMenu(Menu):
         Menu.__init__(self,game)
         self.state = "Start"
         self.startx, self.starty = self.mid_w, self.mid_h+30
-        self.optionsx, self.optionsy = self.mid_w, self.mid_h+50
-        self.creditsx, self.creditsy = self.mid_w, self.mid_h+70
-        self.quitx, self.quity = self.mid_w, self.mid_h+90
+        self.optionsx, self.optionsy = self.mid_w, self.mid_h+70
+        self.creditsx, self.creditsy = self.mid_w, self.mid_h+110
+        self.quitx, self.quity = self.mid_w, self.mid_h+150
         self.cursor_rect.midtop = (self.startx + self.offset, self.starty)
 
     def display_menu(self):
@@ -32,7 +32,7 @@ class MainMenu(Menu):
             self.game.check_events()
             self.check_input()
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text("Main Menu", 20, self.game.DISPLAY_W/2, self.game.DISPLAY_H/2-20)
+            self.game.draw_text("Age of Cheap Empire", 20, self.game.DISPLAY_W/2, self.game.DISPLAY_H/2.5-20)
             self.game.draw_text("Start a Game", 20, self.startx, self.starty)
             self.game.draw_text("Options", 20, self.optionsx, self.optionsy)
             self.game.draw_text("Credits", 20, self.creditsx, self.creditsy)
