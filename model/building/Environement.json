@@ -1,0 +1,100 @@
+[
+    {
+    "id": 7,
+    "name": "BerriesBush",
+    "expansion": "Age 1",
+    "age": "Stone",
+    "cost": {
+      "pv": 100
+    },
+    "destroy_time": 200,
+    "hit_points": 100,
+    "special": [
+      "Provide 150 food and 70 woods"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "GoldMine",
+    "expansion": "Age 1",
+    "age": "Stone",
+    "cost": {
+      "pv": 500
+    },
+    "destroy_time": 600,
+    "hit_points": 500,
+    "special": [
+      "Provide 600 golds"
+    ]
+  },
+    {
+    "id": 5,
+    "name": "StoneMine",
+    "expansion": "Age 1",
+    "age": "Stone",
+    "cost": {
+      "pv": 300
+    },
+    "destroy_time": 400,
+    "hit_points": 300,
+    "special": [
+      "Provide 400 stones"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Tree",
+    "expansion": "Age 1",
+    "age": "Stone",
+    "cost": {
+      "pv": 30
+    },
+    "destroy_time": 25,
+    "hit_points": 25,
+    "special": [
+      "Provide 70 woods"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "House",
+    "expansion": "Age 1",
+    "age": "Stone",
+    "cost": {
+      "Wood": 30
+    },
+    "build_time": 25,
+    "hit_points": 75,
+    "special": [
+      "Supports 4 population"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Barracks",
+    "expansion": "Age 1",
+    "age": "Stone",
+    "cost": {
+      "Wood": 125
+    },
+    "build_time": 50,
+    "hit_points": 350,
+    "special": [
+      "Garrison: 4 created units"
+    ]
+  },
+    {
+    "id": 1,
+    "name": "Town Center",
+    "expansion": "Age 2",
+    "age": "Tool",
+    "cost": {
+      "Wood": 200
+    },
+    "build_time": 60,
+    "hit_points": 600,
+    "special": [
+      "4 created units"
+    ]
+  }
+  ]
