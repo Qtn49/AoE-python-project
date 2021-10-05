@@ -1,29 +1,31 @@
 import pygame
 
-class Menu():
+
+class Menu:
     def __init__(self, game):
         self.game = game
-        self.mid_w, self.mid_h = self.game.DISPLAY_W/2, self.game.DISPLAY_H/2
+        self.mid_w, self.mid_h = self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2
         self.run_display = True
-        self.cursor_rect = pygame.Rect(0,0,20,20)
+        self.cursor_rect = pygame.Rect(0, 0, 20, 20)
         self.offset = -150
 
     def draw_cursor(self):
-        self.game.draw_text("*", 15,self.cursor_rect.x,self.cursor_rect.y)
+        self.game.draw_text("*", 15, self.cursor_rect.x, self.cursor_rect.y)
 
     def blit_screen(self):
-        self.game.window.blit(self.game.display,(0,0))
+        self.game.window.blit(self.game.display, (0, 0))
         pygame.display.update()
         self.game.reset_keys()
 
+
 class MainMenu(Menu):
     def __init__(self, game):
-        Menu.__init__(self,game)
+        Menu.__init__(self, game)
         self.state = "Start"
-        self.startx, self.starty = self.mid_w, self.mid_h+30
-        self.optionsx, self.optionsy = self.mid_w, self.mid_h+70
-        self.creditsx, self.creditsy = self.mid_w, self.mid_h+110
-        self.quitx, self.quity = self.mid_w, self.mid_h+150
+        self.startx, self.starty = self.mid_w, self.mid_h + 30
+        self.optionsx, self.optionsy = self.mid_w, self.mid_h + 70
+        self.creditsx, self.creditsy = self.mid_w, self.mid_h + 110
+        self.quitx, self.quity = self.mid_w, self.mid_h + 150
         self.cursor_rect.midtop = (self.startx + self.offset, self.starty)
 
     def display_menu(self):
@@ -32,7 +34,7 @@ class MainMenu(Menu):
             self.game.check_events()
             self.check_input()
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text("Age of Cheap Empire", 20, self.game.DISPLAY_W/2, self.game.DISPLAY_H/2.5-20)
+            self.game.draw_text("Age of Cheap Empire", 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2.5 - 20)
             self.game.draw_text("Start a Game", 20, self.startx, self.starty)
             self.game.draw_text("Options", 20, self.optionsx, self.optionsy)
             self.game.draw_text("Credits", 20, self.creditsx, self.creditsy)
@@ -73,6 +75,7 @@ class MainMenu(Menu):
         if self.game.START_KEY:
             if self.state == "Start":
                 self.game.playing = True
+                self.game.running = False
             elif self.state == "Options":
                 self.game.curr_menu = self.game.options
             elif self.state == "Credits":
@@ -81,12 +84,13 @@ class MainMenu(Menu):
                 self.game.curr_menu = self.game.quit
             self.run_display = False
 
+
 class OptionsMenu(Menu):
-    def __init__(self,game):
-        Menu.__init__(self,game)
+    def __init__(self, game):
+        Menu.__init__(self, game)
         self.state = "Volume"
-        self.volx, self.voly = self.mid_w, self.mid_h+20
-        self.controlsx, self.controlsy = self.mid_w, self.mid_h+40
+        self.volx, self.voly = self.mid_w, self.mid_h + 20
+        self.controlsx, self.controlsy = self.mid_w, self.mid_h + 40
         self.cursor_rect.midtop = (self.volx + self.offset, self.voly)
 
     def display_menu(self):
@@ -94,7 +98,7 @@ class OptionsMenu(Menu):
         while self.run_display:
             self.game.check_events()
             self.check_input()
-            self.game.display.fill((0,0,0))
+            self.game.display.fill((0, 0, 0))
             self.game.draw_text("Options", 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 30)
             self.game.draw_text("Volume", 15, self.volx, self.voly)
             self.game.draw_text("Controls", 15, self.controlsx, self.controlsy)
@@ -115,6 +119,7 @@ class OptionsMenu(Menu):
         elif self.game.START_KEY:
             pass
 
+
 class CreditsMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
@@ -127,18 +132,20 @@ class CreditsMenu(Menu):
                 self.game.curr_menu = self.game.main_menu
                 self.run_display = False
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text("Credits",20,self.game.DISPLAY_W/2, self.game.DISPLAY_H/2-20)
-            self.game.draw_text("Made by the team of Age of Cheap",15,self.game.DISPLAY_W/2, self.game.DISPLAY_H/2+10)
-            self.game.draw_text("Melanie GOY",10,self.game.DISPLAY_W/2,self.game.DISPLAY_H/2+30)
+            self.game.draw_text("Credits", 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 20)
+            self.game.draw_text("Made by the team of Age of Cheap", 15, self.game.DISPLAY_W / 2,
+                                self.game.DISPLAY_H / 2 + 10)
+            self.game.draw_text("Melanie GOY", 10, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 30)
             self.game.draw_text("Quentin GUEZ", 10, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 40)
             self.game.draw_text("Camille HERRERO", 10, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 50)
             self.game.draw_text("Erle GUILLEMOT", 10, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 60)
             self.game.draw_text("Matheo LAVENIR", 10, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 70)
             self.blit_screen()
 
+
 class QuitMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
 
     def display_menu(self):
-        pygame.quit()
+        self.game.running, self.game.playing = False, False
