@@ -15,7 +15,7 @@ class MainMenu(Menu):
         Menu.__init__(self, game)
         self.startx, self.starty = self.mid_w, self.mid_h+30
         self.creditsx, self.creditsy = self.mid_w, self.mid_h + 70
-        self.quitx, self.quity = self.mid_w, self.mid_h+110
+        self.quitx, self.quity = self.mid_w, self.mid_h+130
 
     def display_menu(self):
         self.run_display = True
