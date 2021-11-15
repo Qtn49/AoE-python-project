@@ -7,6 +7,7 @@ class House(Batiment):
         self.job="house"
         self.action="Neant"
         self.sight=2
+        self.needWood = 30
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

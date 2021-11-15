@@ -7,6 +7,7 @@ class Granary(Batiment):
         self.job="granary"
         self.action="Neant"
         self.sight=4
+        self.needWood = 120
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

@@ -8,6 +8,7 @@ class Barracks(Batiment):
         self.job="barracks"
         self.action="Neant"
         self.sight=6
+        self.needWood = 125
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

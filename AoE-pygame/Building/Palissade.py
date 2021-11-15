@@ -8,6 +8,7 @@ class Palissade(Batiment):
         self.job="palissade"
         self.action="Neant"
         self.sight=2
+        self.needWood = 2
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
