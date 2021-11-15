@@ -1,4 +1,6 @@
 import pygame
+
+from model.draw.Draw import Draw
 from model.menu.menu import MainMenu, QuitMenu, CreditsMenu
 
 
@@ -7,9 +9,9 @@ class Game():
         self.running = True
         self.START_KEY = False
         self.title = pygame.display.set_caption("Age of Cheap")
-        self.DISPLAY_W, self.DISPLAY_H = pygame.display.Info().current_w, pygame.display.Info().current_h
-        self.display = pygame.Surface((self.DISPLAY_W, self.DISPLAY_H))
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.DISPLAY_W, self.DISPLAY_H = pygame.display.Info().current_w, pygame.display.Info().current_h
+        Draw.set_display(pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h)))
         self.back = pygame.image.load("model/menu/Logo.png").convert_alpha()
         self.main_menu = MainMenu(self)
         self.quit = QuitMenu(self)
@@ -22,8 +24,8 @@ class Game():
                 self.check_events(event)
             if self.START_KEY:
                 self.running = False
-            self.display.blit(self.back, (0, 0))
-            self.window.blit(self.display, (0, 0))
+            Draw.DISPLAY.blit(self.back, (0, 0))
+            self.window.blit(Draw.DISPLAY, (0, 0))
             pygame.display.update()
 
     def check_events(self, event):

@@ -10,7 +10,7 @@ class Menu():
         self.run_display = True
 
     def blit_screen(self):
-        self.game.window.blit(self.game.display, (0, 0))
+        self.game.window.blit(Draw.DISPLAY, (0, 0))
         pygame.display.update()
 
 
@@ -24,33 +24,41 @@ class MainMenu(Menu):
 
     def display_menu(self):
         self.run_display = True
+        selected_text = None
+
         while self.run_display:
-            self.game.display.fill(Draw.BLACK)
-            self.texts['title'] = Draw.draw_text("Age of Cheap Empire", 20, self.game.DISPLAY_W / 2,
-                                             self.game.DISPLAY_H / 2.5 - 20, self.game.display)
-            self.texts['start_game'] = Draw.draw_text("Start a Game", 20, self.startx, self.starty, self.game.display)
-            self.texts['credits'] = Draw.draw_text("Credits", 20, self.creditsx, self.creditsy, self.game.display)
-            self.texts['quit'] = Draw.draw_text("Quitter", 20, self.quitx, self.quity, self.game.display)
-            self.blit_screen()
+            Draw.DISPLAY.fill(Draw.BLACK)
+            self.texts['title'] = Draw.draw_text("Age of Cheap Empire", 20, self.mid_w,
+                                             self.game.DISPLAY_H / 2.5 - 20)
+            self.texts['start_game'] = Draw.draw_text("Start a Game", 20, self.startx, self.starty)
+            self.texts['credits'] = Draw.draw_text("Credits", 20, self.creditsx, self.creditsy)
+            self.texts['quit'] = Draw.draw_text("Quitter", 20, self.quitx, self.quity)
 
             for event in pygame.event.get():
-                self.check_events(event)
+                pos = pygame.mouse.get_pos()
+                selected_text = next((self.texts[el] for el in self.texts if self.texts[el].collidepoint(pos)), None)
+
+                print(selected_text)
+
+                if selected_text is not None:
+                    pygame.mouse.set_cursor(pygame.cursors.broken_x)
+                    # pygame.mixer.Channel(1).play(pygame.mixer.Sound('resources/sound/menu-click.wav'))
+                else:
+                    pygame.mouse.set_cursor(pygame.cursors.arrow)
+
+                Draw.select_text(selected_text)
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.texts['start_game'].collidepoint(pos):
+                        self.game.running = True
+                        self.run_display = False
+
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.run_display = False
                     self.game.running = False
 
-    def check_events(self, event):
-        pos = pygame.mouse.get_pos()
-
-        if True in list(map(lambda el: self.texts[el].collidepoint(pos), self.texts)):
-            pygame.mouse.set_cursor(pygame.cursors.broken_x)
-            # pygame.mixer.Channel(1).play(pygame.mixer.Sound('resources/sound/menu-click.wav'))
-        else:
-            pygame.mouse.set_cursor(pygame.cursors.arrow)
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.texts['start_game'].collidepoint(pos):
-                self.game.running = True
-                self.run_display = False
+            Draw.select_text(selected_text)
+            self.blit_screen()
 
 
 
