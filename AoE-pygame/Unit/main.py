@@ -21,7 +21,7 @@ def main() :
     Setup
     """
     print(legal(749))
-    backdrop = pygame.image.load(os.path.join('echec.jpg'))
+    backdrop = pygame.image.load(os.path.join('Unit/echec.jpg'))
     clock = pygame.time.Clock()
     pygame.init()
     backdropbox = world.get_rect()
