@@ -3,6 +3,7 @@ Import
 """
 import pygame
 from Variables import *
+##from Unit import *
 import os
 
 
@@ -50,3 +51,10 @@ class Batiment(pygame.sprite.Sprite):
 			if self in board:
 				board.remove(self)
 				self.action="Neant"
+
+	def generateUnit(self, board, job):
+		if job == "villager":
+			#vilB = Villager((0, 0), 'B')
+			print("yes")
+
+	##def attackTower(self, board, job):
