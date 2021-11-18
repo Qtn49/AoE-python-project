@@ -60,3 +60,5 @@ class Batiment(pygame.sprite.Sprite):
 
 
 	##def attackTower(self, board, job):
+
+
