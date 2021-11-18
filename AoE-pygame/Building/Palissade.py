@@ -13,7 +13,7 @@ class Palissade(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Building/Palissade.png")).convert()
+        img = pygame.image.load(os.path.join("Building/images/Woodwall1.png")).convert()
         img.convert_alpha()  # optimise alpha
         img.set_colorkey(ALPHA)  # set alpha
         self.images.append(img)

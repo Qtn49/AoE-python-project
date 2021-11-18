@@ -1,18 +1,25 @@
-from Batiment import *
+from Ressource import *
 
-class Storage_pit(Batiment):
+"""
+Objects
+"""
+class Habitant(Ressource):
+
+    """
+    Spawn a Player
+    """
 
     def __init__(self, pos, team):
-        self.pv=350
-        self.job="storage_pit"
-        self.action="Neant"
-        self.sight=4
-        self.needWood = 120
+        ### Tout ce qui fait une batiment ressource ###
+        self.pv = 20
+        self.gold = 40
+        self.job = "habitant"
+        self.action = "Neant"
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Building/Storage_pit.png")).convert()
+        img = pygame.image.load(os.path.join("Unit/" + team + '_habitant.png')).convert()
         img.convert_alpha()  # optimise alpha
         img.set_colorkey(ALPHA)  # set alpha
         self.images.append(img)
