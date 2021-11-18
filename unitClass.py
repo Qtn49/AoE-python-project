@@ -177,3 +177,4 @@ disp_board(place)
 anml_1.disp_domestic()
 
 print(anml_1.team)
+

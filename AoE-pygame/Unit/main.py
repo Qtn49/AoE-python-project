@@ -2,6 +2,7 @@
 """
 Import
 """
+from Barracks import *
 from Variables import *
 from Villager import *
 from threading import *
@@ -27,14 +28,16 @@ def main() :
     backdropbox = world.get_rect()
     game = True
 
-
     board = pygame.sprite.Group()
+
 
     vilB = Villager((0,0),'B')  # spawn
     vilR = Villager((900,900),'R')
+    barracks = Barracks((502,502),'B')
 
     board.add(vilB)
     board.add(vilR)
+    board.add(barracks)
 
     """
     Loop
@@ -62,6 +65,8 @@ def main() :
                     Thread(target=vilB.attack, args=(board,vilR)).start()
                 if event.key == ord('z'):
                     Thread(target=vilR.defend, args=(board,700,700)).start()
+                if event.key == ord('y'):
+                    Thread(target=barracks.generateUnit, args=(board,"villager")).start()
 
         world.blit(backdrop, backdropbox)
         board.draw(world)

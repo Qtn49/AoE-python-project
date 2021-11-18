@@ -2,11 +2,10 @@
 Import
 """
 import pygame
+from Villager import *
 from Variables import *
 
 import os
-
-from unitClass import Villager
 
 """
 Objects
@@ -55,8 +54,8 @@ class Batiment(pygame.sprite.Sprite):
 
 	def generateUnit(self, board, job):
 		if job == "villager":
-			vilB = Villager((0, 0), 'B')
-			board.add(vilB);
+			vilF = Villager((256, 256), 'B')
+			board.add(vilF);
 
 
 	##def attackTower(self, board, job):
