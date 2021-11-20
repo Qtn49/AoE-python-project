@@ -9,7 +9,11 @@ from threading import *
 from Map import *
 from Player import *
 from House import *
-import sys
+
+
+
+from model.building.Forum import Forum
+
 
 """
 Variables
@@ -36,6 +40,7 @@ def main() :
     vilB = Villager((0,0),'B')  # spawn
     vilR = Villager((900,900),'R')
     barracks = Barracks((502,502),'B',joueur1)
+    b = Forum((520,202),'R')
     board.add(vilB)
     board.add(vilR)
     board.add(barracks)

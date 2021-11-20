@@ -1,9 +1,22 @@
-from abc import ABC
+from Batiment import *
 
-from model.Building import Building
+class Barracks(Batiment):
 
+    def __init__(self, pos, team):
+        ### Tout ce que fait une palissade ###
+        self.pv=350
+        self.job="barracks"
+        self.action="Neant"
+        self.sight=6
+        self.needWood = 125
 
-class TownCenter(Building, ABC):
-
-    def __init__(self, x, y, image_path=None):
-        super().__init__(x, y, image_path)
+        pygame.sprite.Sprite.__init__(self)
+        self.frame = 0
+        self.images = []
+        img = pygame.image.load(os.path.join("Building/images/Barracks.png")).convert()
+        img.convert_alpha()  # optimise alpha
+        img.set_colorkey(ALPHA)  # set alpha
+        self.images.append(img)
+        self.image = self.images[0]
+        self.rect = self.image.get_rect()
+        super().__init__(pos, team);
