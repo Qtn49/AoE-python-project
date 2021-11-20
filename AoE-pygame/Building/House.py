@@ -1,13 +1,17 @@
 from Batiment import *
 
+
 class House(Batiment):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, joueur):
         self.pv=75
         self.job="house"
         self.action="Neant"
+        self.inhabitant=5
         self.sight=2
         self.needWood = 30
+        joueur.wood -= self.needWood
+        joueur.inhabitant += self.inhabitant
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

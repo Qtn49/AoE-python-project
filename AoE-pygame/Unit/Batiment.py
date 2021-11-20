@@ -75,8 +75,9 @@ class Batiment(pygame.sprite.Sprite):
 			target.selfcheck(board)
 			sleep(100 / self.atk_spd)
 
-	def stockRessources(self, board, typeRessource):
-		print()
+	def stockRessources(self, typeRessource, job, joueur):
+		if job == "villager":
+			joueur.typeRessource[0] += typeRessource[1]
 		#ramene 10 bois au granary
 		#recupere les 10 bois que le villageois a ramané
 	    #vider inventaire du villageois
@@ -88,7 +89,3 @@ class Batiment(pygame.sprite.Sprite):
 		#stocke dans linventaire du villageois
 		#si on lui ordonne darreter la recolte il arrete
 		#check action du joueur, si le joueur ne fait rien il stack le bois sinon il arrete de boloss le bois
-
-	def addHabitant(self, board):
-		print()
-		#ajouter des habitants pour le joueur
