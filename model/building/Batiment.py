@@ -85,7 +85,7 @@ class Batiment(pygame.sprite.Sprite):
 			joueur.gold += quantity
 		#ramene 10 bois au granary
 		#recupere les 10 bois que le villageois a ramané
-	    #vider inventaire du villageois
+	    #vider inventaire du villageois / pas sur
 		#stoker ces 10 bois dans linventaire du joueur
 
 	def recupRessources(self, board, typeRessource):
