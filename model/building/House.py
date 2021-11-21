@@ -1,4 +1,6 @@
-from Batiment import *
+
+from model.Unit.Player import *
+from model.building.Batiment import Batiment
 
 
 class House(Batiment):

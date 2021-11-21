@@ -1,4 +1,5 @@
-from Batiment import *
+from model.building.Batiment import *
+
 
 class Forum(Batiment):
 

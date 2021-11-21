@@ -2,11 +2,11 @@
 Import
 """
 import pygame
+
 from Variables import *
+from model.Unit.Villager import *
 
 import os
-
-from unitClass import Villager
 
 """
 Objects
@@ -55,10 +55,42 @@ class Batiment(pygame.sprite.Sprite):
 
 	def generateUnit(self, board, job):
 		if job == "villager":
-			vilB = Villager((0, 0), 'B')
-			board.add(vilB);
+			vilF = Villager((256, 256), 'B')
+			board.add(vilF);
+		#if job == "knight":
+			#KnightF = Knight((256, 256), 'B')
+			#board.add(KnightF);
 
+	def attackTower(self, board, target):
+		"""
+				attacking
+				"""
+		self.action = "atk"
+		zone = self.scan(board, self.rng)
 
-	##def attackTower(self, board, job):
+		while target.pv > 0 and self.action == "atk":
+			if not self.march(board, target):
+				self.action = "Neant"
+				break
+			target.pv -= self.atk
+			target.selfcheck(board)
+			sleep(100 / self.atk_spd)
 
+	def stockRessources(self, job, joueur, type, quantity):
+		if job == "villager" and type == "wood":
+			joueur.wood += quantity
+		if job == "villager" and type == "stone":
+			joueur.stone += quantity
+		if job == "villager" and type == "gold":
+			joueur.gold += quantity
+		#ramene 10 bois au granary
+		#recupere les 10 bois que le villageois a ramané
+	    #vider inventaire du villageois
+		#stoker ces 10 bois dans linventaire du joueur
 
+	def recupRessources(self, board, typeRessource):
+		print()
+		#donne du bois à un villageois qui tape larbre
+		#stocke dans linventaire du villageois
+		#si on lui ordonne darreter la recolte il arrete
+		#check action du joueur, si le joueur ne fait rien il stack le bois sinon il arrete de boloss le bois

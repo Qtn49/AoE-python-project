@@ -2,18 +2,18 @@
 """
 Import
 """
-from Barracks import *
+
 from Variables import *
 from Villager import *
 from threading import *
 from Map import *
 from Player import *
-from House import *
 
-
-
+import sys
+#from model.building.Batiment import *
+from model.building.Barracks import Barracks
 from model.building.Forum import Forum
-
+from model.building.House import House
 
 """
 Variables
@@ -34,6 +34,8 @@ def main() :
     backdropbox = world.get_rect()
     game = True
 
+    quantity = 50
+    type = "gold"
     board = pygame.sprite.Group()
 
     joueur1 = Player()
@@ -73,9 +75,12 @@ def main() :
                     Thread(target=vilR.defend, args=(board,700,700)).start()
                 if event.key == ord('y'):
                     house = House((502, 502), 'B', joueur1)
+
                     print("Player Ressources : Gold :", joueur1.gold, " Wood : ", joueur1.wood, " Stone : ",
                           joueur1.stone, " Inhabitant : ", joueur1.inhabitant)
-                    Thread(target=barracks.generateUnit, args=(board,"villager")).start()
+                    Thread(target=barracks.generateUnit, args=(board,vilR.job)).start()
+                    Thread(target=barracks.stockRessources, args=(vilR.job, joueur1, type, quantity)).start()
+
         world.blit(backdrop, backdropbox)
         board.draw(world)
         pygame.display.flip()
