@@ -4,6 +4,8 @@ Import
 import pygame
 
 from Variables import *
+from model.Unit.Archer import Archer
+from model.Unit.Knight import Knight
 from model.Unit.Villager import *
 
 import os
@@ -57,9 +59,12 @@ class Batiment(pygame.sprite.Sprite):
 		if job == "villager":
 			vilF = Villager((256, 256), 'B')
 			board.add(vilF);
-		#if job == "knight":
-			#KnightF = Knight((256, 256), 'B')
-			#board.add(KnightF);
+		if job == "knight":
+			knightF = Knight((256, 256), 'B')
+			board.add(knightF);
+		if job == "archer":
+			archerF = Archer((256, 256), 'B')
+			board.add(archerF);
 
 	def attackTower(self, board, target):
 		"""
@@ -83,6 +88,8 @@ class Batiment(pygame.sprite.Sprite):
 			joueur.stone += quantity
 		if job == "villager" and type == "gold":
 			joueur.gold += quantity
+		if job == "villager" and type == "food":
+			joueur.food += quantity
 		#ramene 10 bois au granary
 		#recupere les 10 bois que le villageois a ramané
 	    #vider inventaire du villageois / pas sur

@@ -8,6 +8,7 @@ class TourArcher(Batiment):
         self.job = "tourarcher"
         self.action = "Neant"
         self.sight = 10
+        self.rng = 4
         self.needGold = 50
         self.needStone = 120
 

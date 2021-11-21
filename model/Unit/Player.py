@@ -20,4 +20,5 @@ class Player(pygame.sprite.Sprite):
 		self.wood = 500
 		self.stone = 500
 		self.gold = 50
+		self.food = 50
 		self.inhabitant = 5
