@@ -1,3 +1,6 @@
+import pygame
+
+tempo=1
 size = 4
 ani = 1
 base = 250
@@ -11,5 +14,10 @@ BLACK = (23, 23, 23)
 WHITE = (254, 254, 254)
 ALPHA = (0, 255, 0)
 
+board = pygame.sprite.Group()
+
 def legal(value):
-	return (value//base)*base
+	return convert(value)*base
+
+def convert(value):
+	return value//base
