@@ -1,8 +1,11 @@
 
-from Batiment import *
+
 """
 Objects
 """
+from model.building.Batiment import *
+
+
 class StoneMine(Batiment):
     """
     Spawn a Player

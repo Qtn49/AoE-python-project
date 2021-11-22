@@ -10,7 +10,7 @@ class Barracks(Batiment):
         self.action="Neant"
         self.sight=6
         self.needWood = 125
-        joueur.wood -= self.needWood
+        joueur.contenu["wood"] -= self.needWood
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

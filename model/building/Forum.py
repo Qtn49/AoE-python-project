@@ -8,7 +8,7 @@ class Forum(Batiment):
         self.pv=600
         self.job="forum"
         self.needWood = 125
-        joueur.wood -= self.needWood
+        joueur.contenu["wood"] -= self.needWood
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

@@ -11,7 +11,7 @@ class Sheep(Batiment):
     def __init__(self, pos, team):
         ### Tout ce qui fait un mouton ###
         self.pv = 20
-        self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 50}
+        self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 50, "inhabitant":0}
         self.job="animal"
         self.action="Neant"
         self.spd=100

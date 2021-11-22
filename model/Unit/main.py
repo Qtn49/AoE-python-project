@@ -42,7 +42,7 @@ def main() :
     vilB = Villager((0,0),'B')  # spawn
     vilR = Villager((900,900),'R')
     barracks = Barracks((502,502),'B',joueur1)
-    b = Forum((900,300),'R')
+    b = Forum((900,300),'R',joueur1)
 
 
     board.add(vilB)
@@ -78,11 +78,10 @@ def main() :
                     Thread(target=vilR.defend, args=(board,700,700)).start()
                 if event.key == ord('y'):
                     house = House((502, 502), 'B', joueur1)
-
-                    print("Player Ressources : Gold :", joueur1.gold, " Wood : ", joueur1.wood, " Stone : ",
-                          joueur1.stone, " Food : ", joueur1.food, " Inhabitant : ", joueur1.inhabitant)
                     Thread(target=barracks.generateUnit, args=(board,vilR.job)).start()
-                    Thread(target=barracks.stockRessources, args=(vilR.job, joueur1, type, quantity)).start()
+                if event.key == ord('m'):
+                    print(vilR.contenu)
+                    print(joueur1.contenu)
 
         world.blit(backdrop, backdropbox)
         board.draw(world)

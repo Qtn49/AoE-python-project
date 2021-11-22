@@ -4,8 +4,6 @@ Objects
 """
 from model.building.Batiment import *
 
-
-
 class Bush(Batiment):
     """
     Spawn a Player
@@ -14,7 +12,7 @@ class Bush(Batiment):
     def __init__(self, pos, team):
         ### Tout ce qui fait une batiment ressource ###
         self.pv = 40
-        self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 40}
+        self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 40, "inhabitant":0}
 
 
         pygame.sprite.Sprite.__init__(self)

@@ -13,7 +13,7 @@ class GoldMine(Batiment):
     def __init__(self, pos, team):
         ### Tout ce qui fait une batiment ressource ###
         self.pv = 40
-        self.contenu = {"gold": 40, "stone": 0, "wood": 0, "food": 0}
+        self.contenu = {"gold": 40, "stone": 0, "wood": 0, "food": 0, "inhabitant":0}
         self.job = "goldmine"
         self.action = "Neant"
 
