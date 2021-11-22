@@ -24,7 +24,7 @@ def main() :
     """
     Setup
     """
-    print(legal(749))
+
     backdrop = pygame.image.load(os.path.join('Unit/echec.jpg'))
     clock = pygame.time.Clock()
     pygame.init()
@@ -33,7 +33,7 @@ def main() :
 
     joueur1 = Player()
     vilB = Villager((0,0),'B')  # spawn
-    vilR = Villager((0,0),'R')
+    vilR = Villager((800,800),'R')
     tree = Tree((700,0),'Neant')
     tree2 = Tree((700, 499), 'Neant')
     forum = Forum((0,700),'Neant',joueur1)
@@ -41,11 +41,11 @@ def main() :
 
     board.add(vilB)
     board.add(vilR)
+    """
     board.add(tree)
     board.add(tree2)
     board.add(forum)
-
-    print(vilR.rect.right)
+    """
     """
     Loop
     """
@@ -72,7 +72,7 @@ def main() :
                     for ob in board:
                         ob.action="Neant"
                 if event.key == ord('a'):
-                    Thread(target=vilR.move, args=(1000,.0)).start()
+                    Thread(target=vilB.move, args=(1000,0)).start()
                 if event.key == ord('e'):
                     Thread(target=vilB.attack, args=(vilR,)).start()
                 if event.key == ord('z'):

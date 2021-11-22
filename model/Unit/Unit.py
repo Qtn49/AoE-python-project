@@ -34,7 +34,7 @@ class Unit(pygame.sprite.Sprite):
 		"""
         self.moveX += x
         self.moveY += y
-        sleep(100 / self.spd)
+        sleep(1 / self.spd)
 
     def update(self):
         """
@@ -58,6 +58,7 @@ class Unit(pygame.sprite.Sprite):
         """
 		moving without doing anything else
 		"""
+
         newX = legal(newX)
         newY = legal(newY)
 
@@ -79,24 +80,18 @@ class Unit(pygame.sprite.Sprite):
         collide = self.choice(dirX, dirY)
 
         if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
-            # print("BLOCK")
+            # bloqué
+            print("BLOCK")
             return False
 
         butX = legal(self.rect.x) + base * dirX * (1 - collide[0])
         butY = legal(self.rect.y) + base * dirY * (1 - collide[1])
-        # print("go : ", butX, " : ", butY)
-        # print("pos: ", self.rect.x," : ", self.rect.y)
 
         while self.rect.x != butX or self.rect.y != butY:
-            """
-			if (collide[1] and collide[1]) or (collide[0] and not dirY) or (collide[1] and not dirX):
-				print("BLOCK")
-				return False
-			"""
+            sleep(1 / 1000)
             self.control(dirX * (1 - collide[0]), dirY * (1 - collide[1]))
             self.update()
 
-        # print(legal(self.rect.x), " : ",legal(self.rect.y))
         return True
 
     def direction(self, newX, newY):
@@ -123,7 +118,6 @@ class Unit(pygame.sprite.Sprite):
 		moving and attacking
 		"""
         zone = self.scanEuc(self.rng)
-        imp = False
 
         while target not in zone:
             dir = self.direction(target.rect.x, target.rect.y)
@@ -134,7 +128,6 @@ class Unit(pygame.sprite.Sprite):
                 return False
 
             zone = self.scanEuc(self.rng)
-            print(self.team, " : ", zone)
 
             """
 			while self.rect.x!=legal(self.rect.x)+dir[0]*base and self.rect.y!=legal(self.rect.y)+abs(dir[1])*base:
@@ -150,15 +143,13 @@ class Unit(pygame.sprite.Sprite):
         return True
 
     def collision_V2(self, cX, cY):
-        # print("collision : ",cX," : ", cY)
-        # use bottom top...
 
         if (cX < 0 or cX >= base * size) or (cY < 0 or cY >= base * size):
             return True
 
         for sprite in board:
             if sprite != self:
-                if (cX == legal(sprite.rect.x) and cY == legal(sprite.rect.y)):
+                if cX >= legal(sprite.rect.left) and cX <= legal(sprite.rect.right) and cY >= legal(sprite.rect.top) and cY <= legal(sprite.rect.bottom):
                     return True
 
         return False
@@ -208,37 +199,6 @@ class Unit(pygame.sprite.Sprite):
         else:
             return (1, 1)
 
-    def collision(self, dirX, dirY):
-        pass
-        """
-		'''
-		defines wether there is a collision or not
-		'''
-
-		box=[True,True,True]
-		for sprite in board:
-			if sprite!=self:
-				if legal(sprite.rect.x)==cX and legal(sprite.rect.y)==legal(self.rect.y):
-					box[0]=False
-				if sprite.rect.x==legal(self.rect.x)+base and sprite.rect.y==legal(self.rect.y):
-					box[1]=False
-				if sprite.rect.x==legal(self.rect.x) and sprite.rect.y==legal(self.rect.y)+base:
-					box[2]=False
-
-		if box[0]:		retourne=[0,0]
-		elif box[1]:	retourne=[0,1]
-		elif box[2]:	retourne=[1,0]
-		else :			retourne=[1,1]
-
-		if legal(self.rect.x)+base*dirX>750 or legal(self.rect.x)+base*dirX<-250:
-			retourne[1]=1
-
-		if legal(self.rect.y)+base*dirY>750 or legal(self.rect.y)+base*dirY<-250:
-			retourne[0]=1
-
-		return retourne
-	"""
-
     def scanEuc(self, rng):
         """
 		to know what's around you
@@ -251,10 +211,9 @@ class Unit(pygame.sprite.Sprite):
             for j in range(-rng, rng + 1):
                 y = legal(self.rect.y) + j * base
 
-                if (x, y) != (self.rect.x, self.rect.y):
-                    for ob in board:
-                        if legal(ob.rect.x) == x and legal(ob.rect.y) == y:
-                            retour.append(ob)
+                for ob in board:
+                    if legal(ob.rect.x) == x and legal(ob.rect.y) == y and ob != self:
+                        retour.append(ob)
         return retour
 
     def scanMan(self, rang):
@@ -279,20 +238,22 @@ class Unit(pygame.sprite.Sprite):
         """
 		attacking
 		"""
+
+        # validation
+        if not (target in board and (target.type == "batiment" or target.type == "unit") and target.team != self.team):
+            return False
+
         # sauvegarder
         self.cache = self.action
         self.action = "atk"
 
-        # détecter
-        zone = self.scanMan(self.rng)
-
         while target.pv > 0 and self.action == "atk":
+            sleep(1 / 1000)
 
             # se déplacer
             if not self.march(target):
                 self.action = "Neant"
                 break
-
             target.pv -= self.atk
             target.selfcheck()
             sleep(100 / self.atk_spd)
@@ -311,7 +272,6 @@ class Unit(pygame.sprite.Sprite):
                 # print("t'as dead ça chakal")
                 board.remove(self)
                 self.action = "Neant"
-
         else:
             self.defend(self.rect.x, self.rect.y)
 
@@ -326,5 +286,5 @@ class Unit(pygame.sprite.Sprite):
             sleep(tempo)
             zone = self.scanMan(self.sight)
             for ob in zone:
-                if ob.team != self.team:
+                if ob.type == "batiment" or ob.type == "unit" and ob.team != self.team:
                     self.attack(ob);
