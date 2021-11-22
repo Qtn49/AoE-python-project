@@ -35,11 +35,14 @@ def main() :
     vilB = Villager((0,0),'B')  # spawn
     vilR = Villager((0,0),'R')
     tree = Tree((700,0),'Neant')
+    tree2 = Tree((700, 499), 'Neant')
     forum = Forum((0,700),'Neant',joueur1)
+
 
     board.add(vilB)
     board.add(vilR)
     board.add(tree)
+    board.add(tree2)
     board.add(forum)
 
     print(vilR.rect.right)
@@ -69,7 +72,7 @@ def main() :
                     for ob in board:
                         ob.action="Neant"
                 if event.key == ord('a'):
-                    Thread(target=vilB.move, args=(750,750)).start()
+                    Thread(target=vilR.move, args=(1000,.0)).start()
                 if event.key == ord('e'):
                     Thread(target=vilB.attack, args=(vilR,)).start()
                 if event.key == ord('z'):

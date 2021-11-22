@@ -30,32 +30,47 @@ class Villager(Unit):
         super().__init__(pos, team);
 
     def fetch(self, forum, cible, joueur):
-        self.but=cible.ressource
-        while cible.contenu[self.but]:
-            print("----")
-            # bouger
+        self.but = cible.ressource
+        self.action = "fetch"
+        while self.action == "fetch":
             self.move(cible.rect.x, cible.rect.y)
-            zone = self.scanMan(self.rng)
+            if cible not in board :
+                zone = self.scanEuc(self.sight)
+                print(zone)
+                for ob in zone :
+                    print(ob.type)
+                    if ob.type == "ressource" and ob.ressource == self.but:
+                        cible = ob
+                    else:
+                        print("non")
+                        self.action ="None"
 
-            if cible not in zone:
-                print("Pas trouvé")
-                 #break
 
-            # remplir
-            while self.espace > 0 and cible.pv>0:
-                cible.contenu[self.but]-=1
-                self.contenu[self.but]+=1
-                self.espace-=1
-                sleep(100/self.atk_spd)
-                cible.pv -= 1
-                cible.selfcheck()
-                print(cible.pv)
+            while cible and cible.contenu[self.but]:
+                print("----")
+                # bouger
+                self.move(cible.rect.x, cible.rect.y)
+                zone = self.scanMan(self.rng)
 
-            # bouger
-            self.move(forum.rect.x, forum.rect.y)
+                if cible not in zone:
+                    print("Pas trouvé")
+                     #break
 
-            #décharger
-            while self.espace<self.capa:
-                joueur.contenu[self.but]+=1
-                self.espace+=1
-                self.contenu[self.but]-=1
+                # remplir
+                while self.espace > 0 and cible.pv>0:
+                    cible.contenu[self.but]-=1
+                    self.contenu[self.but]+=1
+                    self.espace-=1
+                    sleep(10/self.atk_spd)
+                    cible.pv -= 1
+                    cible.selfcheck()
+                    print(cible.pv)
+
+                # bouger
+                self.move(forum.rect.x, forum.rect.y)
+
+                #décharger
+                while self.espace<self.capa:
+                    joueur.contenu[self.but]+=1
+                    self.espace+=1
+                    self.contenu[self.but]-=1
