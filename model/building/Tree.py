@@ -20,7 +20,7 @@ class Tree(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Building/images/Tree.png")).convert()
+        img = pygame.image.load(os.path.join("building/images/Tree.png")).convert()
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
