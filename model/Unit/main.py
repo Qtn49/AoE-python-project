@@ -44,6 +44,7 @@ def main() :
     barracks = Barracks((502,502),'B',joueur1)
     b = Forum((900,300),'R')
 
+
     board.add(vilB)
     board.add(vilR)
     board.add(barracks)

@@ -8,6 +8,10 @@ from threading import *
 from Map import *
 import sys
 
+from model.Unit.Player import Player
+from model.building.Forum import Forum
+from model.building.Tree import Tree
+
 """
 Variables
 """
@@ -27,12 +31,16 @@ def main() :
     backdropbox = world.get_rect()
     game = True
 
-
+    joueur1 = Player()
     vilB = Villager((0,0),'B')  # spawn
     vilR = Villager((0,0),'R')
+    tree = Tree((700,0),'Neant')
+    forum = Forum((0,700),'Neant',joueur1)
 
     board.add(vilB)
     board.add(vilR)
+    board.add(tree)
+    board.add(forum)
 
     print(vilR.rect.right)
     """
@@ -73,6 +81,11 @@ def main() :
                     board.add(vilB1)
                     board.add(vilB2)
                     board.add(vilB3)
+                if event.key == ord('p'):
+                    Thread(target=vilR.fetch, args=(forum,tree,joueur1)).start()
+                if event.key == ord('m'):
+                    print(vilR.contenu)
+                    print(joueur1.contenu)
 
 
         world.blit(backdrop, backdropbox)

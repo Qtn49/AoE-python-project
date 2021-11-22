@@ -1,7 +1,11 @@
-from Batiment import *
+
 """
 Objects
 """
+from model.building.Batiment import *
+
+
+
 class Tree(Batiment):
     """
     Spawn a Player
@@ -9,9 +13,9 @@ class Tree(Batiment):
 
     def __init__(self, pos, team):
         ### Tout ce qui fait une batiment ressource ###
-        self.wood = 40
-        self.job = "tree"
-        self.action = "Neant"
+        self.pv = 40
+        self.ressource = "wood"
+        self.contenu = {"gold": 0, "stone": 0, "wood": 40, "food": 0}
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
@@ -22,4 +26,6 @@ class Tree(Batiment):
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos,team);
+
+

@@ -77,13 +77,13 @@ class Unit(pygame.sprite.Sprite):
 		collide = self.choice(dirX, dirY)
 
 		if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
-			print("BLOCK")
+			#print("BLOCK")
 			return False
 
 		butX=legal(self.rect.x)+base*dirX*(1-collide[0])
 		butY=legal(self.rect.y)+base*dirY*(1-collide[1])
-		print("go : ", butX, " : ", butY)
-		print("pos: ", self.rect.x," : ", self.rect.y)
+		#print("go : ", butX, " : ", butY)
+		#print("pos: ", self.rect.x," : ", self.rect.y)
 
 		while self.rect.x!=butX or self.rect.y!=butY:
 			"""
@@ -172,13 +172,13 @@ class Unit(pygame.sprite.Sprite):
 
 				if not self.collision_V2(cX, cY):
 					box[2]=True
-					print("D")
+					#print("D")
 
 				cX = legal(self.rect.x)
 
 				if not self.collision_V2(cX, cY):
 					box[1]=True
-					print("V")
+					#print("V")
 
 		elif dirY!=0:
 			cX = legal(self.rect.x)

@@ -2,12 +2,10 @@
 Import
 """
 import pygame
-
-from Variables import *
+from model.Unit.Variables import *
 from model.Unit.Archer import Archer
 from model.Unit.Knight import Knight
 from model.Unit.Villager import *
-
 import os
 
 """
@@ -45,7 +43,7 @@ class Batiment(pygame.sprite.Sprite):
 								retour.append(ob)
 			return retour
 
-	def selfcheck(self, board):
+	def selfcheck(self):
 		"""
 		state checking
 		"""

@@ -29,28 +29,33 @@ class Villager(Unit):
         self.rect = self.image.get_rect()
         super().__init__(pos, team);
 
-    def fetch(self, forum, cible, board):
-        self.ressource=cible.ressource
-        while cible.contenu[self.ressource]:
+    def fetch(self, forum, cible, joueur):
+        self.but=cible.ressource
+        while cible.contenu[self.but]:
+            print("----")
             # bouger
-            self.move(board, cible.rect.x, cible.rect.y)
-            zone = self.scan(board, self.rng)
+            self.move(cible.rect.x, cible.rect.y)
+            zone = self.scanMan(self.rng)
 
             if cible not in zone:
                 print("Pas trouvé")
-                break
+                 #break
 
             # remplir
-            while self.espace:
+            while self.espace > 0 and cible.pv>0:
                 cible.contenu[self.but]-=1
                 self.contenu[self.but]+=1
                 self.espace-=1
+                sleep(100/self.atk_spd)
+                cible.pv -= 1
+                cible.selfcheck()
+                print(cible.pv)
 
             # bouger
-            #self.move(board, forumX, forumY)
+            self.move(forum.rect.x, forum.rect.y)
 
-            # décharger
-            #while self.espace<self.capa and self.espace>=0:
-                #self.contenu[self.but]-=1
-                #joueur.contenu[self.but]+=1
-                #self.espace-=1
+            #décharger
+            while self.espace<self.capa:
+                joueur.contenu[self.but]+=1
+                self.espace+=1
+                self.contenu[self.but]-=1
