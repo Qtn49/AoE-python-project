@@ -9,7 +9,6 @@ class Tree(Batiment):
 
     def __init__(self, pos, team):
         ### Tout ce qui fait une batiment ressource ###
-        self.pv = 20
         self.wood = 40
         self.job = "tree"
         self.action = "Neant"
