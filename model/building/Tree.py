@@ -21,8 +21,6 @@ class Tree(Batiment):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("Building/images/Tree.png")).convert()
-        img.convert_alpha()  # optimise alpha
-        img.set_colorkey(ALPHA)  # set alpha
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
