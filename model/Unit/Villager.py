@@ -16,14 +16,12 @@ class Villager(Unit):
         self.sight=4
         self.capa=50
         self.espace=50
-        self.contenu={"gold":0,"stone":0,"wood":0, "food":0}
+        self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 0}
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("Unit/"+team+'_square.png')).convert()
-        img.convert_alpha()  # optimise alpha
-        img.set_colorkey(ALPHA)  # set alpha
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
