@@ -1,6 +1,4 @@
-
-from model.Unit.Player import *
-from model.building.Batiment import Batiment
+from model.building.Batiment import *
 
 
 class House(Batiment):
@@ -12,8 +10,8 @@ class House(Batiment):
         self.inhabitant=5
         self.sight=2
         self.needWood = 30
-        joueur.wood -= self.needWood
-        joueur.inhabitant += self.inhabitant
+        joueur.contenu["wood"] -= self.needWood
+        joueur.contenu["inhabitant"] += self.inhabitant
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

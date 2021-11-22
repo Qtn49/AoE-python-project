@@ -79,23 +79,3 @@ class Batiment(pygame.sprite.Sprite):
 			target.selfcheck(board)
 			sleep(100 / self.atk_spd)
 
-	def stockRessources(self, job, joueur, type, quantity):
-		if job == "villager" and type == "wood":
-			joueur.wood += quantity
-		if job == "villager" and type == "stone":
-			joueur.stone += quantity
-		if job == "villager" and type == "gold":
-			joueur.gold += quantity
-		if job == "villager" and type == "food":
-			joueur.food += quantity
-		#ramene 10 bois au granary
-		#recupere les 10 bois que le villageois a ramané
-	    #vider inventaire du villageois / pas sur
-		#stoker ces 10 bois dans linventaire du joueur
-
-	def recupRessources(self, board, typeRessource):
-		print()
-		#donne du bois à un villageois qui tape larbre
-		#stocke dans linventaire du villageois
-		#si on lui ordonne darreter la recolte il arrete
-		#check action du joueur, si le joueur ne fait rien il stack le bois sinon il arrete de boloss le bois

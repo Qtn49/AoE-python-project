@@ -1,13 +1,15 @@
-from Batiment import *
+from model.building.Batiment import *
+
 
 class Granary(Batiment):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team,joueur):
         self.pv=350
         self.job="granary"
         self.action="Neant"
         self.sight=4
         self.needWood = 120
+        joueur.contenu["wood"] -= self.needWood
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

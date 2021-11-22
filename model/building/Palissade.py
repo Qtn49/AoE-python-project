@@ -1,14 +1,16 @@
-from Batiment import *
+from model.building.Batiment import *
+
 
 class Palissade(Batiment):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team,joueur):
         ### Tout ce que fait une palissade ###
         self.pv=150
         self.job="palissade"
         self.action="Neant"
         self.sight=2
         self.needWood = 2
+        joueur.contenu["wood"] -= self.needWood
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
