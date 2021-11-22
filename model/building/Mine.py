@@ -1,9 +1,12 @@
 
-from Batiment import *
+
 
 """
 Objects
 """
+from model.building.Batiment import *
+
+
 class Mine(Batiment):
 
     """

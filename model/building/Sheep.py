@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+from model.building.Batiment import *
 
-from Unit import *
-
-class Sheep(Unit):
+class Sheep(Batiment):
 
     def __init__(self, pos, team):
         ### Tout ce qui fait un mouton ###
