@@ -82,11 +82,11 @@ def main() :
                     board.add(vilB2)
                     board.add(vilB3)
                 if event.key == ord('p'):
-                    Thread(target=vilR.fetch, args=(forum,tree,joueur1)).start()
+                    m = Thread(target=vilR.fetch, args=(forum,tree,joueur1))
+                    m.start()
                 if event.key == ord('m'):
                     print(vilR.contenu)
                     print(joueur1.contenu)
-
 
         world.blit(backdrop, backdropbox)
         board.draw(world)
