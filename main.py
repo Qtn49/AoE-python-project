@@ -23,16 +23,15 @@ if __name__ == '__main__':
         # screen = pygame.display.set_mode(game_constants.GAME_DIMENSIONS)
         screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
-        running = True
         pressed = 0
 
-        while running:
-            screen.fill((0, 0, 0))
+        while g.running:
+            screen.fill((0, 255, 0))
             # game_map.placeBackground(screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    running = False
+                    g.running = False
                 if event.type == pygame.KEYUP:
                     pressed = 0
                 if event.type == pygame.KEYDOWN:

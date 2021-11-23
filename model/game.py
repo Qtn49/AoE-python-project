@@ -7,30 +7,34 @@ from model.menu.menu import MainMenu, QuitMenu, CreditsMenu
 class Game():
     def __init__(self):
         self.running = True
-        self.START_KEY = False
+        self.running_logo = True
         self.title = pygame.display.set_caption("Age of Cheap")
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.DISPLAY_W, self.DISPLAY_H = pygame.display.Info().current_w, pygame.display.Info().current_h
         Draw.set_display(pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h)))
         self.back = pygame.image.load("model/menu/Logo.png").convert_alpha()
+        self.back = pygame.transform.scale(self.back, (self.DISPLAY_W, self.DISPLAY_H))
         self.main_menu = MainMenu(self)
         self.quit = QuitMenu(self)
-        self.credits = CreditsMenu(self)
+        # self.credits = CreditsMenu(self)
         self.curr_menu = self.main_menu
 
     def game_loop(self):
-        while self.running:
+        alpha = 255
+        while alpha > 0:
             for event in pygame.event.get():
-                self.check_events(event)
-            if self.START_KEY:
-                self.running = False
+                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.running_logo = False
+                    self.running = False
+            Draw.fill(Draw.BLACK)
+            self.back.set_alpha(alpha)
+            alpha -= 1
             Draw.DISPLAY.blit(self.back, (0, 0))
             self.window.blit(Draw.DISPLAY, (0, 0))
+            pygame.display.flip()
             pygame.display.update()
 
     def check_events(self, event):
-        if event.type == pygame.QUIT:
-            self.running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             p = pygame.mouse.get_pressed()
