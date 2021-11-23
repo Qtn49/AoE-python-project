@@ -28,3 +28,7 @@ class Draw:
         if text_rect is not None:
             Draw.draw_text(">", 20, text_rect.centerx - text_rect.width / 2 - 40, text_rect.centery)
             Draw.draw_text("<", 20, text_rect.centerx + text_rect.width / 2 + 40, text_rect.centery)
+
+    @staticmethod
+    def fill(color):
+        Draw.DISPLAY.fill(color)
