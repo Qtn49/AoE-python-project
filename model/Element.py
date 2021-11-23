@@ -1,5 +1,10 @@
 import abc
 
+"""
+
+Faire heriter chaque element abstrait de la classe Element
+
+"""
 
 class Element:
 
