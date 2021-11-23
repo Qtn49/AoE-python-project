@@ -5,7 +5,6 @@ Import
 from Variables import *
 from Villager import *
 from threading import *
-from Map import *
 import sys
 
 from model.Unit.Player import Player
@@ -24,8 +23,7 @@ def main() :
     """
     Setup
     """
-    print(legal(749))
-    backdrop = pygame.image.load(os.path.join('Unit/echec.jpg'))
+    # backdrop = pygame.image.load(os.path.join('Unit/echec.jpg'))
     clock = pygame.time.Clock()
     pygame.init()
     backdropbox = world.get_rect()
