@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from Unit import *
+from model.Unit.Unit import *
+import os
 
 class Villager(Unit):
 
@@ -21,7 +22,7 @@ class Villager(Unit):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Unit/"+team+'_square.png')).convert()
+        img = pygame.image.load(os.path.join("model/Unit/"+team+'_square.png')).convert()
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

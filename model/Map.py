@@ -20,9 +20,18 @@ class Map:
         self.background = background
         self.x_shift = x_shift
         self.y_shift = y_shift
+        map = self
+
+    @staticmethod
+    def get_map():
+        if map:
+            return map
 
     def addElement(self, position, element):
-        self.elements[str(position)] = element
+        key = str(position)
+        if key[0] == '(':
+            key = key[1:-1]
+        self.elements[key] = element
 
     def set_x_shift(self, value_to_add):
         self.x_shift += value_to_add
@@ -62,13 +71,13 @@ class Map:
         for y, line in enumerate(img_script):
             for x, column in enumerate(line):
                 if column == ElementsColor.Color.TREE.value:
-                    game_map.addElement(Tree(x, y, image_path='resources/environment/tree.png'))
+                    game_map.addElement(x, y, Tree(image_path='resources/environment/tree.png'))
                 elif column == ElementsColor.Color.GOLD_MINE.value:
-                    game_map.addElement(GoldMine(x, y, image_path='resources/environment/gold.png'))
+                    game_map.addElement(GoldMine(x,y,image_path='resources/environment/gold.png'))
                 elif column == ElementsColor.Color.STONE_MINE.value:
-                    game_map.addElement(StoneMine(x, y, image_path='resources/environment/stone.png'))
+                    game_map.addElement(StoneMine(x,y,image_path='resources/environment/stone.png'))
                 elif column == ElementsColor.Color.TOWN_CENTER.value:
-                    game_map.addElement(StoneMine(x, y, image_path='resources/building/town_center.webp'))
+                    game_map.addElement(StoneMine(x,y,image_path='resources/building/town_center.webp'))
 
         Map.create_json_file(game_map, file_path)
 
@@ -98,7 +107,10 @@ class Map:
         #                 screen.blit(image, (i * image.get_width() + image.get_width() * 0.5,
         #                                     j * image.get_height() + image.get_height() * 0.5))
         for position in self.elements:
-            position_tuple = tuple(map(int, position.split(', ')))
+            if type(position) is not tuple:
+                position_tuple = tuple(map(int, position.split(', ')))
+            else :
+                position_tuple = position
             image = pygame.image.load(self.elements[position].image_path)
             image = pygame.transform.scale(image, (int(game_constants.BACKGROUND_DIMENSIONS[0] /
                                                        game_constants.MODEL_DIMENSIONS[0]),

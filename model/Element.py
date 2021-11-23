@@ -1,16 +1,13 @@
 import abc
+import pygame
 
-"""
+class Element(pygame.sprite.Sprite):
 
-Faire heriter chaque element abstrait de la classe Element
-
-"""
-
-class Element:
-
-    def __init__(self, image_path=None):
+    def __init__(self, pos, image_path=None):
         self.image_path = image_path
         self.present = True
+        self.pos=pos
+        super().__init__()
 
     @abc.abstractmethod
     def removeSelf(self, player):

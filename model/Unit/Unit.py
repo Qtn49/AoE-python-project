@@ -1,32 +1,27 @@
 """
 Import
 """
-import pygame
-import os
 from time import sleep
-from Variables import *
+from model.Map import *
+from model.Unit.Variables import *
+from model.Element import Element
+from model.game_constants import *
 
-"""
-Objects
-"""
 
-
-class Unit(pygame.sprite.Sprite):
-    '''
+class Unit(Element):
+    """
 	Possible actions for Units (moving, attack...)
-	'''
+	"""
 
     def __init__(self, pos, team):
         """
-		create
+		Create unit
 		"""
         self.type = "unit"
         self.team = team
-        self.rect.x = legal(pos[0])
-        self.rect.y = legal(pos[1])
         self.moveX = 0
         self.moveY = 0
-        super().__init__()
+        super().__init__(pos)
 
     def control(self, x, y):
         """
@@ -40,56 +35,67 @@ class Unit(pygame.sprite.Sprite):
         """
 		update sprite position
 		"""
-        self.rect.x += self.moveX
-        self.rect.y += self.moveY
+        board = Map.get_map()
+        newX = self.pos[0] + self.moveX
+        newY = self.pos[1] + self.moveY
 
-        # moving left
-        if self.moveX < 0:
-            self.image = self.images[self.frame // ani]
+        board.addElement((newX, newY), self)
+        board.removeElement(self.pos)
 
-        # moving right
-        if self.moveX > 0:
-            self.image = pygame.transform.flip(self.images[self.frame // ani], True, False)
+        self.pos[0] = newX
+        self.pos[1] = newY
+
+        # # moving left
+        # if self.moveX < 0:
+        #     self.image = self.images[self.frame // ani]
+        #
+        # # moving right
+        # if self.moveX > 0:
+        #     self.image = pygame.transform.flip(self.images[self.frame // ani], True, False)
 
         self.moveX = 0
         self.moveY = 0
 
-    def move(self, newX, newY):
+    def move(self, newPos):
         """
 		moving without doing anything else
 		"""
 
-        newX = legal(newX)
-        newY = legal(newY)
+        # savoir où on va
+        newX = legal(newPos[0])
+        newY = legal(newPos[1])
 
-        while self.rect.x != newX or self.rect.y != newY:
+        while self.pos[0] != newX or self.pos[1] != newY:
 
+            # trouver la direction
             dir = self.direction(newX, newY)
 
-            if not self.walk(dir[0], dir[1]):
-                print(self.rect.x, " : ", self.rect.y, " ?")
+            # se déplacer
+            if not self.walk(dir):
+                # s'arrêter en cas de blocage
+                # print(self.rect.x, " : ", self.rect.y, " ?")
                 return False
 
-        print(self.rect.x, " : ", self.rect.y, " ?")
+        # print(self.rect.x, " : ", self.rect.y, " ?")
         return True
 
-    def walk(self, dirX, dirY):
+    def walk(self, dir):
         """
 		used to move
 		"""
-        collide = self.choice(dirX, dirY)
 
-        if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
-            # bloqué
-            print("BLOCK")
-            return False
+        # détecter les collisions
+        # collide = self.choice(dirX, dirY)
 
-        butX = legal(self.rect.x) + base * dirX * (1 - collide[0])
-        butY = legal(self.rect.y) + base * dirY * (1 - collide[1])
+        # if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
+        #     print("BLOCK")
+        #     return False
+
+        butX = legal(self.pos[0]) + MODEL_DIMENSIONS[0] * dir[0]
+        butY = legal(self.pos[0]) + MODEL_DIMENSIONS[1] * dir[1]
 
         while self.rect.x != butX or self.rect.y != butY:
-            sleep(1 / 1000)
-            self.control(dirX * (1 - collide[0]), dirY * (1 - collide[1]))
+            self.control(dir[0], dir[1])
             self.update()
 
         return True
@@ -98,19 +104,14 @@ class Unit(pygame.sprite.Sprite):
         """
 		defines the direction we need to take for the objective
 		"""
-        if self.rect.x < newX:
-            dirX = 1
-        elif self.rect.x > newX:
-            dirX = -1
-        else:
-            dirX = 0
+        if self.pos[0] < newX:      dirX = 1
+        elif self.pos[0] > newX:    dirX = -1
+        else:                       dirX = 0
 
-        if self.rect.y < newY:
-            dirY = 1
-        elif self.rect.y > newY:
-            dirY = -1
-        else:
-            dirY = 0
+        if self.rect.y < newY:      dirY = 1
+        elif self.rect.y > newY:    dirY = -1
+        else:                       dirY = 0
+
         return (dirX, dirY)
 
     def march(self, target):
@@ -149,7 +150,8 @@ class Unit(pygame.sprite.Sprite):
 
         for sprite in board:
             if sprite != self:
-                if cX >= legal(sprite.rect.left) and cX <= legal(sprite.rect.right) and cY >= legal(sprite.rect.top) and cY <= legal(sprite.rect.bottom):
+                if cX >= legal(sprite.rect.left) and cX <= legal(sprite.rect.right) and cY >= legal(
+                        sprite.rect.top) and cY <= legal(sprite.rect.bottom):
                     return True
 
         return False
