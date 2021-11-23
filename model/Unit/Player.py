@@ -17,7 +17,5 @@ class Player(pygame.sprite.Sprite):
 		create
 		"""
 		self.type = "joueur"
-		self.wood = 500
-		self.stone = 500
-		self.gold = 50
-		self.inhabitant = 5
+
+		self.contenu={"gold":500,"stone":500,"wood":500, "food":500, "inhabitant":5}

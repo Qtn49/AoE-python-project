@@ -1,19 +1,21 @@
-from Batiment import *
+from model.building.Batiment import *
+
 
 class Ferme(Batiment):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team,joueur):
         ### Tout ce que fait une Ferme ###
         self.pv = 480
         self.job = "ferme"
         self.action = "Neant"
         self.sight = 1
         self.needWood = 75
+        joueur.contenu["wood"] -= self.needWood
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Building/images/Farm.png")).convert()
+        img = pygame.image.load(os.path.join("building/images/Farm.png")).convert()
         img.convert_alpha()  # optimise alpha
         img.set_colorkey(ALPHA)  # set alpha
         self.images.append(img)

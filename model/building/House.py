@@ -1,4 +1,4 @@
-from Batiment import *
+from model.building.Batiment import *
 
 
 class House(Batiment):
@@ -10,13 +10,13 @@ class House(Batiment):
         self.inhabitant=5
         self.sight=2
         self.needWood = 30
-        joueur.wood -= self.needWood
-        joueur.inhabitant += self.inhabitant
+        joueur.contenu["wood"] -= self.needWood
+        joueur.contenu["inhabitant"] += self.inhabitant
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Building/images/House.png")).convert()
+        img = pygame.image.load(os.path.join("building/images/House.png")).convert()
         img.convert_alpha()  # optimise alpha
         img.set_colorkey(ALPHA)  # set alpha
         self.images.append(img)

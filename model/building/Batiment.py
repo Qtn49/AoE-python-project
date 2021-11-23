@@ -2,11 +2,11 @@
 Import
 """
 import pygame
-from Variables import *
-
+from model.Unit.Variables import *
+from model.Unit.Archer import Archer
+from model.Unit.Knight import Knight
+from model.Unit.Villager import *
 import os
-
-from unitClass import Villager
 
 """
 Objects
@@ -43,7 +43,7 @@ class Batiment(pygame.sprite.Sprite):
 								retour.append(ob)
 			return retour
 
-	def selfcheck(self, board):
+	def selfcheck(self):
 		"""
 		state checking
 		"""
@@ -55,10 +55,27 @@ class Batiment(pygame.sprite.Sprite):
 
 	def generateUnit(self, board, job):
 		if job == "villager":
-			vilB = Villager((0, 0), 'B')
-			board.add(vilB);
+			vilF = Villager((256, 256), 'B')
+			board.add(vilF);
+		if job == "knight":
+			knightF = Knight((256, 256), 'B')
+			board.add(knightF);
+		if job == "archer":
+			archerF = Archer((256, 256), 'B')
+			board.add(archerF);
 
+	def attackTower(self, board, target):
+		"""
+				attacking
+				"""
+		self.action = "atk"
+		zone = self.scan(board, self.rng)
 
-	##def attackTower(self, board, job):
-
+		while target.pv > 0 and self.action == "atk":
+			if not self.march(board, target):
+				self.action = "Neant"
+				break
+			target.pv -= self.atk
+			target.selfcheck(board)
+			sleep(100 / self.atk_spd)
 

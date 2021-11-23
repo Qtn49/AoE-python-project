@@ -52,7 +52,7 @@ class Unit(pygame.sprite.Sprite):
 		self.moveX = 0
 		self.moveY = 0
 
-	def move(self, board, newX, newY):
+	def move(self, newX, newY):
 		"""
 		moving without doing anything else
 		"""
@@ -63,23 +63,38 @@ class Unit(pygame.sprite.Sprite):
 
 			dir = self.direction(newX,newY)
 
-			if not self.walk(board, dir[0], dir[1]):
-				break
+			if not self.walk(dir[0], dir[1]):
+				print(self.rect.x," : ", self.rect.y," ?")
+				return False
 
-		print(self.rect.x," : ", self.rect.y)
+		print(self.rect.x," : ", self.rect.y," ?")
+		return True
 
-	def walk(self, board, dirX, dirY):
+	def walk(self, dirX, dirY):
 		"""
 		used to move
 		"""
-		collide = self.collision(board, dirX, dirY)
-		if (collide[0] and collide[1]) or (collide[0] and not dirY) or (collide[1] and not dirX):
-			print("BLOCK")
+		collide = self.choice(dirX, dirY)
+
+		if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
+			#print("BLOCK")
 			return False
 
-		self.control(dirX*(1-collide[0]),dirY*(1-collide[1]))
-		self.update()
+		butX=legal(self.rect.x)+base*dirX*(1-collide[0])
+		butY=legal(self.rect.y)+base*dirY*(1-collide[1])
+		#print("go : ", butX, " : ", butY)
+		#print("pos: ", self.rect.x," : ", self.rect.y)
 
+		while self.rect.x!=butX or self.rect.y!=butY:
+			"""
+			if (collide[1] and collide[1]) or (collide[0] and not dirY) or (collide[1] and not dirX):
+				print("BLOCK")
+				return False
+			"""
+			self.control(dirX*(1-collide[0]),dirY*(1-collide[1]))
+			self.update()
+
+		#print(legal(self.rect.x), " : ",legal(self.rect.y))
 		return True
 
 	def direction(self, newX, newY):
@@ -95,53 +110,128 @@ class Unit(pygame.sprite.Sprite):
 		else :                      dirY = 0
 		return (dirX, dirY)
 
-	def march(self, board, target):
+	def march(self, target):
 		"""
 		moving and attacking
 		"""
-		zone = self.scan(board, self.rng)
+		zone = self.scanEuc(self.rng)
 		imp = False
 
 		while target not in zone :
-			print(zone)
 			dir=self.direction(target.rect.x, target.rect.y)
+			newX=legal(self.rect.x)+dir[0]*base
+			newY=legal(self.rect.y)+dir[1]*base
 
-			while self.rect.x!=legal(self.rect.x+dir[0]*base) and self.rect.y!=legal(self.rect.y+dir[1]*base):
-				dir=self.direction(target.rect.x, target.rect.y)
-				zone = self.scan(board, self.rng)
+			if not self.move(newX,newY) and target not in zone:
+				return False
+
+			zone = self.scanEuc(self.rng)
+			print(self.team, " : ", zone)
+
+			"""
+			while self.rect.x!=legal(self.rect.x)+dir[0]*base and self.rect.y!=legal(self.rect.y)+abs(dir[1])*base:
+				zone = self.scanEuc(board, self.rng)
 				if not self.walk(board, dir[0], dir[1]) and target not in zone:
 					imp=True
 					break
 
-
 			if imp:
 				return False
-
-			zone=self.scan(board, self.rng)
+			"""
 
 		return True
 
-	def collision(self, board, dirX, dirY):
+	def collision_V2(self, cX, cY):
+		#print("collision : ",cX," : ", cY)
+		#use bottom top...
+
+		if  (cX<0 or cX>=base*size) or (cY<0 or cY>=base*size):
+			return True
+
+		for sprite in board:
+			if sprite!=self:
+				if (cX==legal(sprite.rect.x) and cY==legal(sprite.rect.y)):
+					return True
+
+		return False
+
+	def choice(self, dirX, dirY):
+
+		box=[False for i in range(3)]
+		if dirX!=0:
+
+			cX = legal(self.rect.x)+base*dirX
+			cY = legal(self.rect.y)
+
+			if not self.collision_V2(cX, cY):
+				box[0]=True
+				#print("H")
+
+			if dirY!=0:
+				cY = legal(self.rect.y)+base*dirY
+
+				if not self.collision_V2(cX, cY):
+					box[2]=True
+					#print("D")
+
+				cX = legal(self.rect.x)
+
+				if not self.collision_V2(cX, cY):
+					box[1]=True
+					#print("V")
+
+		elif dirY!=0:
+			cX = legal(self.rect.x)
+			cY = legal(self.rect.y)+base*dirY
+
+			if not self.collision_V2(cX, cY):
+				box[1]=True
+				print("V")
+
+		if not box[0] and not box[1] and not box[2]:
+			return False
+
+		if box[2]:
+			return(0,0)
+		elif box[0]:
+			return(0,1)
+		elif box[1]:
+			return(1,0)
+		else :
+			return(1,1)
+
+	def collision(self, dirX, dirY):
+		pass
 		"""
+		'''
 		defines wether there is a collision or not
-		"""
+		'''
+
 		box=[True,True,True]
 		for sprite in board:
 			if sprite!=self:
-				print(legal(self.rect.x)+base*dirX, " : ",legal(self.rect.y)+base*dirY)
-				if legal(sprite.rect.x)==legal(self.rect.x)+base*dirX and legal(sprite.rect.y)==legal(self.rect.y)+base*dirY:
+				if legal(sprite.rect.x)==cX and legal(sprite.rect.y)==legal(self.rect.y):
 					box[0]=False
 				if sprite.rect.x==legal(self.rect.x)+base and sprite.rect.y==legal(self.rect.y):
 					box[1]=False
 				if sprite.rect.x==legal(self.rect.x) and sprite.rect.y==legal(self.rect.y)+base:
 					box[2]=False
 
-		if box[0]:		return (0,0)
-		elif box[1]:	return (0,1)
-		elif box[2]:	return (1,0)
-		else :			return (1,1)
+		if box[0]:		retourne=[0,0]
+		elif box[1]:	retourne=[0,1]
+		elif box[2]:	retourne=[1,0]
+		else :			retourne=[1,1]
 
-	def scan(self, board, rng):
+		if legal(self.rect.x)+base*dirX>750 or legal(self.rect.x)+base*dirX<-250:
+			retourne[1]=1
+
+		if legal(self.rect.y)+base*dirY>750 or legal(self.rect.y)+base*dirY<-250:
+			retourne[0]=1
+
+		return retourne
+	"""
+
+	def scanEuc(self, rng):
 		"""
 		to know what's around you
 		"""
@@ -159,39 +249,74 @@ class Unit(pygame.sprite.Sprite):
 							retour.append(ob)
 		return retour
 
-	def attack(self, board, target):
+	def scanMan(self, rang):
+		"""
+		to know what's around you
+		"""
+		retour=[]
+
+		for i in range(-rang, rang+1):
+			x=legal(self.rect.x)+i*base
+
+			for j in range(-rang, rang+1):
+				y=legal(self.rect.y)+j*base
+
+				if abs(i)+abs(j)<=rang and (x,y)!=(self.rect.x,self.rect.y):
+					for ob in board:
+						if legal(ob.rect.x)==x and legal(ob.rect.y)==y:
+							retour.append(ob)
+		return retour
+
+	def attack(self, target):
 		"""
 		attacking
 		"""
+		# sauvegarder
+		self.cache = self.action
 		self.action="atk"
-		zone=self.scan(board, self.rng)
 
-		while target.pv >0 and self.action=="atk":
-			if not self.march(board, target):
+		# détecter
+		zone=self.scanMan(self.rng)
+
+		while target.pv>0 and self.action=="atk":
+
+			# se déplacer
+			if not self.march(target):
 				self.action="Neant"
 				break
+
 			target.pv-=self.atk
-			target.selfcheck(board)
+			target.selfcheck()
 			sleep(100/self.atk_spd)
 
-	def selfcheck(self, board):
+		self.action = self.cache
+
+	def selfcheck(self):
 		"""
 		state checking
 		"""
-		print(self.pv)
+		print(self.team, " : ", self.pv)
+
 		if self.pv <=0:
+			print("t'as dead ça chakal")
 			if self in board:
+				#print("t'as dead ça chakal")
 				board.remove(self)
 				self.action="Neant"
 
-	def defend(self, board, newX, newY):
+		else :
+			self.defend(self.rect.x, self.rect.y)
+
+	def defend(self, newX, newY):
 		"""
 		defend a position
 		"""
 		self.action="defend"
+		self.move( newX,newY)
+
 		while (self.action=="defend"):
-			self.move(board, newX, newY)
-			zone=self.scan(board,self.sight)
+			sleep(tempo)
+			zone=self.scanMan(self.sight)
 			for ob in zone:
 				if ob.team!=self.team:
-					self.attack(board, ob);
+					self.attack(ob);
