@@ -20,6 +20,7 @@ class Batiment(pygame.sprite.Sprite):
 		"""
 		create
 		"""
+		self.size=2
 		self.type="Batiment"
 		self.team=team
 		self.rect.x = legal(pos[0])

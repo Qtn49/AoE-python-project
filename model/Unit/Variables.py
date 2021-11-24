@@ -1,7 +1,7 @@
 import pygame
 
 tempo=1
-size = 3
+size = 4
 ani = 1
 base = 250
 

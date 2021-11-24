@@ -6,6 +6,7 @@ class Villager(Unit):
 
     def __init__(self, pos, team):
         ### Tout ce qui fait un villageois ###
+        self.size=1
         self.pv=20
         self.job="villager"
         self.action="Neant"
