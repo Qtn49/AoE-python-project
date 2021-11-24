@@ -4,7 +4,7 @@ Import
 import pygame
 import os
 from time import sleep
-from Variables import *
+from model.Unit.Variables import *
 
 """
 Objects

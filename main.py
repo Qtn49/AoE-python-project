@@ -56,28 +56,28 @@ if __name__ == '__main__':
         file_name = 'map_test.png'
         game_map = Map.create_map_from_file(file_name)
 
-        # screen = pygame.display.set_mode(game_constants.GAME_DIMENSIONS)
-        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        screen = pygame.display.set_mode(game_constants.GAME_DIMENSIONS)
+        # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         clock = pygame.time.Clock()
 
         pressed = 0
 
         joueur1 = Player()
         vilB = Villager((0, 0), 'B')  # spawn
-        vilR = Villager((0, 0), 'R')
+        vilR = Villager((800, 800), 'R')
         tree = Tree((700, 0), 'Neant')
         tree2 = Tree((700, 499), 'Neant')
         forum = Forum((0, 700), 'Neant', joueur1)
 
-        game_map.addElement(vilB)
-        game_map.addElement(vilR)
-        game_map.addElement(tree)
-        game_map.addElement(tree2)
-        game_map.addElement(forum)
+        game_map.addElement((0,0),vilB)
+        game_map.addElement((800,800),vilR)
+        game_map.addElement((700,0),tree)
+        game_map.addElement((700,499),tree2)
+        game_map.addElement((0,700),forum)
 
         while g.running:
             screen.fill((0, 255, 0))
-            # game_map.placeBackground(screen)
+            game_map.placeBackground(screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -88,30 +88,30 @@ if __name__ == '__main__':
                         g.running = False
                 if event.type == pygame.KEYUP:
                     pressed = 0
-                if event.key == ord('s'):
-                    for ob in game_map:
-                        ob.action = "Neant"
+                # if event.key == ord('s'):
+                #     for ob in game_map:
+                #         ob.action = "Neant"
 
-                        # if event.key == ord('a'):
-                        #     Thread(target=vilR.move, args=(1000,.0)).start()
-                        # if event.key == ord('e'):
-                        #     Thread(target=vilB.attack, args=(vilR,)).start()
-                        # if event.key == ord('z'):
-                        #     Thread(target=vilR.defend, args=(2000,8000)).start()
-                        if event.key == ord('r'):
-                            vilB1 = Villager((250, 500), 'B')
-                            vilB2 = Villager((250, 0), 'B')
-                            vilB3 = Villager((250, 250), 'B')
+                    # if event.key == ord('a'):
+                    #     Thread(target=vilR.move, args=(1000,.0)).start()
+                    # if event.key == ord('e'):
+                    #     Thread(target=vilB.attack, args=(vilR,)).start()
+                    # if event.key == ord('z'):
+                    #     Thread(target=vilR.defend, args=(2000,8000)).start()
+                    if event.key == ord('r'):
+                        vilB1 = Villager((250, 500), 'B')
+                        vilB2 = Villager((250, 0), 'B')
+                        vilB3 = Villager((250, 250), 'B')
 
-                            game_map.addElement(vilB1)
-                            game_map.addElement(vilB2)
-                            game_map.addElement(vilB3)
-                        # if event.key == ord('p'):
-                        #     m = Thread(target=vilR.fetch, args=(forum,tree,joueur1))
-                        #     m.start()
-                        # if event.key == ord('m'):
-                        #     print(vilR.contenu)
-                        #     print(joueur1.contenu)
+                        game_map.addElement(vilB1)
+                        game_map.addElement(vilB2)
+                        game_map.addElement(vilB3)
+                    # if event.key == ord('p'):
+                    #     m = Thread(target=vilR.fetch, args=(forum,tree,joueur1))
+                    #     m.start()
+                    # if event.key == ord('m'):
+                    #     print(vilR.contenu)
+                    #     print(joueur1.contenu)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:
