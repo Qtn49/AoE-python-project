@@ -39,7 +39,9 @@ def main() :
 
     board.add(vilB)
     board.add(vilR)
- 
+    board.add(tree)
+    board.add(tree2)
+    board.add(forum)
 
     """
     Loop
