@@ -1,24 +1,30 @@
 import threading
 import sys
 
-from time import sleep
+class Threadatuer(threading.Thread):
+    """
+    Sous-classe de threading.Thread, avec une methode tuer()
+    """
 
+    def __init__(self, *args, **keywords):
+        threading.Thread.__init__(self, *args, **keywords)
+        self.atuer = False
 
-class Action(threading.Thread):
+    def start(self):
+        self.run_sav = self.run
+        self.run = self.run2
+        threading.Thread.start(self)
 
-    def __init__(self, action, args):
-        super().__init__()
-        self.args = args
-        self.action = action
-        self.arret = False
+    def run2(self):
+        sys.settrace(self.trace)
+        self.run_sav()
+        self.run = self.run_sav
 
-    def run(self):
-        try:
-            self.action(self.args)
-            if self.arret:
-                raise ValueError("Arrêt de : ", self.action)
-        except:
-            print(u"%s" % sys.exc_info()[1])
+    def trace(self, frame, event, arg):
+        if self.atuer:
+            if event == 'line':
+                raise SystemExit()
+        return self.trace
 
-    def stopthread(self):
-        self.arret=True
+    def tuer(self):
+        self.atuer = True

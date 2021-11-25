@@ -1,12 +1,11 @@
 """
 Import
 """
-import pygame
-import os
+# import pygame
 from time import sleep
+from model.ThreadManager import *
 from model.Unit.Variables import *
 
-moveflag=True
 """
 Objects
 """
@@ -21,8 +20,8 @@ class Unit(pygame.sprite.Sprite):
 		"""
 		create
 		"""
-		self.thr=None
-		self.action=None
+		self.thr = None
+		self.action = None
 		self.type = "unit"
 		self.team = team
 		self.rect.x = legal(pos[0])
@@ -61,20 +60,16 @@ class Unit(pygame.sprite.Sprite):
 		"""
 		moving without doing anything else
 		"""
-		moveflag=False
 		# définir la case d'arrivée
 		newX = legal(newX)
 		newY = legal(newY)
 
 		# bouger tant que le lieu d'arrivée n'est pas le bon
-		while self.rect.x != newX or self.rect.y != newY :
+		while self.rect.x != newX or self.rect.y != newY:
 			dir = self.direction(newX, newY)
 
-			if not self.walk(dir[0], dir[1]) or moveflag:
-				moveflag=False
+			if not self.walk(dir[0], dir[1]):
 				return False
-
-		print("OK")
 		return True
 
 	def walk(self, dirX, dirY):
@@ -89,8 +84,6 @@ class Unit(pygame.sprite.Sprite):
 
 		butX = legal(self.rect.x) + base * dirX * (1 - collide[0])
 		butY = legal(self.rect.y) + base * dirY * (1 - collide[1])
-		# print("go : ", butX, " : ", butY)
-		# print("pos: ", self.rect.x," : ", self.rect.y)
 
 		while self.rect.x != butX or self.rect.y != butY:
 			"""
@@ -101,7 +94,6 @@ class Unit(pygame.sprite.Sprite):
 			self.control(dirX * (1 - collide[0]), dirY * (1 - collide[1]))
 			self.update()
 
-		# print(legal(self.rect.x), " : ",legal(self.rect.y))
 		return True
 
 	def direction(self, newX, newY):
@@ -156,14 +148,18 @@ class Unit(pygame.sprite.Sprite):
 	def collision(self, cX, cY):
 
 		# limites de la map
-		if (cX < 0 or cX >= (size-self.size+1)*base) or (cY < 0 or cY >= (size-self.size+1)*base):
+		if (cX < 0 or cX >= (size - self.size + 1) * base) or (cY < 0 or cY >= (size - self.size + 1) * base):
 			return True
 
 		# collision avec les sprites
 		for sprite in board:
 			if sprite != self:
-				if legal(sprite.rect.x) <= cX <= legal(sprite.rect.x)+(sprite.size-1)*base or legal(sprite.rect.x) <= cX+(self.size - 1) * base <= legal(sprite.rect.x)+(sprite.size-1)*base:
-					if legal(sprite.rect.y) <= cY <= legal(sprite.rect.y)+(sprite.size-1)*base or legal(sprite.rect.y) <= cY+(self.size - 1) * base <= legal(sprite.rect.y)+(sprite.size-1)*base:
+				if legal(sprite.rect.x) <= cX <= legal(sprite.rect.x) + (sprite.size - 1) * base or legal(
+						sprite.rect.x) <= cX + (self.size - 1) * base <= legal(sprite.rect.x) + (
+						sprite.size - 1) * base:
+					if legal(sprite.rect.y) <= cY <= legal(sprite.rect.y) + (sprite.size - 1) * base or legal(
+							sprite.rect.y) <= cY + (self.size - 1) * base <= legal(sprite.rect.y) + (
+							sprite.size - 1) * base:
 						return True
 
 		return False
@@ -191,7 +187,7 @@ class Unit(pygame.sprite.Sprite):
 
 				if not self.collision(cX, cY):
 					box[1] = True
-				# print("V")
+		# print("V")
 
 		elif dirY != 0:
 			cX = legal(self.rect.x)
@@ -226,7 +222,7 @@ class Unit(pygame.sprite.Sprite):
 				y = legal(self.rect.y) + j * base
 
 				for ob in board:
-					if legal(ob.rect.x) == x and legal(ob.rect.y) == y and ob !=self:
+					if legal(ob.rect.x) == x and legal(ob.rect.y) == y and ob != self:
 						retour.append(ob)
 		return retour
 
@@ -244,7 +240,7 @@ class Unit(pygame.sprite.Sprite):
 
 				if abs(i) + abs(j) <= rang:
 					for ob in board:
-						if legal(ob.rect.x) == x and legal(ob.rect.y) == y and ob!=self:
+						if legal(ob.rect.x) == x and legal(ob.rect.y) == y and ob != self:
 							retour.append(ob)
 		return retour
 
@@ -256,52 +252,36 @@ class Unit(pygame.sprite.Sprite):
 		self.cache = self.action
 		self.action = "atk"
 
-		# détecter
-		zone = self.scanMan(self.rng)
-
 		while target.pv > 0 and self.action == "atk":
 
-			print("lets gooo")
 			# se déplacer
 			if not self.march(target):
 				self.action = "Neant"
+				self.thr.tuer()
 				break
 
+			# frapper
 			target.pv -= self.atk
-			# target.selfcheck()
 			print(target.team, " : ", target.pv)
+			# attendre
 			sleep(100 / self.atk_spd)
-			if target.pv <= 0:
-				print("T'as dead ça chakal")
-				if target in board:
-					# print("t'as dead ça chakal")
-					board.remove(target)
-					target.action = "Neant"
-			else:
-				moveflag=True
-				threads[target].stop
-				# if target.thr :
-				# 	print(target.thr)
-				# 	target.thr=None
-				threads[target]=target.defend(self.rect.x, self.rect.y)
 
+			check(target)
+		# verifier
+		# if target.pv <= 0:
+		# 	print(self.team, " : T'as dead ça chakal")
+		# 	if target in board:
+		# 		board.remove(target)
+		# 		if target.thr:
+		# 			target.thr.tuer()
+		#
+		# 		target.action = "Neant"
+		# else:
+		# 	if target.thr :
+		# 		target.thr.tuer()
+		# 	target.thr = Threadatuer(target=target.defend, args=(target.rect.x, target.rect.y))
+		# 	target.thr.start()
 		self.action = self.cache
-
-	# def selfcheck(self):
-	# 	"""
-	# 	state checking
-	# 	"""
-	# 	print(self.team, " : ", self.pv)
-	#
-	# 	if self.pv <= 0:
-	# 		print("T'as dead ça chakal")
-	# 		if self in board:
-	# 			# print("t'as dead ça chakal")
-	# 			board.remove(self)
-	# 			self.action = "Neant"
-	#
-	# 	else:
-	# 		self.defend(self.rect.x, self.rect.y)
 
 	def defend(self, newX, newY):
 		"""
@@ -310,9 +290,28 @@ class Unit(pygame.sprite.Sprite):
 		self.action = "defend"
 		self.move(newX, newY)
 
-		while (self.action == "defend"):
-			sleep(tempo)
+		while self.action == "defend":
+			sleep(1)
+			check(self)
+			print("WOULA jdefend")
 			zone = self.scanMan(self.sight)
 			for ob in zone:
 				if ob.team != self.team and ob.team != "Neant":
-					self.attack(ob);
+					self.attack(ob)
+
+
+def check(target):
+	"""
+	state checking
+	"""
+	if target.pv <= 0:
+		if target in board:
+			board.remove(target)
+		target.action = None
+		if target.thr:
+			target.thr.tuer()
+	elif target.action!="atk":
+		if target.thr:
+			target.thr.tuer()
+		target.thr = Threadatuer(target=target.defend, args=(target.rect.x, target.rect.y))
+		target.thr.start()

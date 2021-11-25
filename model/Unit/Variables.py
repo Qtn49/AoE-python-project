@@ -1,5 +1,5 @@
 import pygame
-threads={}
+
 tempo=1
 size = 4
 ani = 1
