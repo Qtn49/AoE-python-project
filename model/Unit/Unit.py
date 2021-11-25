@@ -6,6 +6,7 @@ import os
 from time import sleep
 from model.Unit.Variables import *
 
+moveflag=True
 """
 Objects
 """
@@ -20,6 +21,8 @@ class Unit(pygame.sprite.Sprite):
 		"""
 		create
 		"""
+		self.thr=None
+		self.action=None
 		self.type = "unit"
 		self.team = team
 		self.rect.x = legal(pos[0])
@@ -58,15 +61,17 @@ class Unit(pygame.sprite.Sprite):
 		"""
 		moving without doing anything else
 		"""
+		moveflag=False
 		# définir la case d'arrivée
 		newX = legal(newX)
 		newY = legal(newY)
 
 		# bouger tant que le lieu d'arrivée n'est pas le bon
-		while self.rect.x != newX or self.rect.y != newY:
+		while self.rect.x != newX or self.rect.y != newY :
 			dir = self.direction(newX, newY)
 
-			if not self.walk(dir[0], dir[1]):
+			if not self.walk(dir[0], dir[1]) or moveflag:
+				moveflag=False
 				return False
 
 		print("OK")
@@ -134,7 +139,6 @@ class Unit(pygame.sprite.Sprite):
 				return False
 
 			zone = self.scanEuc(self.rng)
-			print(self.team, " : ", zone)
 
 			"""
 			while self.rect.x!=legal(self.rect.x)+dir[0]*base and self.rect.y!=legal(self.rect.y)+abs(dir[1])*base:
@@ -257,32 +261,46 @@ class Unit(pygame.sprite.Sprite):
 
 		while target.pv > 0 and self.action == "atk":
 
+			print("lets gooo")
 			# se déplacer
 			if not self.march(target):
 				self.action = "Neant"
 				break
 
 			target.pv -= self.atk
-			target.selfcheck()
+			# target.selfcheck()
+			print(target.team, " : ", target.pv)
 			sleep(100 / self.atk_spd)
+			if target.pv <= 0:
+				print("T'as dead ça chakal")
+				if target in board:
+					# print("t'as dead ça chakal")
+					board.remove(target)
+					target.action = "Neant"
+			else:
+				moveflag=True
+				# if target.thr :
+				# 	print(target.thr)
+				# 	target.thr=None
+				target.defend(self.rect.x, self.rect.y)
 
 		self.action = self.cache
 
-	def selfcheck(self):
-		"""
-		state checking
-		"""
-		print(self.team, " : ", self.pv)
-
-		if self.pv <= 0:
-			print("T'as dead ça chakal")
-			if self in board:
-				# print("t'as dead ça chakal")
-				board.remove(self)
-				self.action = "Neant"
-
-		else:
-			self.defend(self.rect.x, self.rect.y)
+	# def selfcheck(self):
+	# 	"""
+	# 	state checking
+	# 	"""
+	# 	print(self.team, " : ", self.pv)
+	#
+	# 	if self.pv <= 0:
+	# 		print("T'as dead ça chakal")
+	# 		if self in board:
+	# 			# print("t'as dead ça chakal")
+	# 			board.remove(self)
+	# 			self.action = "Neant"
+	#
+	# 	else:
+	# 		self.defend(self.rect.x, self.rect.y)
 
 	def defend(self, newX, newY):
 		"""
@@ -295,5 +313,5 @@ class Unit(pygame.sprite.Sprite):
 			sleep(tempo)
 			zone = self.scanMan(self.sight)
 			for ob in zone:
-				if ob.team != self.team:
+				if ob.team != self.team and ob.team != "Neant":
 					self.attack(ob);

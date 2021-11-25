@@ -9,11 +9,10 @@ class Villager(Unit):
         self.size=1
         self.pv=20
         self.job="villager"
-        self.action="Neant"
         self.spd=500
         self.atk=2
         self.atk_spd=500
-        self.rng=1
+        self.rng=2
         self.sight=4
         self.capa=50
         self.espace=50
