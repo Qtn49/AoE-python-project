@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import os
 from model.Unit.Unit import *
 
 class Knight(Unit):
@@ -18,9 +18,7 @@ class Knight(Unit):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Unit/"+team+'_square.png')).convert()
-        img.convert_alpha()  # optimise alpha
-        img.set_colorkey(ALPHA)  # set alpha
+        img = pygame.image.load(os.path.join("model/Unit/images/soldat.png")).convert()
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

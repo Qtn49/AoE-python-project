@@ -20,7 +20,7 @@ class Villager(Unit):
         self.espace = 50
         self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 0}
 
-        pygame.sprite.Sprite.__init__(self)
+        # pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/" + team + '_square.png')).convert()
@@ -73,3 +73,13 @@ class Villager(Unit):
                     joueur.contenu[self.but] += 1
                     self.espace += 1
                     self.contenu[self.but] -= 1
+
+    def construction(self, Target, place):
+        self.action = "Contruction"
+
+        self.move(place[0]-base, place[1])
+
+        if Target.ok :
+            # afficher une image de construction
+            sleep(Target.cstrtime)
+            board.add(Target)

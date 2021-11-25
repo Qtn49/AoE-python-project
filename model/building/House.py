@@ -4,6 +4,8 @@ from model.building.Batiment import *
 class House(Batiment):
 
     def __init__(self, pos, team, joueur):
+        self.ok=True
+        self.cstrtime=3
         self.pv=75
         self.job="house"
         self.action="Neant"
@@ -16,7 +18,7 @@ class House(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("building/images/House.png")).convert()
+        img = pygame.image.load(os.path.join("model/building/images/House.png")).convert()
         img.convert_alpha()  # optimise alpha
         img.set_colorkey(ALPHA)  # set alpha
         self.images.append(img)

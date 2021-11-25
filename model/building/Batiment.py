@@ -20,6 +20,7 @@ class Batiment(pygame.sprite.Sprite):
 		"""
 		create
 		"""
+		self.thr=None
 		self.size=2
 		self.type="Batiment"
 		self.team=team
@@ -56,13 +57,13 @@ class Batiment(pygame.sprite.Sprite):
 
 	def generateUnit(self, board, job):
 		if job == "villager":
-			vilF = Villager((256, 256), 'B')
+			vilF = Villager((self.rect.x-base, self.rect.y), self.team)
 			board.add(vilF);
 		if job == "knight":
-			knightF = Knight((256, 256), 'B')
+			knightF = Knight((self.rect.x-base, self.rect.y), self.team)
 			board.add(knightF);
 		if job == "archer":
-			archerF = Archer((256, 256), 'B')
+			archerF = Archer((self.rect.x-base, self.rect.y), self.team)
 			board.add(archerF);
 
 	def attackTower(self, board, target):

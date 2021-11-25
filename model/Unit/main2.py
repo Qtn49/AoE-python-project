@@ -2,12 +2,14 @@
 """
 Import
 """
-import os
-from Villager import *
-from model.ThreadManager import *
+# import os
+# from Villager import *
+# from model.ThreadManager import *
 
+from model.building.Barracks import *
 from model.Unit.Player import Player
 from model.building.Forum import Forum
+from model.building.House import *
 from model.building.Tree import Tree
 
 """
@@ -29,13 +31,13 @@ def main() :
     game = True
 
     joueur1 = Player()
-    vilB = Villager((800,800),'B')  # spawn
-    vilR = Villager((500,500),'R')
-    tree = Tree((700,0),'Neant')
-    tree2 = Tree((700, 499), 'Neant')
-    forum = Forum((0,700),'R',joueur1)
+    # vilB = Villager((800,800),'B')  # spawn
+    vilR = Villager((0,0),'R')
+    # tree = Tree((700,0),'Neant')
+    # tree2 = Tree((700, 499), 'Neant')
+    # forum = Forum((0,700),'R',joueur1)
 
-    board.add(vilB)
+    # board.add(vilB)
     board.add(vilR)
     # board.add(tree)
     # board.add(tree2)
@@ -64,14 +66,21 @@ def main() :
                         game = False
 
                 if event.key == ord('a'):
-                    vilR.thr = Threadatuer(target=vilR.move, args=(800,800))
+                    Brk = Barracks((500,500),vilR.team, joueur1)
+                    vilR.thr = Threadatuer(target=vilR.construction, args=(Brk,(500,500)))
                     vilR.thr.start()
-
+                    # vilR.thr = Threadatuer(target=vilR.move, args=(800,800))
+                    # vilR.thr.start()
+                    #
                     # Thread(target=vilR.attack, args=(vilB,)).start()
-                    vilB.thr=Threadatuer(target=vilB.move, args=(0,0))
-                    vilB.thr.start()
+                    # vilB.thr=Threadatuer(target=vilB.move, args=(0,0))
+                    # vilB.thr.start()
                 if event.key == ord('e'):
-                    Threadatuer(target=vilB.defend, args=((800,800))).start()
+                    vilR.thr = Threadatuer(target=vilR.move, args=(0, 0))
+                    vilR.thr.start()
+                    Brk.thr = Threadatuer(target=Brk.generateUnit, args=(board, "knight"))
+                    Brk.thr.start()
+                    # Threadatuer(target=vilB.defend, args=((800,800))).start()
                 # if event.key == ord('z'):
                 #     Threadatuer(target=vilR.defend, args=(2000,8000)).start()
                 # if event.key == ord('r'):

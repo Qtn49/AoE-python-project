@@ -5,6 +5,9 @@ class Barracks(Batiment):
 
     def __init__(self, pos, team, joueur):
         ### Tout ce que fait une palissade ###
+        self.cstrtime=3
+        self.ok=True
+        self.taille=2
         self.pv=350
         self.job="barracks"
         self.action="Neant"
@@ -15,9 +18,7 @@ class Barracks(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("building/images/Barracks.png")).convert()
-        img.convert_alpha()  # optimise alpha
-        img.set_colorkey(ALPHA)  # set alpha
+        img = pygame.image.load(os.path.join("model/building/images/Barracks.png")).convert()
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

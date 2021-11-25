@@ -267,20 +267,6 @@ class Unit(pygame.sprite.Sprite):
 			sleep(100 / self.atk_spd)
 
 			check(target)
-		# verifier
-		# if target.pv <= 0:
-		# 	print(self.team, " : T'as dead ça chakal")
-		# 	if target in board:
-		# 		board.remove(target)
-		# 		if target.thr:
-		# 			target.thr.tuer()
-		#
-		# 		target.action = "Neant"
-		# else:
-		# 	if target.thr :
-		# 		target.thr.tuer()
-		# 	target.thr = Threadatuer(target=target.defend, args=(target.rect.x, target.rect.y))
-		# 	target.thr.start()
 		self.action = self.cache
 
 	def defend(self, newX, newY):
