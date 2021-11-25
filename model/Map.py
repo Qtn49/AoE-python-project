@@ -48,7 +48,10 @@ class Map:
         #     self.y_shift = game_constants.GAME_DIMENSIONS[0]
 
     def removeElement(self, position):
-        del self.elements[position]
+        key = str(position)
+        if key[0] == '(':
+            key = key[1:-1]
+        del self.elements[key]
 
     def getElement(self, position):
         return self.elements[position]
@@ -106,17 +109,33 @@ class Map:
         #             else:
         #                 screen.blit(image, (i * image.get_width() + image.get_width() * 0.5,
         #                                     j * image.get_height() + image.get_height() * 0.5))
+        wrong_positions = []
+        add_elements = {}
         for position in self.elements:
+            element = self.elements[position]
             if type(position) is not tuple:
                 position_tuple = tuple(map(int, position.split(', ')))
-            else :
+            else:
                 position_tuple = position
-            image = pygame.image.load(self.elements[position].image_path)
+            print(position_tuple, element.pos)
+            if element.pos != position_tuple:
+                add_elements[element.pos] = element
+                wrong_positions.append(position_tuple)
+                position_tuple = element.pos
+            image = pygame.image.load(element.image_path)
             image = pygame.transform.scale(image, (int(game_constants.BACKGROUND_DIMENSIONS[0] /
                                                        game_constants.MODEL_DIMENSIONS[0]),
                                                    int(game_constants.BACKGROUND_DIMENSIONS[1] /
                                                        game_constants.MODEL_DIMENSIONS[1])))
-            screen.blit(image, (position_tuple[0] * 100 + self.x_shift, position_tuple[1] * 100 + self.y_shift))
+            print("=====================")
+            print(element.shift_x, element.shift_y)
+            screen.blit(image, (position_tuple[0] * 100 + self.x_shift + element.shift_x, position_tuple[1] * 100 + self.y_shift + element.shift_y))
+
+        for i in wrong_positions:
+            self.removeElement(i)
+
+        for i in add_elements:
+            self.addElement(i, add_elements[i])
 
     def move(self, direction):
         if direction == game_constants.MOVE_LEFT:

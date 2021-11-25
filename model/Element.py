@@ -7,6 +7,8 @@ class Element(pygame.sprite.Sprite):
         self.image_path = image_path
         self.present = True
         self.pos=pos
+        self.shift_x = 0
+        self.shift_y = 0
         super().__init__()
 
     @abc.abstractmethod

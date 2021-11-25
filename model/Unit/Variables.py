@@ -3,7 +3,7 @@ import pygame
 tempo=1/2
 size = 4
 ani = 1
-base = 250
+base = 100
 
 worldX = size*base
 worldY = size*base

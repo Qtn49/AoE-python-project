@@ -13,7 +13,7 @@ class Unit(Element):
 	Possible actions for Units (moving, attack...)
 	"""
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, image_path=None):
         """
 		Create unit
 		"""
@@ -21,7 +21,7 @@ class Unit(Element):
         self.team = team
         self.moveX = 0
         self.moveY = 0
-        super().__init__(pos)
+        super().__init__(pos, image_path)
 
     def control(self, x, y):
         """
@@ -33,71 +33,79 @@ class Unit(Element):
 
     def update(self):
         """
-		update sprite position
-		"""
-        board = Map.get_map()
-        newX = self.pos[0] + self.moveX
-        newY = self.pos[1] + self.moveY
+        update sprite position
+        """
+        # self.rect.x += self.moveX
+        # self.rect.y += self.moveY
+        self.shift_x += self.moveX
+        self.shift_y += self.moveY
 
-        board.addElement((newX, newY), self)
-        board.removeElement(self.pos)
+        if self.shift_x == base:
+            self.shift_x = 0
+            self.pos = (self.pos[0] + 1, self.pos[1])
 
-        self.pos[0] = newX
-        self.pos[1] = newY
+        if self.shift_y == base:
+            self.shift_y = 0
+            self.pos = (self.pos[0] + 1, self.pos[1])
 
-        # # moving left
-        # if self.moveX < 0:
-        #     self.image = self.images[self.frame // ani]
-        #
-        # # moving right
-        # if self.moveX > 0:
-        #     self.image = pygame.transform.flip(self.images[self.frame // ani], True, False)
+        # self.pos = [self.rect.x, self.rect.y]
+
+        # moving left
+        if self.moveX < 0:
+            self.image = self.images[self.frame // ani]
+
+        # moving right
+        if self.moveX > 0:
+            self.image = pygame.transform.flip(self.images[self.frame // ani], True, False)
 
         self.moveX = 0
         self.moveY = 0
 
-    def move(self, newPos):
+    def move(self, newX, newY):
         """
-		moving without doing anything else
-		"""
+        moving without doing anything else
+        """
 
-        # savoir où on va
-        newX = legal(newPos[0])
-        newY = legal(newPos[1])
+        newX = legal(newX)
+        newY = legal(newY)
 
-        while self.pos[0] != newX or self.pos[1] != newY:
+        while self.rect.x != newX or self.rect.y != newY:
 
-            # trouver la direction
             dir = self.direction(newX, newY)
 
-            # se déplacer
-            if not self.walk(dir):
-                # s'arrêter en cas de blocage
-                # print(self.rect.x, " : ", self.rect.y, " ?")
+            if not self.walk(dir[0], dir[1]):
+                print(self.rect.x, " : ", self.rect.y, " ?")
                 return False
 
-        # print(self.rect.x, " : ", self.rect.y, " ?")
+        print(self.rect.x, " : ", self.rect.y, " ?")
         return True
 
-    def walk(self, dir):
+    def walk(self, dirX, dirY):
         """
-		used to move
-		"""
+        used to move
+        """
+        collide = self.choice(dirX, dirY)
 
-        # détecter les collisions
-        # collide = self.choice(dirX, dirY)
+        if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
+            # print("BLOCK")
+            return False
 
-        # if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
-        #     print("BLOCK")
-        #     return False
+        butX = legal(self.rect.x) + base * dirX * (1 - collide[0])
+        butY = legal(self.rect.y) + base * dirY * (1 - collide[1])
+        # print("go : ", butX, " : ", butY)
+        # print("pos: ", self.rect.x," : ", self.rect.y)
 
-        butX = legal(self.pos[0]) + MODEL_DIMENSIONS[0] * dir[0]
-        butY = legal(self.pos[0]) + MODEL_DIMENSIONS[1] * dir[1]
 
         while self.rect.x != butX or self.rect.y != butY:
-            self.control(dir[0], dir[1])
+            """
+            if (collide[1] and collide[1]) or (collide[0] and not dirY) or (collide[1] and not dirX):
+                print("BLOCK")
+                return False
+            """
+            self.control(dirX * (1 - collide[0]), dirY * (1 - collide[1]))
             self.update()
 
+        # print(legal(self.rect.x), " : ",legal(self.rect.y))
         return True
 
     def direction(self, newX, newY):
@@ -240,6 +248,8 @@ class Unit(Element):
         """
 		attacking
 		"""
+
+        print('attack')
 
         # validation
         if not (target in board and (target.type == "batiment" or target.type == "unit") and target.team != self.team):

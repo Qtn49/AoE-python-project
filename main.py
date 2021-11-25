@@ -28,26 +28,24 @@ if __name__ == '__main__':
         # game_map = Map.create_map_from_file(file_name)
         game_map = Map()
 
-
-        # screen = pygame.display.set_mode(game_constants.GAME_DIMENSIONS)
-        # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        screen = pygame.display.set_mode((1000,1000))
+        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        # screen = pygame.display.set_mode((1000,1000))
         clock = pygame.time.Clock()
 
         pressed = 0
 
         joueur1 = Player()
-        vilB = Villager((0, 0), 'B')  # spawn
-        vilR = Villager((0, 0), 'R')
-        tree = Tree((700, 0), 'Neant')
-        tree2 = Tree((700, 499), 'Neant')
-        forum = Forum((0, 700), 'Neant', joueur1)
+        # vilB = Villager((0, 0), 'B', image_path='model/Unit/images/B_villager.png')  # spawn
+        vilR = Villager((0, 0), 'R', image_path='model/Unit/images/R_villager.png')
+        tree = Tree((7, 0), 'Neant', image_path='model/building/images/Tree.png')
+        tree2 = Tree((7, 5), 'Neant', image_path='model/building/images/Tree.png')
+        forum = Forum((0, 7), 'Neant', joueur1, image_path='model/building/images/Towncenter.png')
 
-        # game_map.addElement(vilB)
-        # game_map.addElement(vilR)
-        # game_map.addElement(tree)
-        # game_map.addElement(tree2)
-        # game_map.addElement(forum)
+        # game_map.addElement((0, 0), vilB)
+        game_map.addElement((0, 0), vilR)
+        game_map.addElement((7, 0), tree)
+        game_map.addElement((7, 5), tree2)
+        game_map.addElement((0, 7), forum)
 
         while g.running:
             screen.fill((0, 255, 0))
@@ -62,32 +60,35 @@ if __name__ == '__main__':
                         g.running = False
                 if event.type == pygame.KEYUP:
                     pressed = 0
-                # if event.key == ord('s'):
-                #     for ob in game_map:
-                #         ob.action = "Neant"
+                    # if event.key == ord('s'):
+                    #     for ob in game_map:
+                    #         ob.action = "Neant"
 
                     if event.key == ord('a'):
-                        vilR = Villager((500,500),'R')
-                        game_map.addElement((500,500),vilR)
+                        vilR = Villager((5, 5), 'R', image_path='model/Unit/images/R_villager.png')
+                        game_map.addElement((5, 5), vilR)
 
-                        # if event.key == ord('e'):
-                        #     Thread(target=vilB.attack, args=(vilR,)).start()
-                        # if event.key == ord('z'):
-                        #     Thread(target=vilR.defend, args=(2000,8000)).start()
-                        # if event.key == ord('r'):
-                        #     vilB1 = Villager((250, 500), 'B')
-                        #     vilB2 = Villager((250, 0), 'B')
-                        #     vilB3 = Villager((250, 250), 'B')
-                        #
-                        #     game_map.addElement(vilB1)
-                        #     game_map.addElement(vilB2)
-                        #     game_map.addElement(vilB3)
-                        # if event.key == ord('p'):
-                        #     m = Thread(target=vilR.fetch, args=(forum,tree,joueur1))
-                        #     m.start()
-                        # if event.key == ord('m'):
-                        #     print(vilR.contenu)
-                        #     print(joueur1.contenu)
+                    # if event.key == ord('e'):
+                    #     Thread(target=vilB.attack, args=(vilR,)).start()
+                    if event.key == ord('z'):
+                        Thread(target=vilR.defend, args=(2000,8000)).start()
+                    if event.key == ord('r'):
+                        vilB1 = Villager((2, 5), 'B', image_path='model/Unit/images/B_villager.png')
+                        vilB2 = Villager((2, 0), 'B', image_path='model/Unit/images/B_villager.png')
+                        vilB3 = Villager((2, 2), 'B', image_path='model/Unit/images/B_villager.png')
+
+                        game_map.addElement((2, 5), vilB1)
+                        game_map.addElement((2, 0), vilB2)
+                        game_map.addElement((2, 2), vilB3)
+                    if event.key == ord('p'):
+                        m = Thread(target=vilR.fetch, args=(forum,tree,joueur1))
+                        m.start()
+                    if event.key == ord('m'):
+                        print(vilR.contenu)
+                        print(joueur1.contenu)
+                    elif event.key == ord('c'):
+                        m = Thread(target=vilR.move, args=((120, 0)))
+                        m.start()
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:

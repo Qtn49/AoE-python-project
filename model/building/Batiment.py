@@ -11,12 +11,12 @@ import os
 """
 Objects
 """
-class Batiment(pygame.sprite.Sprite):
+class Batiment(Element):
 	"""
 	Possible actions for Buildings
 	"""
 
-	def __init__(self, pos, team):
+	def __init__(self, pos, team, image_path=None):
 		"""
 		create
 		"""
@@ -24,6 +24,8 @@ class Batiment(pygame.sprite.Sprite):
 		self.team=team
 		self.rect.x = legal(pos[0])
 		self.rect.y = legal(pos[1])
+
+		super().__init__(pos, image_path)
 
 		def scan(self, board, rng):
 			"""

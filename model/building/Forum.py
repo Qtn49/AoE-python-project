@@ -3,10 +3,10 @@ from model.building.Batiment import *
 
 class Forum(Batiment):
 
-    def __init__(self, pos, team, joueur):
+    def __init__(self, pos, team, joueur, image_path=None):
         ### Tout ce que fait le Forum ###
-        self.pv=600
-        self.job="forum"
+        self.pv = 600
+        self.job = "forum"
         self.needWood = 125
         joueur.contenu["wood"] -= self.needWood
 
@@ -17,4 +17,4 @@ class Forum(Batiment):
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team, image_path)
