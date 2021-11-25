@@ -279,10 +279,11 @@ class Unit(pygame.sprite.Sprite):
 					target.action = "Neant"
 			else:
 				moveflag=True
+				threads[target].stop
 				# if target.thr :
 				# 	print(target.thr)
 				# 	target.thr=None
-				target.defend(self.rect.x, self.rect.y)
+				threads[target]=target.defend(self.rect.x, self.rect.y)
 
 		self.action = self.cache
 

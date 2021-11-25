@@ -6,6 +6,7 @@ from Variables import *
 from Villager import *
 from threading import *
 import sys
+import ThreadManager
 
 from model.Unit.Player import Player
 from model.building.Forum import Forum
@@ -69,12 +70,14 @@ def main() :
                     for ob in board:
                         ob.action="Neant"
                 if event.key == ord('a'):
-                    vilR.thr=Thread(target=vilR.move, args=(800,800))
-                    vilR.thr.start()
+                    m = ThreadManager.Action(vilR.move, (800,800))
+                    m.start()
+
                     # Thread(target=vilR.attack, args=(vilB,)).start()
                     Thread(target=vilB.attack, args=(vilR,)).start()
                 if event.key == ord('e'):
-                    Thread(target=vilB.move, args=((0,0))).start()
+                    threads[vilR].stop()
+                    # Thread(target=vilB.move, args=((0,0))).start()
                 if event.key == ord('z'):
                     Thread(target=vilR.defend, args=(2000,8000)).start()
                 if event.key == ord('r'):

@@ -1,5 +1,5 @@
 import pygame
-
+threads={}
 tempo=1
 size = 4
 ani = 1
@@ -21,3 +21,4 @@ def legal(value):
 
 def convert(value):
 	return value//base
+
