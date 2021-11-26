@@ -13,7 +13,10 @@ class Barracks(Batiment):
         self.action="Neant"
         self.sight=6
         self.needWood = 125
-        joueur.contenu["wood"] -= self.needWood
+        if (self.needWood <= joueur.contenu["wood"]):
+            joueur.contenu["wood"] -= self.needWood
+        else:
+            print(self.needWood ,"<", joueur.contenu["wood"])
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
