@@ -278,13 +278,18 @@ class Unit(pygame.sprite.Sprite):
 
 		while self.action == "defend":
 			sleep(1)
-			check(self)
-			print("WOULA jdefend")
 			zone = self.scanMan(self.sight)
 			for ob in zone:
 				if ob.team != self.team and ob.team != "Neant":
 					self.attack(ob)
 
+			if self.pv <= 0:
+				if self in board:
+					board.remove(self)
+				self.action = None
+				if self.thr:
+					self.thr.tuer()
+			sleep(1)
 
 def check(target):
 	"""
@@ -297,7 +302,7 @@ def check(target):
 		if target.thr:
 			target.thr.tuer()
 	elif target.action!="atk":
-		if target.thr:
-			target.thr.tuer()
+		# if target.thr:
+		# 	target.thr.tuer()
 		target.thr = Threadatuer(target=target.defend, args=(target.rect.x, target.rect.y))
 		target.thr.start()

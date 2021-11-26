@@ -1,11 +1,13 @@
 import pygame
+from Generator import *
 
 autorisation = {"Archer": False, "2_TownCenter": False}
 
+GenID = first_n(500)
 tempo=1
-size = 4
+size = 20
 ani = 1
-base = 250
+base = 50
 
 worldX = size*base
 worldY = size*base
