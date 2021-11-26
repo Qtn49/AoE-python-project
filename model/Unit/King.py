@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
 from Unit import *
+import os
 
 class King(Unit):
 
     def __init__(self, pos, team):
         ### Tout ce qui fait un champion ###
-        self.pv=20
+        self.pv=10
         self.job="king"
+        self.size=2
         self.action="Neant"
         self.spd=100
         self.atk=4
@@ -18,10 +20,9 @@ class King(Unit):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("Unit/"+team+'_square.png')).convert()
-        img.convert_alpha()  # optimise alpha
-        img.set_colorkey(ALPHA)  # set alpha
-        self.images.append(img)
+        img = pygame.image.load(os.path.join("model/Unit/images/sheep.png")).convert()
+        N_img = pygame.transform.scale(img, (base*self.size, base*self.size))
+        self.images.append(N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

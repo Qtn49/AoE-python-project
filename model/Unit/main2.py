@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 Import
 """
@@ -10,6 +11,7 @@ from model.building.Barracks import *
 from model.Unit.Player import Player
 from model.building.Forum import Forum
 from model.building.House import *
+from model.Unit.King import *
 from model.building.Tree import Tree
 
 """
@@ -32,21 +34,28 @@ def main() :
 
     joueur1 = Player()
     # vilB = Villager((800,800),'B')  # spawn
-    vilR = Villager((0,0),'R')
     # tree = Tree((700,0),'Neant')
     # tree2 = Tree((700, 499), 'Neant')
-    # forum = Forum((0,700),'R',joueur1)
-
+    print(GenID.__next__())
+    king = Villager((800,100),'B')
+    forum = Forum((200,800),'R',joueur1)
+    vilR = forum.generateUnit(board,'villager')
     # board.add(vilB)
     board.add(vilR)
     # board.add(tree)
     # board.add(tree2)
-    # board.add(forum)
+    board.add(forum)
+    board.add(king)
 
     """
     Loop
     """
     while game:
+        if king.pv <=0:
+            break
+        if forum.pv <=0:
+            break
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -66,8 +75,8 @@ def main() :
                         game = False
 
                 if event.key == ord('a'):
-                    Brk = Barracks((500,500),vilR.team, joueur1)
-                    vilR.thr = Threadatuer(target=vilR.construction, args=(Brk,(500,500)))
+                    # Brk = Barracks((600,850),vilR.team, joueur1)
+                    vilR.thr = Threadatuer(target=vilR.attack, args=(king,))
                     vilR.thr.start()
                     # vilR.thr = Threadatuer(target=vilR.move, args=(800,800))
                     # vilR.thr.start()
@@ -76,10 +85,8 @@ def main() :
                     # vilB.thr=Threadatuer(target=vilB.move, args=(0,0))
                     # vilB.thr.start()
                 if event.key == ord('e'):
-                    vilR.thr = Threadatuer(target=vilR.move, args=(0, 0))
-                    vilR.thr.start()
-                    Brk.thr = Threadatuer(target=Brk.generateUnit, args=(board, "knight"))
-                    Brk.thr.start()
+                    king.thr = Threadatuer(target=king.attack, args=(forum,))
+                    king.thr.start()
                     # Threadatuer(target=vilB.defend, args=((800,800))).start()
                 # if event.key == ord('z'):
                 #     Threadatuer(target=vilR.defend, args=(2000,8000)).start()
@@ -101,6 +108,11 @@ def main() :
         board.draw(world)
         pygame.display.flip()
         clock.tick(fps)
+
+    for ob in board :
+        if ob.thr:
+            ob.thr.tuer()
+    print("t'as gagné chakal")
 
 """
 launch

@@ -21,6 +21,7 @@ class Batiment(pygame.sprite.Sprite):
 		create
 		"""
 		self.thr=None
+		self.action = None
 		self.size=2
 		self.type="Batiment"
 		self.team=team
@@ -56,15 +57,16 @@ class Batiment(pygame.sprite.Sprite):
 				self.action="Neant"
 
 	def generateUnit(self, board, job):
+		ID = GenID.__next__()
+		print(ID)
 		if job == "villager":
-			vilF = Villager((self.rect.x-base, self.rect.y), self.team)
-			board.add(vilF);
+			gen = Villager((self.rect.x-base, self.rect.y), self.team)
 		if job == "knight":
-			knightF = Knight((self.rect.x-base, self.rect.y), self.team)
-			board.add(knightF);
+			gen = Knight((self.rect.x-base, self.rect.y), self.team)
 		if job == "archer":
-			archerF = Archer((self.rect.x-base, self.rect.y), self.team)
-			board.add(archerF);
+			gen = Archer((self.rect.x-base, self.rect.y), self.team)
+		board.add(gen)
+		return gen
 
 	def attackTower(self, board, target):
 		"""
@@ -80,4 +82,7 @@ class Batiment(pygame.sprite.Sprite):
 			target.pv -= self.atk
 			target.selfcheck(board)
 			sleep(100 / self.atk_spd)
+
+	def defend(self, bla,blo):
+		pass
 

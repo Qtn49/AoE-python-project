@@ -22,7 +22,9 @@ class Barracks(Batiment):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/building/images/Barracks.png")).convert()
-        self.images.append(img)
+
+        N_img = pygame.transform.scale(img, (base, base))
+        self.images.append(N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);
