@@ -12,8 +12,12 @@ class House(Batiment):
         self.inhabitant=5
         self.sight=2
         self.needWood = 30
-        joueur.contenu["wood"] -= self.needWood
-        joueur.contenu["inhabitant"] += self.inhabitant
+        if (self.needWood <= joueur.contenu["wood"]):
+            joueur.contenu["wood"] -= self.needWood
+            joueur.contenu["inhabitant"] += self.inhabitant
+        else:
+            print(self.needWood, "<", joueur.contenu["wood"])
+
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

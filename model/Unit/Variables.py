@@ -1,5 +1,7 @@
 import pygame
 
+autorisation = {"Archer": False, "2_TownCenter": False}
+
 tempo=1
 size = 4
 ani = 1
