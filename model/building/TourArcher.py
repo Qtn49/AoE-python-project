@@ -12,8 +12,11 @@ class TourArcher(Batiment):
         self.rng = 4
         self.needGold = 50
         self.needStone = 120
-        joueur.contenu["stone"] -= self.needStone
-        joueur.contenu["gold"] -= self.needGold
+        if (self.needStone <= joueur.contenu["stone"] & self.needGold <= joueur.contenu["gold"]):
+            joueur.contenu["stone"] -= self.needStone
+            joueur.contenu["gold"] -= self.needGold
+        else:
+            print(self.needGold , self.needStone,"<", joueur.contenu["stone"], joueur.contenu["gold"])
 
 
         pygame.sprite.Sprite.__init__(self)
