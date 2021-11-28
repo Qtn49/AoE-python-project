@@ -21,6 +21,7 @@ class Map:
         self.x_shift = x_shift
         self.y_shift = y_shift
         map = self
+        self.map_moved = False
 
     @staticmethod
     def get_map():
@@ -34,6 +35,10 @@ class Map:
         self.elements[key] = element
 
     def set_x_shift(self, value_to_add):
+        for key in self.elements:
+            element = self.elements[key]
+            element.rect.x -= self.x_shift
+            element.rect.x += self.x_shift + value_to_add
         self.x_shift += value_to_add
         # if self.x_shift < 0:
         #     self.x_shift = 0
@@ -41,6 +46,10 @@ class Map:
         #     self.x_shift = game_constants.GAME_DIMENSIONS[0]
 
     def set_y_shift(self, value_to_add):
+        for key in self.elements:
+            element = self.elements[key]
+            element.rect.y -= self.y_shift
+            element.rect.y += self.y_shift + value_to_add
         self.y_shift += value_to_add
         # if self.y_shift < 0:
         #     self.y_shift = 0

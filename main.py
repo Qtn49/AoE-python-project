@@ -59,7 +59,6 @@ if __name__ == '__main__':
                     finally:
                         g.running = False
                 if event.type == pygame.KEYUP:
-                    pressed = 0
                     # if event.key == ord('s'):
                     #     for ob in game_map:
                     #         ob.action = "Neant"
@@ -90,6 +89,19 @@ if __name__ == '__main__':
                         m = Thread(target=vilR.move, args=((600, 0)))
                         m.start()
 
+                mouse_pos = pygame.mouse.get_pos()
+
+                if mouse_pos[0] < 30:
+                    pressed = game_constants.MOVE_LEFT
+                elif mouse_pos[0] > pygame.display.Info().current_w - 30:
+                    pressed = game_constants.MOVE_RIGHT
+                elif mouse_pos[1] < 30:
+                    pressed = game_constants.MOVE_UP
+                elif mouse_pos[1] > pygame.display.Info().current_h - 30:
+                    pressed = game_constants.MOVE_DOWN
+                else:
+                    pressed = 0
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:
                         pressed = game_constants.MOVE_RIGHT
@@ -99,6 +111,8 @@ if __name__ == '__main__':
                         pressed = game_constants.MOVE_UP
                     elif event.key == pygame.K_DOWN:
                         pressed = game_constants.MOVE_DOWN
+                    else:
+                        pressed = 0
 
             if pressed != 0:
                 game_map.move(pressed)

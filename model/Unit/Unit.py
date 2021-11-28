@@ -37,8 +37,6 @@ class Unit(Element):
         """
         self.rect.x += self.moveX
         self.rect.y += self.moveY
-        self.shift_x += self.moveX
-        self.shift_y += self.moveY
 
         if self.shift_x == base:
             self.shift_x = 0
