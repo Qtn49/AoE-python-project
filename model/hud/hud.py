@@ -62,16 +62,18 @@ def hud_joueur():
     people = 7
     people_x1, people_x2 = 360, 390
 
+    #affichage des batîments
     display.blit(house, house_rect)
     display.blit(house, house1_rect)
     display.blit(barre, (0, 0))
 
+    #affichage de la barre de ressources
     pygame.draw.rect(display, black, (0, 5, 90, 20), 2)
     pygame.draw.rect(display, black, (90, 5, 90, 20), 2)
     pygame.draw.rect(display, black, (180, 5, 90, 20), 2)
     pygame.draw.rect(display, black, (270, 5, 90, 20), 2)
     pygame.draw.rect(display, black, (360, 5, 90, 20), 2)
-
+    #affichage des données de la barre
     display.blit(gold_image, (gold_x1 + 2, 5))
     display.blit(font.render(str(gold), True, white), (gold_x2 + 2, 5))
     display.blit(stone_image, (stone_x1 + 2, 5))
@@ -82,6 +84,8 @@ def hud_joueur():
     display.blit(font.render(str(wood), True, white), (wood_x2 + 2, 5))
     display.blit(people_image, (people_x1 + 2, 5))
     display.blit(font.render(str(people), True, white), (people_x2 + 2, 5))
+
+    pygame.draw.rect(display, marron, (DISPLAY_W -100, 0, 100, 30))
 
     pygame.display.update()
     clock.tick(15)
@@ -153,7 +157,7 @@ def unpause():
 def paused():
     largeText = pygame.font.SysFont("comicsansms", 115)
     TextSurf, TextRect = text_objects("Paused", largeText)
-    TextRect.center = ((DISPLAY_W / 2), (DISPLAY_H / 2 - 400))
+    TextRect.center = ((DISPLAY_W / 2), (DISPLAY_H / 4.3))
     display.blit(TextSurf, TextRect)
 
     while pause:
@@ -162,9 +166,9 @@ def paused():
                 pygame.quit()
                 quit()
 
-        button("Continue", DISPLAY_W / 2 - 150, DISPLAY_H / 2 - 300, 250, 50, blue, bright_blue, unpause)
-        button("Sauvegarder la partie", DISPLAY_W / 2 - 150, DISPLAY_H / 2 - 200, 250, 50, red, bright_red, unpause)
-        button("Quit", DISPLAY_W / 2 - 150, DISPLAY_H / 2 - 100, 250, 50, red, bright_red, quitgame)
+        button("Continue", DISPLAY_W / 2.5, DISPLAY_H / 3, 250, 50, blue, bright_blue, unpause)
+        button("Sauvegarder la partie", DISPLAY_W / 2.5, DISPLAY_H / 2.25, 250, 50, red, bright_red, unpause)
+        button("Quit", DISPLAY_W / 2.5, DISPLAY_H / 1.8, 250, 50, red, bright_red, quitgame)
 
         pygame.display.update()
         clock.tick(15)
