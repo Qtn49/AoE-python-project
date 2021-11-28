@@ -13,12 +13,13 @@ class Tree(Batiment):
         ### Tout ce qui fait une batiment ressource ###
         self.pv = 40
         self.contenu = {"gold": 0, "stone": 0, "wood": 40, "food": 0, "inhabitant": 0}
-
+        self.size = 1
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/building/images/Tree.png")).convert()
-        self.images.append(img)
+        N_img = pygame.transform.scale(img, (BASE*self.size, BASE*self.size))
+        self.images.append(N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
 

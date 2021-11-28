@@ -1,32 +1,51 @@
-from Unit.Variables import *
+
 from Unit.Villager import *
+from model.Unit.Player import Player
+from model.building.Forum import Forum
+from model.building.Tree import Tree
+
+
+def cadrillage(world):
+    nb_X = WIDTH // BASE
+    nb_Y = HEIGHT // BASE
+
+    for i in range(1,nb_X+1):
+        pygame.draw.line(world, (105, 105, 105), (i * BASE, 0), (i * BASE, HEIGHT), width=1)
+    for i in range(1, nb_Y + 1):
+        pygame.draw.line(world, (105, 105, 105), (0, i * BASE), (WIDTH, i * BASE), width=1)
 
 
 def main():
 
     world = pygame.display.set_mode([WIDTH, HEIGHT])
-    backdrop = pygame.image.load(os.path.join('model/Unit/echec.jpg'))
+
     clock = pygame.time.Clock()
     pygame.init()
-    backdropbox = world.get_rect()
-    game = True
 
+    game = True
     vil0 = Villager((0, 4500), 'R')
     vil1 = Villager((0, 4000), 'B')
-    vil2 = Villager((0, 3500), 'R')
-    vil3 = Villager((0, 3000), 'R')
-    vil4 = Villager((0, 2500), 'R')
-    vil5 = Villager((0, 2000), 'R')
-    vil6 = Villager((0,0),'R')
+    # vil2 = Villager((0, 3500), 'R')
+    # vil3 = Villager((0, 3000), 'R')
+    # vil4 = Villager((0, 2500), 'R')
+    # vil5 = Villager((0, 2000), 'R')
+    # vil6 = Villager((0,0),'R')
     board.board.append(vil0)
     board.board.append(vil1)
-    board.board.append(vil2)
-    board.board.append(vil3)
-    board.board.append(vil4)
-    board.board.append(vil5)
-    board.board.append(vil6)
-    board.update_afg()
+    # board.board.append(vil2)
+    # board.board.append(vil3)
+    # board.board.append(vil4)
+    # board.board.append(vil5)
+    # board.board.append(vil6)
+    king = Villager((4500, 500),'B')
+    board.board.append(king)
+    tree = Tree((700, 4000), 'Neant')
+    board.board.append(tree)
 
+    joueur1 = Player()
+    forum = Forum((500,4500),'R',joueur1)
+    board.board.append(forum)
+    board.update_afg()
     """
     Loop
     """
@@ -60,14 +79,18 @@ def main():
                         vil0.thr.tuer()
                         for i in vil0.action:
                             vil0.action[i]=False
-                    vil0.thr=Threadatuer(target=vil0.attack, args=(vil1,)).start()
+                    vil0.thr = Threadatuer(target=vil0.fetch, args=(forum, tree, joueur1))
+                    vil0.thr.start()
                 if event.key == ord('e'):
                     vil7 = Villager((500, 4500), 'R')
                     board.board.append(vil7)
-
+                if event.key == ord('m'):
+                    print(vil0.contenu)
+                    print(joueur1.contenu)
+        world.fill((152, 251, 152))
+        cadrillage(world)
 
         board.update_afg()
-        world.blit(backdrop, backdropbox)
         board.afg.draw(world)
         pygame.display.flip()
         clock.tick(fps)

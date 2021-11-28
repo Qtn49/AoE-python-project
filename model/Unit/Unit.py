@@ -120,7 +120,7 @@ class Unit(pygame.sprite.Sprite):
 		imp = False
 
 		while target not in zone:
-			dir = self.direction(target.rect.x, target.rect.y)
+			dir = self.direction(target.x, target.y)
 			newX = legal(self.x) + dir[0] * BASE
 			newY = legal(self.y) + dir[1] * BASE
 
@@ -205,13 +205,13 @@ class Unit(pygame.sprite.Sprite):
 		retour = []
 
 		for i in range(-rng, rng + 1):
-			x = legal(self.rect.x) + i * BASE
+			x = legal(self.x) + i * BASE
 
 			for j in range(-rng, rng + 1):
-				y = legal(self.rect.y) + j * BASE
+				y = legal(self.y) + j * BASE
 
-				for ob in board:
-					if legal(ob.rect.x) == x and legal(ob.rect.y) == y and ob != self:
+				for ob in board.board:
+					if legal(ob.x) == x and legal(ob.y) == y and ob != self:
 						retour.append(ob)
 		return retour
 
@@ -228,7 +228,7 @@ class Unit(pygame.sprite.Sprite):
 				y = legal(self.rect.y) + j * BASE
 
 				if abs(i) + abs(j) <= rang:
-					for ob in board:
+					for ob in board.board:
 						if legal(ob.x) == x and legal(ob.y) == y and ob != self:
 							retour.append(ob)
 		return retour
@@ -245,7 +245,7 @@ class Unit(pygame.sprite.Sprite):
 
 			# se déplacer
 			if not self.march(target):
-				self.action = "Neant"
+				self.action = None
 				self.thr.tuer()
 				break
 
@@ -273,8 +273,9 @@ class Unit(pygame.sprite.Sprite):
 					self.attack(ob)
 
 			if self.pv <= 0:
-				if self in board:
-					board.remove(self)
+				if self in board.board:
+					board.board.remove(self)
+					board.afg.remove(self)
 				self.action = None
 				if self.thr:
 					self.thr.tuer()
@@ -285,11 +286,19 @@ def check(target):
 	state checking
 	"""
 	if target.pv <= 0:
-		if target in board:
-			board.remove(target)
+		print(board.board)
+		for i in board.board:
+			print(i.team)
+		for i in board.afg:
+			print(i)
+		if target in board.board:
+			board.board.remove(target)
+			board.afg.remove(target)
+			print(target.team)
 		target.action = None
 		if target.thr:
 			target.thr.tuer()
+
 	elif target.action!="atk":
 		# if target.thr:
 		# 	target.thr.tuer()

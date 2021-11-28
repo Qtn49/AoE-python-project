@@ -32,15 +32,19 @@ class Villager(Unit):
         super().__init__(pos, team)
 
     def fetch(self, forum, cible, joueur):
+
         self.but = cible.ressource
         self.action = "fetch"
+
         while self.action == "fetch":
-            self.move(cible.rect.x, cible.rect.y)
-            if cible not in board:
+
+            self.move(cible.x, cible.y)
+
+            if cible not in board.board:
+
                 zone = self.scanEuc(self.sight)
-                print(zone)
+
                 for ob in zone:
-                    print(ob.type)
                     if ob.type == "ressource" and ob.ressource == self.but:
                         cible = ob
                     else:
@@ -50,7 +54,7 @@ class Villager(Unit):
             while cible and cible.contenu[self.but]:
                 print("----")
                 # bouger
-                self.move(cible.rect.x, cible.rect.y)
+                self.move(cible.x, cible.y)
                 zone = self.scanMan(self.rng)
 
                 if cible not in zone:
@@ -64,11 +68,14 @@ class Villager(Unit):
                     self.espace -= 1
                     sleep(10 / self.atk_spd)
                     cible.pv -= 1
-                    cible.selfcheck()
+                    if cible.pv <=0:
+                        if cible in board.board:
+                            board.board.remove(cible)
+                            board.afg.remove(cible)
                     print(cible.pv)
 
                 # bouger
-                self.move(forum.rect.x, forum.rect.y)
+                self.move(forum.x, forum.y)
 
                 # décharger
                 while self.espace < self.capa:
