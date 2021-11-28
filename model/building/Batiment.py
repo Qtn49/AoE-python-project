@@ -25,7 +25,7 @@ class Batiment(Element):
 		self.rect.x = legal(pos[0])
 		self.rect.y = legal(pos[1])
 
-		super().__init__(pos, image_path)
+		super().__init__(pos)
 
 		def scan(self, board, rng):
 			"""

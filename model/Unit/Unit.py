@@ -13,7 +13,7 @@ class Unit(Element):
 	Possible actions for Units (moving, attack...)
 	"""
 
-    def __init__(self, pos, team, image_path=None):
+    def __init__(self, pos, team):
         """
 		Create unit
 		"""
@@ -21,7 +21,7 @@ class Unit(Element):
         self.team = team
         self.moveX = 0
         self.moveY = 0
-        super().__init__(pos, image_path)
+        super().__init__(pos)
 
     def control(self, x, y):
         """
@@ -35,8 +35,8 @@ class Unit(Element):
         """
         update sprite position
         """
-        # self.rect.x += self.moveX
-        # self.rect.y += self.moveY
+        self.rect.x += self.moveX
+        self.rect.y += self.moveY
         self.shift_x += self.moveX
         self.shift_y += self.moveY
 
@@ -69,7 +69,7 @@ class Unit(Element):
         newX = legal(newX)
         newY = legal(newY)
 
-        while self.rect.x != newX or self.rect.y != newY:
+        while self.shift_x != newX or self.rect.y != newY:
 
             dir = self.direction(newX, newY)
 

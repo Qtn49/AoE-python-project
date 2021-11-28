@@ -5,7 +5,7 @@ import os
 
 class Villager(Unit):
 
-    def __init__(self, pos, team, image_path=None):
+    def __init__(self, pos, team):
         ### Tout ce qui fait un villageois ###
         self.pv=20
         self.job="villager"
@@ -26,7 +26,7 @@ class Villager(Unit):
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team, image_path)
+        super().__init__(pos, team)
 
     def fetch(self, forum, cible, joueur):
         self.but = cible.ressource

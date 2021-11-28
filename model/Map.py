@@ -74,7 +74,7 @@ class Map:
         for y, line in enumerate(img_script):
             for x, column in enumerate(line):
                 if column == ElementsColor.Color.TREE.value:
-                    game_map.addElement(x, y, Tree(image_path='resources/environment/tree.png'))
+                    game_map.addElement((x, y), Tree(image_path='resources/environment/tree.png'))
                 elif column == ElementsColor.Color.GOLD_MINE.value:
                     game_map.addElement(GoldMine(x,y,image_path='resources/environment/gold.png'))
                 elif column == ElementsColor.Color.STONE_MINE.value:
@@ -117,19 +117,17 @@ class Map:
                 position_tuple = tuple(map(int, position.split(', ')))
             else:
                 position_tuple = position
-            print(position_tuple, element.pos)
             if element.pos != position_tuple:
                 add_elements[element.pos] = element
                 wrong_positions.append(position_tuple)
                 position_tuple = element.pos
-            image = pygame.image.load(element.image_path)
-            image = pygame.transform.scale(image, (int(game_constants.BACKGROUND_DIMENSIONS[0] /
-                                                       game_constants.MODEL_DIMENSIONS[0]),
-                                                   int(game_constants.BACKGROUND_DIMENSIONS[1] /
-                                                       game_constants.MODEL_DIMENSIONS[1])))
-            print("=====================")
-            print(element.shift_x, element.shift_y)
-            screen.blit(image, (position_tuple[0] * 100 + self.x_shift + element.shift_x, position_tuple[1] * 100 + self.y_shift + element.shift_y))
+            # image = pygame.image.load(element.image_path)
+            # image = pygame.transform.scale(image, (int(game_constants.BACKGROUND_DIMENSIONS[0] /
+            #                                            game_constants.MODEL_DIMENSIONS[0]),
+            #                                        int(game_constants.BACKGROUND_DIMENSIONS[1] /
+            #                                            game_constants.MODEL_DIMENSIONS[1])))
+            # screen.blit(image, (position_tuple[0] * game_constants.BASE + element.shift_x, position_tuple[1] * game_constants.BASE + element.shift_y))
+            element.draw(screen)
 
         for i in wrong_positions:
             self.removeElement(i)

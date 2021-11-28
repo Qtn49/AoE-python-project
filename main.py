@@ -36,10 +36,10 @@ if __name__ == '__main__':
 
         joueur1 = Player()
         # vilB = Villager((0, 0), 'B', image_path='model/Unit/images/B_villager.png')  # spawn
-        vilR = Villager((0, 0), 'R', image_path='model/Unit/images/R_villager.png')
-        tree = Tree((7, 0), 'Neant', image_path='model/building/images/Tree.png')
-        tree2 = Tree((7, 5), 'Neant', image_path='model/building/images/Tree.png')
-        forum = Forum((0, 7), 'Neant', joueur1, image_path='model/building/images/Towncenter.png')
+        vilR = Villager((0, 0), 'R')
+        tree = Tree((700, 0), 'Neant')
+        tree2 = Tree((700, 499), 'Neant')
+        forum = Forum((0, 700), 'Neant', joueur1)
 
         # game_map.addElement((0, 0), vilB)
         game_map.addElement((0, 0), vilR)
@@ -65,17 +65,17 @@ if __name__ == '__main__':
                     #         ob.action = "Neant"
 
                     if event.key == ord('a'):
-                        vilR = Villager((5, 5), 'R', image_path='model/Unit/images/R_villager.png')
-                        game_map.addElement((5, 5), vilR)
+                        Thread(target=vilR.move, args=(1000, .0)).start()
+                        game_map.addElement((1000 // game_constants.BASE, 0), vilR)
 
                     # if event.key == ord('e'):
                     #     Thread(target=vilB.attack, args=(vilR,)).start()
                     if event.key == ord('z'):
                         Thread(target=vilR.defend, args=(2000,8000)).start()
                     if event.key == ord('r'):
-                        vilB1 = Villager((2, 5), 'B', image_path='model/Unit/images/B_villager.png')
-                        vilB2 = Villager((2, 0), 'B', image_path='model/Unit/images/B_villager.png')
-                        vilB3 = Villager((2, 2), 'B', image_path='model/Unit/images/B_villager.png')
+                        vilB1 = Villager((2, 5), 'B')
+                        vilB2 = Villager((2, 0), 'B')
+                        vilB3 = Villager((2, 2), 'B')
 
                         game_map.addElement((2, 5), vilB1)
                         game_map.addElement((2, 0), vilB2)
@@ -87,7 +87,7 @@ if __name__ == '__main__':
                         print(vilR.contenu)
                         print(joueur1.contenu)
                     elif event.key == ord('c'):
-                        m = Thread(target=vilR.move, args=((120, 0)))
+                        m = Thread(target=vilR.move, args=((600, 0)))
                         m.start()
 
                 if event.type == pygame.KEYDOWN:
