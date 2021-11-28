@@ -1,28 +1,22 @@
 import pygame
-from Generator import *
+from model.Unit.Generator import *
+from model.Map_erle import *
+from model.game_constants import *
+
+board = MapE()
 
 autorisation = {"Archer": False, "2_TownCenter": False}
 
 GenID = first_n(500)
-tempo=1
-size = 20
+tempo = 1
 ani = 1
-base = 50
 
-worldX = size*base
-worldY = size*base
 fps = 60
 
-BLUE = (25, 25, 200)
-BLACK = (23, 23, 23)
-WHITE = (254, 254, 254)
-ALPHA = (0, 255, 0)
-
-board = pygame.sprite.Group()
 
 def legal(value):
-	return convert(value)*base
+	return convert(value)*BASE
 
 def convert(value):
-	return value//base
+	return value//BASE
 

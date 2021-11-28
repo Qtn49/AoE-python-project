@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from model.game_constants import *
 import os
 from model.Unit.Unit import *
 
@@ -24,7 +25,7 @@ class Villager(Unit):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/" + team + '_square.png')).convert()
-        N_img = pygame.transform.scale(img, (base, base))
+        N_img = pygame.transform.scale(img, (BASE, BASE))
         self.images.append(N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

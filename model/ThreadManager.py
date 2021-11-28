@@ -1,6 +1,7 @@
 import threading
 import sys
 
+
 class Threadatuer(threading.Thread):
     """
     Sous-classe de threading.Thread, avec une methode tuer()
