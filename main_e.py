@@ -17,8 +17,9 @@ def cadrillage(world):
 
 def main():
 
-    world = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-    DISPLAY_H, DISPLAY_W = pygame.display.Info().current_h, pygame.display.Info().current_w
+    # world = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+    world = pygame.display.set_mode([WIDTH, HEIGHT])
+    # DISPLAY_H, DISPLAY_W = pygame.display.Info().current_h, pygame.display.Info().current_w
     clock = pygame.time.Clock()
     pygame.init()
 
@@ -57,6 +58,7 @@ def main():
                 game = False
 
             if event.type == pygame.KEYDOWN:
+                print("wola")
                 if event.key == ord('q'):
                     pygame.quit()
                     try:
@@ -71,6 +73,14 @@ def main():
                     board.move_screen(-1, 0)
                 if event.key == pygame.K_RIGHT:
                     board.move_screen(1, 0)
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("bruh")
+                    pos = pygame.mouse.get_pos()
+
+                    clk_sprites = [s for s in board.afg if s.collidepoint(pos)]
+
+                    print(clk_sprites)
                 if event.key == ord('a'):
                     if vil0.thr:
                         vil0.thr.tuer()
