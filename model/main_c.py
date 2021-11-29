@@ -5,7 +5,7 @@ from model.Unit.Horloge import Horloge
 from model.Unit.Player import Player
 from model.building.Forum import Forum
 from model.building.Tree import Tree
-from model.hud.HudV import *
+from model.hud.Hud import *
 
 
 def cadrillage(world):
@@ -26,7 +26,7 @@ def main():
 
     clock = pygame.time.Clock()
     pygame.init()
-    hud = HudV()
+    hud = Hud()
 
     game = True
     vil0 = Villager((0, 4500), 'R')
