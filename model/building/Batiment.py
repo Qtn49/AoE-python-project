@@ -87,4 +87,3 @@ class Batiment(pygame.sprite.Sprite):
 
 	def defend(self, bla,blo):
 		pass
-
