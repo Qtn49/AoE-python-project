@@ -1,5 +1,5 @@
 
-from Unit.Villager import *
+from model.Unit.Villager import *
 from model.Unit.Player import Player
 from model.building.Forum import Forum
 from model.building.Tree import Tree
