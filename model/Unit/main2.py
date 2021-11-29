@@ -37,7 +37,7 @@ def main() :
     # tree = Tree((700,0),'Neant')
     # tree2 = Tree((700, 499), 'Neant')
     print(GenID.__next__())
-    king = Villager((800,100),'B')
+    king = King((800,100),'B')
     forum = Forum((200,800),'R',joueur1)
     vilR = forum.generateUnit(board,'villager')
     # board.add(vilB)

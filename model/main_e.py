@@ -17,8 +17,8 @@ def cadrillage(world):
 
 def main():
 
-    world = pygame.display.set_mode([WIDTH, HEIGHT])
-
+    world = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+    DISPLAY_H, DISPLAY_W = pygame.display.Info().current_h, pygame.display.Info().current_w
     clock = pygame.time.Clock()
     pygame.init()
 
@@ -54,10 +54,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                try:
-                    sys.exit()
-                finally:
-                    game = False
+                game = False
 
             if event.type == pygame.KEYDOWN:
                 if event.key == ord('q'):
@@ -92,8 +89,12 @@ def main():
 
         board.update_afg()
         board.afg.draw(world)
-        pygame.display.flip()
+        pygame.display.update()
+        # pygame.display.flip()
         clock.tick(fps)
 
+    for ob in board.board :
+        if ob.thr:
+            ob.thr.tuer()
 
 if __name__ == '__main__': main()
