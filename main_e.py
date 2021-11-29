@@ -5,6 +5,15 @@ from model.building.Forum import Forum
 from model.building.Tree import Tree
 
 
+def click_manager(sprite,pos):
+    if sprite :
+        if sprite[0].type == "unit":
+            cache_clk = sprite[0]
+    else:
+        if cache_clk.type == "unit":
+            cache_clk.thr = Threadatuer(target=cache_clk.move, args=(pos[0], pos[1]))
+
+
 def cadrillage(world):
     nb_X = WIDTH // BASE
     nb_Y = HEIGHT // BASE
@@ -16,7 +25,8 @@ def cadrillage(world):
 
 
 def main():
-
+    cache_clk = None
+    target = [0, 0]
     # world = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     world = pygame.display.set_mode([WIDTH, HEIGHT])
     # DISPLAY_H, DISPLAY_W = pygame.display.Info().current_h, pygame.display.Info().current_w
@@ -58,7 +68,6 @@ def main():
                 game = False
 
             if event.type == pygame.KEYDOWN:
-                print("wola")
                 if event.key == ord('q'):
                     pygame.quit()
                     try:
@@ -74,13 +83,6 @@ def main():
                 if event.key == pygame.K_RIGHT:
                     board.move_screen(1, 0)
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    print("bruh")
-                    pos = pygame.mouse.get_pos()
-
-                    clk_sprites = [s for s in board.afg if s.collidepoint(pos)]
-
-                    print(clk_sprites)
                 if event.key == ord('a'):
                     if vil0.thr:
                         vil0.thr.tuer()
@@ -94,6 +96,47 @@ def main():
                 if event.key == ord('m'):
                     print(vil0.contenu)
                     print(joueur1.contenu)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                clk_sprites = [s for s in board.afg if s.rect.collidepoint(pos)]
+
+                target[0]=pos[0]+board.screenX
+                target[1]=pos[1]+board.screenY
+
+                # click_manager(clk_sprites, target)
+                if cache_clk:
+                    if not clk_sprites:
+                        if cache_clk.type == "unit":
+                            cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
+                            cache_clk = None
+                    else:
+                        if clk_sprites[0].type == "unit":
+                            if clk_sprites[0].team != cache_clk.team:
+                                cache_clk.thr = Threadatuer(target=cache_clk.attack, args=(clk_sprites[0],)).start()
+                                cache_clk = None
+
+                if clk_sprites:
+                    if clk_sprites[0].type == "unit":
+                        cache_clk = clk_sprites[0]
+                    if clk_sprites[0].job == "tree":
+                        if cache_clk and cache_clk.job=="villager":
+                            print("vindiou")
+                            cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1)).start()
+                            cache_clk = None
+
+
+        mouse_pos = pygame.mouse.get_pos()
+
+        if mouse_pos[0] < 30:
+            board.move_screen(-1, 0)
+        if mouse_pos[1] < 30:
+            board.move_screen(0, -1)
+        if mouse_pos[0] > WIDTH-30:
+            board.move_screen(1, 0)
+        if mouse_pos[1] > HEIGHT-30:
+            board.move_screen(0, 1)
+
         world.fill((152, 251, 152))
         cadrillage(world)
 
