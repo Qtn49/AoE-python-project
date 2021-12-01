@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from model.game_constants import *
+from resources.game_constants import *
 import os
 from model.Unit.Unit import *
 
@@ -24,7 +24,7 @@ class Villager(Unit):
         # pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("model/Unit/" + team + '_square.png')).convert()
+        img = pygame.image.load(os.path.join("model/Unit/images/villager.png")).convert()
         N_img = pygame.transform.scale(img, (BASE, BASE))
         self.images.append(N_img)
         self.image = self.images[0]

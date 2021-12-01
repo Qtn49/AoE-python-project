@@ -1,7 +1,7 @@
 import pygame
-from model.Unit.Generator import *
-from model.Map_erle import *
-from model.game_constants import *
+from resources.Generator import *
+from view.Map_erle import *
+from resources.game_constants import *
 
 board = MapE()
 

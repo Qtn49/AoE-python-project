@@ -3,7 +3,7 @@ Import
 """
 import os
 import pygame
-from model.Unit.Variables import *
+from resources.Variables import *
 """
 Objects
 """

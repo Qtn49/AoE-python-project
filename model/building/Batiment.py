@@ -2,7 +2,7 @@
 Import
 """
 import pygame
-from model.Unit.Variables import *
+from resources.Variables import *
 from model.Unit.Archer import Archer
 from model.Unit.Knight import Knight
 from model.Unit.Villager import *

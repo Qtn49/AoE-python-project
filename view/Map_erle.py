@@ -1,5 +1,5 @@
 import pygame
-from model.game_constants import *
+from resources.game_constants import *
 
 class MapE():
 

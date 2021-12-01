@@ -1,8 +1,8 @@
 import pygame
 import random
 
-from model.Unit.Variables import *
-from model.game_constants import *
+from resources.Variables import *
+from resources.game_constants import *
 
 class Hud():
 
@@ -16,7 +16,7 @@ class Hud():
         self.bright_red = (255, 0, 0)
         self.bright_blue = (0, 0, 255)
 
-        self.barre2 = pygame.image.load("model/hud/img.png").convert_alpha()
+        self.barre2 = pygame.image.load("view/hud/img.png").convert_alpha()
         self.barre2 = pygame.transform.scale(self.barre2, (500,50))
 
 
@@ -25,11 +25,11 @@ class Hud():
 
 
         # image de ressources
-        self.g_image = pygame.image.load("model/hud/gold_image.png").convert_alpha()
-        self.s_image = pygame.image.load("model/hud/stone_image.png").convert_alpha()
-        self.m_image = pygame.image.load("model/hud/meat_image.png").convert_alpha()
-        self.w_image = pygame.image.load("model/hud/wood_image.png").convert_alpha()
-        self.p_image = pygame.image.load("model/hud/people_image.png").convert_alpha()
+        self.g_image = pygame.image.load("view/hud/gold_image.png").convert_alpha()
+        self.s_image = pygame.image.load("view/hud/stone_image.png").convert_alpha()
+        self.m_image = pygame.image.load("view/hud/meat_image.png").convert_alpha()
+        self.w_image = pygame.image.load("view/hud/wood_image.png").convert_alpha()
+        self.p_image = pygame.image.load("view/hud/people_image.png").convert_alpha()
         self.gold_image = pygame.transform.scale(self.g_image, (29, 29))
         self.stone_image = pygame.transform.scale(self.s_image, (29, 29))
         self.meat_image = pygame.transform.scale(self.m_image, (29, 29))

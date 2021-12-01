@@ -1,10 +1,11 @@
-from model.Unit.Console import *
-from model.Unit.Horloge import *
+#from resources.Console import *
+from resources.Horloge import *
 from model.Unit.Villager import *
-from model.Unit.Player import Player
-from model.building.Forum import Forum
-from model.building.Tree import Tree
-from model.hud.Hud import Hud
+from model.Unit.Player import *
+from model.building.Forum import *
+from model.building.Tree import *
+from view.hud.hud import *
+from resources.game_constants import *
 
 
 # def click_manager(sprite,pos):
@@ -39,7 +40,7 @@ def main():
     hud = Hud()
 
     horloge = Horloge()
-    console = Console()
+    # console = Console()
     hthr = Threadatuer(target=horloge.horloge, args=())
     hthr.start()
 

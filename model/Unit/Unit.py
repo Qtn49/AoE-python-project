@@ -3,8 +3,8 @@ Import
 """
 # import pygame
 from time import sleep
-from model.ThreadManager import *
-from model.Unit.Variables import *
+from resources.ThreadManager import *
+from resources.Variables import *
 
 """
 Objects
