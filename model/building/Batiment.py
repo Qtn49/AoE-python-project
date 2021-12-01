@@ -2,11 +2,14 @@
 Import
 """
 import pygame
-from model.Unit.Variables import *
-from model.Unit.Archer import Archer
-from model.Unit.Knight import Knight
-from model.Unit.Villager import *
+from Unit.Variables import *
+# from model.Unit.Archer import Archer
+# from model.Unit.Knight import Knight
+# from model.Unit.Villager import *
 import os
+
+from model.Unit.Variables import legal
+from model.game_constants import BASE
 
 """
 Objects
@@ -16,7 +19,7 @@ class Batiment(pygame.sprite.Sprite):
 	Possible actions for Buildings
 	"""
 
-	def __init__(self, pos, team):
+	def __init__(self, pos, team, board):
 		"""
 		create
 		"""
@@ -29,6 +32,7 @@ class Batiment(pygame.sprite.Sprite):
 		self.rect.y = legal(pos[1])
 		self.x = pos[0]
 		self.y = pos[1]
+		self.board = board
 
 	def scan(self, board, rng):
 		"""
@@ -37,10 +41,10 @@ class Batiment(pygame.sprite.Sprite):
 		retour = []
 
 		for i in range(-rng, rng + 1):
-			x = legal(self.rect.x) + i * base
+			x = legal(self.rect.x) + i * BASE
 
 			for j in range(-rng, rng + 1):
-				y = legal(self.rect.y) + j * base
+				y = legal(self.rect.y) + j * BASE
 
 				if (x, y) != (self.rect.x, self.rect.y):
 					for ob in board:

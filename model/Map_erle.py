@@ -1,5 +1,17 @@
+import os
+from pprint import pprint
+
+import jsonpickle
 import pygame
+from matplotlib import image as mpimg
+
+from model.building.Forum import Forum
+from model.building.GoldMine import GoldMine
+from model.building.StoneMine import StoneMine
 from model.game_constants import *
+from resources import ElementsColor
+
+from model.building.Tree import *
 
 class MapE():
 
@@ -12,7 +24,7 @@ class MapE():
     def update_afg(self):
 
         for ob in self.board:
-            # print(self.screenX, " <= ", ob.x, " < ", self.screenX + WIDTH)
+            # print(self.screenX, "<= ", ob.x, "< ", self.screenX + WIDTH)
             # print(self.screenY, " <= ", ob.y, " < ", self.screenY + WIDTH)
             if self.screenX <= ob.x < self.screenX + WIDTH and self.screenY <= ob.y < self.screenY + HEIGHT:
                 ob.rect.x = ob.x - self.screenX
@@ -39,3 +51,60 @@ class MapE():
         self.update_afg()
 
         return True
+
+    @staticmethod
+    def get_board_from_json(json_file_path):
+        json_file = open(json_file_path, 'r')
+        json_content = json_file.read()
+        json_file.close()
+        return jsonpickle.decode(json_content)
+
+    def create_map_from_file(self, file_path, joueur):
+        if os.path.isfile(json_file_path := 'resources/map/json/' + file_path[0:file_path.rfind('.') + 1] + 'json'):
+            map = MapE()
+            map.board = MapE.get_board_from_json(json_file_path)
+            self.update_images(map.board)
+            return map
+
+        img_script = mpimg.imread('resources/map/png/' + file_path).tolist()
+
+        board = MapE()
+
+        for y, line in enumerate(img_script):
+            for x, column in enumerate(line):
+                if column == ElementsColor.Color.TREE.value:
+                    board.board.append(Tree((x * BASE, y * BASE), None, self.board))
+                elif column == ElementsColor.Color.GOLD_MINE.value:
+                    board.board.append(GoldMine((x * BASE, y * BASE), None, self.board))
+                elif column == ElementsColor.Color.STONE_MINE.value:
+                    board.board.append(StoneMine((x * BASE, y * BASE), None, self.board))
+                elif column == ElementsColor.Color.TOWN_CENTER.value:
+                    print("town-center", x, y)
+                    board.board.append(Forum((x * BASE, y * BASE), None, joueur, self.board))
+
+        board.create_json_file(file_path)
+
+        return board
+
+    def create_json_file(self, file_name):
+        file = open('resources/map/json/' + file_name[0:file_name.rfind('.') + 1] + 'json', 'w')
+        file.write(jsonpickle.encode(self.board))
+        file.close()
+
+    def update_images(self, board):
+        for el in board:
+            image = None
+            if type(el) is Tree:
+                image = pygame.image.load(os.path.join("model/building/images/Tree.png")).convert()
+            elif type(el) is GoldMine:
+                image = pygame.image.load(os.path.join("model/building/images/GoldMine.png")).convert()
+            elif type(el) is Forum:
+                image = pygame.image.load(os.path.join("model/building/images/Towncenter.png")).convert()
+            elif type(el) is StoneMine:
+                image = pygame.image.load(os.path.join("model/building/images/StoneMine.png")).convert()
+            if type(el) is Forum:
+                image = pygame.transform.scale(image, (BASE*el.size, BASE*el.size))
+            else:
+                image = pygame.transform.scale(image, (BASE, BASE))
+
+            el.image = image

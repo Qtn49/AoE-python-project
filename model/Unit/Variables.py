@@ -1,9 +1,7 @@
 import pygame
-from model.Unit.Generator import *
-from model.Map_erle import *
-from model.game_constants import *
 
-board = MapE()
+from model.Unit.Generator import *
+from model.game_constants import *
 
 autorisation = {"Archer": False, "2_TownCenter": False}
 
