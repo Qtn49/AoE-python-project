@@ -1,4 +1,4 @@
-#from resources.Console import *
+from resources.Console import *
 from resources.Horloge import *
 from model.Unit.Villager import *
 from model.Unit.Player import *
@@ -40,7 +40,7 @@ def main():
     hud = Hud()
 
     horloge = Horloge()
-    # console = Console()
+    console = Console()
     hthr = Threadatuer(target=horloge.horloge, args=())
     hthr.start()
 
@@ -107,6 +107,8 @@ def main():
                 if event.key == ord('m'):
                     print(vil0.contenu)
                     print(joueur1.contenu)
+                    cthr = Threadatuer(target=console.console, args=(joueur1, horloge))
+                    cthr.start()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
