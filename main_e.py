@@ -1,17 +1,20 @@
-
+from model.Unit.Console import *
+from model.Unit.Horloge import *
 from model.Unit.Villager import *
 from model.Unit.Player import Player
 from model.building.Forum import Forum
 from model.building.Tree import Tree
+from model.hud.Hud import Hud
 
 
-def click_manager(sprite,pos):
-    if sprite :
-        if sprite[0].type == "unit":
-            cache_clk = sprite[0]
-    else:
-        if cache_clk.type == "unit":
-            cache_clk.thr = Threadatuer(target=cache_clk.move, args=(pos[0], pos[1]))
+# def click_manager(sprite,pos):
+#     if sprite :
+#         if sprite[0].type == "unit":
+#             cache_clk = sprite[0]
+#     else:
+#         if cache_clk.type == "unit":
+#             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(pos[0], pos[1]))
+
 
 
 def cadrillage(world):
@@ -32,6 +35,13 @@ def main():
     # DISPLAY_H, DISPLAY_W = pygame.display.Info().current_h, pygame.display.Info().current_w
     clock = pygame.time.Clock()
     pygame.init()
+
+    hud = Hud()
+
+    horloge = Horloge()
+    console = Console()
+    hthr = Threadatuer(target=horloge.horloge, args=())
+    hthr.start()
 
     game = True
     vil0 = Villager((0, 4500), 'R')
@@ -139,6 +149,7 @@ def main():
 
         world.fill((152, 251, 152))
         cadrillage(world)
+        hud.hud_joueur(world, clock, joueur1, horloge)
 
         board.update_afg()
         board.afg.draw(world)
