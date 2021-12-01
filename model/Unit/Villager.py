@@ -20,13 +20,14 @@ class Villager(Unit):
         self.capa = 50
         self.espace = 50
         self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 0}
+        self.maxpv = 20
 
         # pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("model/Unit/" + team + '_square.png')).convert()
-        N_img = pygame.transform.scale(img, (BASE, BASE))
-        self.images.append(N_img)
+        self.img = pygame.image.load(os.path.join("model/Unit/" + team + '_square.png')).convert()
+        self.N_img = pygame.transform.scale(self.img, (BASE, BASE))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team)
@@ -91,4 +92,4 @@ class Villager(Unit):
         if Target.ok :
             # afficher une image de construction
             sleep(Target.cstrtime)
-            board.add(Target)
+            board.board.append(Target)

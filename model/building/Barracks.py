@@ -13,6 +13,9 @@ class Barracks(Batiment):
         self.action="Neant"
         self.sight=6
         self.needWood = 125
+        self.maxpv = 350
+        self.size = 2
+
         if (self.needWood <= joueur.contenu["wood"]):
             joueur.contenu["wood"] -= self.needWood
         else:
@@ -21,10 +24,9 @@ class Barracks(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("model/building/images/Barracks.png")).convert()
-
-        N_img = pygame.transform.scale(img, (base, base))
-        self.images.append(N_img)
+        self.img = pygame.image.load(os.path.join("model/building/images/Barracks.png")).convert()
+        self.N_img = pygame.transform.scale(self.img, (BASE*self.size, BASE*self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

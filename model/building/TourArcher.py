@@ -5,11 +5,15 @@ class TourArcher(Batiment):
 
     def __init__(self, pos, team, joueur):
         ### Tout ce que fait une Tour d'archer ###
+        self.ok = True
+        self.cstrtime = 3
         self.pv = 700
         self.job = "tourarcher"
         self.action = "Neant"
         self.sight = 10
         self.rng = 4
+        self.maxpv = 700
+        self.size = 2
         self.needGold = 50
         self.needStone = 120
         if (self.needStone <= joueur.contenu["stone"] & self.needGold <= joueur.contenu["gold"]):
@@ -22,10 +26,9 @@ class TourArcher(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("building/images/TourArcher.png")).convert()
-        img.convert_alpha()  # optimise alpha
-        img.set_colorkey(ALPHA)  # set alpha
-        self.images.append(img)
+        self.img = pygame.image.load(os.path.join("model/building/images/TourArcher.png")).convert()
+        self.N_img = pygame.transform.scale(self.img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

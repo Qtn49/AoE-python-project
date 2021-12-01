@@ -2,7 +2,10 @@ from model.Unit.Console import *
 from model.Unit.Horloge import *
 from model.Unit.Villager import *
 from model.Unit.Player import Player
+from model.building.Barracks import Barracks
 from model.building.Forum import Forum
+from model.building.House import House
+from model.building.TourArcher import TourArcher
 from model.building.Tree import Tree
 
 
@@ -28,6 +31,7 @@ def cadrillage(world):
 
 def main():
     cache_clk = None
+    hudsprites = None
     target = [0, 0]
     # world = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     world = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -60,12 +64,14 @@ def main():
     king = Villager((4500, 500),'B')
     board.board.append(king)
     tree = Tree((700, 4000), 'Neant')
+
     board.board.append(tree)
 
     joueur1 = Player()
     forum = Forum((500,4500),'R',joueur1)
     board.board.append(forum)
     board.update_afg()
+
     """
     Loop
     """
@@ -105,8 +111,18 @@ def main():
                 if event.key == ord('m'):
                     print(vil0.contenu)
                     print(joueur1.contenu)
+                    cthr = Threadatuer(target=console.console, args=(joueur1,horloge))
+                    cthr.start()
+                # if event.key == ord('c'):
+                #     if event.type == pygame.MOUSEBUTTONDOWN:
+                #         pos = pygame.mouse.get_pos()
+                #         target[0] = pos[0] + board.screenX
+                #         target[1] = pos[1] + board.screenY
+                #         thr = Threadatuer(target=vil0.construction, args=(tree2,target))
+                #         thr.start()
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+
+            if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 clk_sprites = [s for s in board.afg if s.rect.collidepoint(pos)]
 
@@ -118,6 +134,9 @@ def main():
                     if not clk_sprites:
                         if cache_clk.type == "unit":
                             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
+                            # if event.key == ord('c'):
+                            # tree2 = Tree((target[0] + 50, target[1]), 'Neant')
+                            # cache_clk.thr = Threadatuer(target=cache_clk.construction, args=(target[0], target[1])).start()
                             cache_clk = None
                     else:
                         if clk_sprites[0].type == "unit":
@@ -126,6 +145,7 @@ def main():
                                 cache_clk = None
 
                 if clk_sprites:
+                    hudsprites = clk_sprites[0]
                     if clk_sprites[0].type == "unit":
                         cache_clk = clk_sprites[0]
                     if clk_sprites[0].job == "tree":
@@ -133,8 +153,19 @@ def main():
                             print("vindiou")
                             cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1)).start()
                             cache_clk = None
-                    if clk_sprites[0].job == "forum":
-                        hud.hud_item(world)
+                else:
+                   hudsprites = None
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == ord('t'):
+                    m = House((target[0], target[1]), 'Neant',joueur1)
+                    board.board.append(m)
+                if event.key == ord('y'):
+                    b = Barracks((target[0], target[1]), 'Neant',joueur1)
+                    board.board.append(b)
+                if event.key == ord('u'):
+                    a = TourArcher((target[0], target[1]), 'Neant',joueur1)
+                    board.board.append(a)
 
 
         mouse_pos = pygame.mouse.get_pos()
@@ -150,7 +181,12 @@ def main():
 
         world.fill((152, 251, 152))
         cadrillage(world)
-        hud.hud_joueur(world, clock, joueur1, horloge)
+
+        hud.hud_joueur(world, joueur1, horloge)
+
+        if hudsprites:
+            hud.hud_item(world,hudsprites)
+
 
         board.update_afg()
         board.afg.draw(world)

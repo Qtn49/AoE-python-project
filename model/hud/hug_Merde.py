@@ -4,7 +4,7 @@ import random
 class Hudloge():
 
     #couleurs utilisées
-    self.black = (0, 0, 0)
+    black = (0, 0, 0)
     white = (255, 255, 255)
     marron = (182,121,22)
     red = (200, 0, 0)
@@ -109,6 +109,7 @@ class Hudloge():
 
             #affichage actions
             display.blit(meat_image, (DISPLAY_W//2-950, DISPLAY_H-140))
+
         elif name_objects == house1_rect:
             pygame.draw.rect(display, marron, (DISPLAY_W // 2 - 200, DISPLAY_H - 150, 400, 150))
             back_bar_position = [DISPLAY_W // 2 - 150, DISPLAY_H - 50, max_size, 5]
