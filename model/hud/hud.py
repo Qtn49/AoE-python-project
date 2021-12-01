@@ -75,6 +75,23 @@ class Hud():
         display.blit(self.font3.render(str(":"), True, self.white), (horlogeIMG_x2 + 20, 13))
         display.blit(self.font3.render(str(horlogeIMG_2), True, self.white), (horlogeIMG_x2 + 28, 13))
 
+        # hud affiché lors d'un clic sur un batîment
+
+    def hud_item(self, display):
+        pygame.draw.rect(display, self.marron, (WIDTH // 2 - 200, HEIGHT - 150, 400, 150))
+        back_bar_position = [WIDTH // 2 - 150, HEIGHT - 50, self.max_size, 5]
+        bar_position = [WIDTH // 2 - 150, HEIGHT - 50, int(self.pv_house1), 5]
+        pygame.draw.rect(display, self.back_bar_color, back_bar_position)
+        pygame.draw.rect(display, self.bar_color, bar_position)
+
+        # affichage icône maison et nom
+        display.blit(self.house_image, self.house_image_rect)
+        display.blit(self.font.render("Habitation", True, self.black), (WIDTH // 2 - 125, HEIGHT - 40))
+
+        # affichage actions
+        display.blit(self.meat_image, (WIDTH // 2 - 950, HEIGHT - 140))
+
+
 
 
 

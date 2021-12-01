@@ -4,7 +4,6 @@ from model.Unit.Villager import *
 from model.Unit.Player import Player
 from model.building.Forum import Forum
 from model.building.Tree import Tree
-from model.hud.Hud import Hud
 
 
 # def click_manager(sprite,pos):
@@ -14,7 +13,7 @@ from model.hud.Hud import Hud
 #     else:
 #         if cache_clk.type == "unit":
 #             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(pos[0], pos[1]))
-
+from model.hud.hud import Hud
 
 
 def cadrillage(world):
@@ -134,6 +133,8 @@ def main():
                             print("vindiou")
                             cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1)).start()
                             cache_clk = None
+                    if clk_sprites[0].job == "forum":
+                        hud.hud_item(world)
 
 
         mouse_pos = pygame.mouse.get_pos()
