@@ -14,9 +14,10 @@ class Villager(Unit):
         self.job = "villager"
         self.spd = 500
         self.atk = 2
-        self.atk_spd = 500
+        self.atk_spd = 200
         self.rng = 1
         self.sight = 4
+
         self.capa = 50
         self.espace = 50
         self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 0}

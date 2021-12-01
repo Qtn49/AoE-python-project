@@ -19,7 +19,7 @@ class Tree(Batiment):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/building/images/Tree.png")).convert()
-        N_img = pygame.transform.scale(img, (BASE*self.size, BASE*self.size))
+        N_img = pygame.transform.scale(img, (BASE, BASE))
         self.images.append(N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

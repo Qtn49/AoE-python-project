@@ -1,4 +1,4 @@
-from resources.Console import *
+# from resources.Console import *
 from resources.Horloge import *
 from model.Unit.Villager import *
 from model.Unit.Player import *
@@ -6,7 +6,9 @@ from model.building.Forum import *
 from model.building.Tree import *
 from view.hud.hud import *
 from resources.game_constants import *
-
+from model.Unit.Champion import *
+from model.Unit.King import *
+from model.age.Age import *
 
 # def click_manager(sprite,pos):
 #     if sprite :
@@ -15,7 +17,6 @@ from resources.game_constants import *
 #     else:
 #         if cache_clk.type == "unit":
 #             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(pos[0], pos[1]))
-
 
 
 def cadrillage(world):
@@ -29,24 +30,23 @@ def cadrillage(world):
 
 
 def main():
+    age = Age()
     cache_clk = None
     target = [0, 0]
-    # world = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     world = pygame.display.set_mode([WIDTH, HEIGHT])
-    # DISPLAY_H, DISPLAY_W = pygame.display.Info().current_h, pygame.display.Info().current_w
     clock = pygame.time.Clock()
     pygame.init()
 
     hud = Hud()
+    # console = Console()
 
     horloge = Horloge()
-    console = Console()
     hthr = Threadatuer(target=horloge.horloge, args=())
     hthr.start()
 
     game = True
     vil0 = Villager((0, 4500), 'R')
-    vil1 = Villager((0, 4000), 'B')
+    vil1 = Champion((0, 4000), 'B')
     # vil2 = Villager((0, 3500), 'R')
     # vil3 = Villager((0, 3000), 'R')
     # vil4 = Villager((0, 2500), 'R')
@@ -59,7 +59,7 @@ def main():
     # board.board.append(vil4)
     # board.board.append(vil5)
     # board.board.append(vil6)
-    king = Villager((4500, 500),'B')
+    king = King((4500, 500), 'B')
     board.board.append(king)
     tree = Tree((700, 4000), 'Neant')
     board.board.append(tree)
@@ -81,10 +81,11 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == ord('q'):
                     pygame.quit()
-                    try:
-                        sys.exit()
-                    finally:
-                        game = False
+                    hthr.tuer()
+                    for ob in board.board:
+                        if ob.thr:
+                            ob.thr.tuer()
+
                 if event.key == pygame.K_UP:
                     board.move_screen(0, -1)
                 if event.key == pygame.K_DOWN:
@@ -98,17 +99,21 @@ def main():
                     if vil0.thr:
                         vil0.thr.tuer()
                         for i in vil0.action:
-                            vil0.action[i]=False
+                            vil0.action[i] = False
                     vil0.thr = Threadatuer(target=vil0.fetch, args=(forum, tree, joueur1))
                     vil0.thr.start()
                 if event.key == ord('e'):
                     vil7 = Villager((500, 4500), 'R')
                     board.board.append(vil7)
+                if event.key == ord('z'):
+                    age.changement(joueur1, forum)
+                """ CONSOLE
                 if event.key == ord('m'):
                     print(vil0.contenu)
                     print(joueur1.contenu)
                     cthr = Threadatuer(target=console.console, args=(joueur1, horloge))
                     cthr.start()
+                """
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
@@ -134,7 +139,6 @@ def main():
                         cache_clk = clk_sprites[0]
                     if clk_sprites[0].job == "tree":
                         if cache_clk and cache_clk.job=="villager":
-                            print("vindiou")
                             cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1)).start()
                             cache_clk = None
 
@@ -160,8 +164,5 @@ def main():
         # pygame.display.flip()
         clock.tick(fps)
 
-    for ob in board.board :
-        if ob.thr:
-            ob.thr.tuer()
 
 if __name__ == '__main__': main()

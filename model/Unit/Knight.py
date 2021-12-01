@@ -10,16 +10,18 @@ class Knight(Unit):
         self.job="knight"
         self.action="Neant"
         self.spd=100
+        self.size=1
         self.atk=4
         self.atk_spd=50
         self.rng=1
-        self.sight=2
+        self.sight=3
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/images/soldat.png")).convert()
-        self.images.append(img)
+        N_img = pygame.transform.scale(img, (BASE, BASE))
+        self.images.append(N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

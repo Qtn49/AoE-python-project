@@ -2,6 +2,7 @@
 Import
 """
 # import pygame
+import os
 from time import sleep
 from resources.ThreadManager import *
 from resources.Variables import *
@@ -273,6 +274,10 @@ class Unit(pygame.sprite.Sprite):
 					self.attack(ob)
 
 			if self.pv <= 0:
+				img = pygame.image.load("model/Unit/images/R_square.png")
+				img = pygame.transform.scale(img, (BASE, BASE))
+				self.image = img
+				sleep(2)
 				if self in board.board:
 					board.board.remove(self)
 					board.afg.remove(self)
@@ -287,6 +292,10 @@ def check(target):
 	"""
 	if target.pv <= 0:
 		print(board.board)
+		img = pygame.image.load("model/Unit/images/R_square.png")
+		img = pygame.transform.scale(img, (BASE, BASE))
+		target.image= img
+		sleep(2)
 		for i in board.board:
 			print(i.team)
 		for i in board.afg:
