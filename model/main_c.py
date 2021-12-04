@@ -1,11 +1,12 @@
 
 from Unit.Villager import *
+from model.Map_erle import MapE
 from model.Unit.Console import Console
 from model.Unit.Horloge import Horloge
 from model.Unit.Player import Player
 from model.building.Forum import Forum
 from model.building.Tree import Tree
-from model.hud.Hud import *
+from model.hud.hud import *
 
 
 def cadrillage(world):
@@ -21,6 +22,7 @@ def cadrillage(world):
 
 
 def main():
+    board = MapE()
 
     world = pygame.display.set_mode([WIDTH, HEIGHT])
 
@@ -29,15 +31,15 @@ def main():
     hud = Hud()
 
     game = True
-    vil0 = Villager((0, 4500), 'R')
-    vil1 = Villager((0, 4000), 'B')
+    vil0 = Villager((0, 4500), 'R', board)
+    vil1 = Villager((0, 4000), 'B', board)
     # vil2 = Villager((0, 3500), 'R')
     # vil3 = Villager((0, 3000), 'R')
     # vil4 = Villager((0, 2500), 'R')
     # vil5 = Villager((0, 2000), 'R')
     # vil6 = Villager((0,0),'R')
-    board.board.append(vil0)
-    board.board.append(vil1)
+    # board.board.append(vil0)
+    # board.board.append(vil1)
     # board.board.append(vil2)
     # board.board.append(vil3)
     # board.board.append(vil4)
@@ -53,9 +55,10 @@ def main():
     hthr.start()
 
     joueur1 = Player()
-    forum = Forum((500,4500),'R',joueur1)
-    board.board.append(forum)
-    board.update_afg()
+    forum = Forum((500,4500),'R',joueur1, board)
+    # board.board.append(forum)
+    board = board.create_map_from_file('map_test.png', joueur1)
+    print(board.board)
     """
     Loop
     """
@@ -92,7 +95,7 @@ def main():
                     vil0.thr = Threadatuer(target=vil0.fetch, args=(forum, tree, joueur1))
                     vil0.thr.start()
                 if event.key == ord('e'):
-                    vil7 = Villager((500, 4500), 'R')
+                    vil7 = Villager((500, 4500), 'R', board)
                     board.board.append(vil7)
                 if event.key == ord('m'):
                     print(vil0.contenu)

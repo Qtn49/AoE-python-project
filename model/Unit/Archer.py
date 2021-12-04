@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from model.Unit.Unit import *
+from model.Unit.Unit import Unit
 
 class Archer(Unit):
 

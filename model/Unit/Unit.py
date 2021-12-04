@@ -16,7 +16,7 @@ class Unit(pygame.sprite.Sprite):
 	Possible actions for Units (moving, attack...)
 	"""
 
-	def __init__(self, pos, team):
+	def __init__(self, pos, team, board):
 		"""
 		create
 		"""
@@ -30,6 +30,7 @@ class Unit(pygame.sprite.Sprite):
 		self.moveY = 0
 		self.x = pos[0]
 		self.y = pos[1]
+		self.board = board
 		super().__init__()
 
 	def control(self, x, y):
@@ -139,7 +140,7 @@ class Unit(pygame.sprite.Sprite):
 			return True
 
 		# collision avec les sprites
-		for sprite in board.board:
+		for sprite in self.board.board:
 			if sprite != self:
 				if legal(sprite.x) <= cX <= legal(sprite.x) + (sprite.size - 1) * BASE or legal(
 						sprite.rect.x) <= cX + (self.size - 1) * BASE <= legal(sprite.x) + (
@@ -210,7 +211,7 @@ class Unit(pygame.sprite.Sprite):
 			for j in range(-rng, rng + 1):
 				y = legal(self.y) + j * BASE
 
-				for ob in board.board:
+				for ob in self.board.board:
 					if legal(ob.x) == x and legal(ob.y) == y and ob != self:
 						retour.append(ob)
 		return retour
@@ -228,7 +229,7 @@ class Unit(pygame.sprite.Sprite):
 				y = legal(self.rect.y) + j * BASE
 
 				if abs(i) + abs(j) <= rang:
-					for ob in board.board:
+					for ob in self.board.board:
 						if legal(ob.x) == x and legal(ob.y) == y and ob != self:
 							retour.append(ob)
 		return retour
@@ -255,7 +256,7 @@ class Unit(pygame.sprite.Sprite):
 			# attendre
 			sleep(100 / self.atk_spd)
 
-			check(target)
+			check(target, self.board)
 		self.action = self.cache
 
 	def defend(self, newX, newY):
@@ -273,15 +274,15 @@ class Unit(pygame.sprite.Sprite):
 					self.attack(ob)
 
 			if self.pv <= 0:
-				if self in board.board:
-					board.board.remove(self)
-					board.afg.remove(self)
+				if self in self.board.board:
+					self.board.board.remove(self)
+					self.board.afg.remove(self)
 				self.action = None
 				if self.thr:
 					self.thr.tuer()
 			sleep(1)
 
-def check(target):
+def check(target, board):
 	"""
 	state checking
 	"""

@@ -7,7 +7,7 @@ from model.Unit.Unit import *
 
 class Villager(Unit):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, board):
         ### Tout ce qui fait un villageois ###
         self.size = 1
         self.pv = 20
@@ -30,7 +30,7 @@ class Villager(Unit):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team)
+        super().__init__(pos, team, board)
 
     def fetch(self, forum, cible, joueur):
 
@@ -41,7 +41,7 @@ class Villager(Unit):
 
             self.move(cible.x, cible.y)
 
-            if cible not in board.board:
+            if cible not in self.board.board:
 
                 zone = self.scanEuc(self.sight)
 
@@ -70,9 +70,9 @@ class Villager(Unit):
                     sleep(10 / self.atk_spd)
                     cible.pv -= 1
                     if cible.pv <=0:
-                        if cible in board.board:
-                            board.board.remove(cible)
-                            board.afg.remove(cible)
+                        if cible in self.board.board:
+                            self.board.board.remove(cible)
+                            self.board.afg.remove(cible)
                     print(cible.pv)
 
                 # bouger
@@ -92,4 +92,4 @@ class Villager(Unit):
         if Target.ok :
             # afficher une image de construction
             sleep(Target.cstrtime)
-            board.board.append(Target)
+            self.board.add(Target)
