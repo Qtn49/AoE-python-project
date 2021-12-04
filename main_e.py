@@ -1,3 +1,4 @@
+from menu import *
 from model.Unit.Console import *
 from model.Unit.Horloge import *
 from model.Unit.Villager import *
@@ -30,6 +31,10 @@ def cadrillage(world):
 
 
 def main():
+    pygame.init()
+    m = MainMenu()
+    m.display_menu()
+
     cache_clk = None
     hudsprites = None
     target = [0, 0]
@@ -37,16 +42,16 @@ def main():
     world = pygame.display.set_mode([WIDTH, HEIGHT])
     # DISPLAY_H, DISPLAY_W = pygame.display.Info().current_h, pygame.display.Info().current_w
     clock = pygame.time.Clock()
-    pygame.init()
+    game = m.game
 
     hud = Hud()
 
     horloge = Horloge()
     console = Console()
     hthr = Threadatuer(target=horloge.horloge, args=())
+
     hthr.start()
 
-    game = True
     vil0 = Villager((0, 4500), 'R')
     vil1 = Villager((0, 4000), 'B')
     # vil2 = Villager((0, 3500), 'R')
@@ -67,7 +72,7 @@ def main():
 
     board.board.append(tree)
 
-    joueur1 = Player()
+    joueur1 = m.joueur
     forum = Forum((500,4500),'R',joueur1)
     board.board.append(forum)
     board.update_afg()
@@ -113,13 +118,6 @@ def main():
                     print(joueur1.contenu)
                     cthr = Threadatuer(target=console.console, args=(joueur1,horloge))
                     cthr.start()
-                # if event.key == ord('c'):
-                #     if event.type == pygame.MOUSEBUTTONDOWN:
-                #         pos = pygame.mouse.get_pos()
-                #         target[0] = pos[0] + board.screenX
-                #         target[1] = pos[1] + board.screenY
-                #         thr = Threadatuer(target=vil0.construction, args=(tree2,target))
-                #         thr.start()
 
 
             if event.type == pygame.MOUSEBUTTONUP:
@@ -134,9 +132,6 @@ def main():
                     if not clk_sprites:
                         if cache_clk.type == "unit":
                             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
-                            # if event.key == ord('c'):
-                            # tree2 = Tree((target[0] + 50, target[1]), 'Neant')
-                            # cache_clk.thr = Threadatuer(target=cache_clk.construction, args=(target[0], target[1])).start()
                             cache_clk = None
                     else:
                         if clk_sprites[0].type == "unit":
@@ -166,7 +161,6 @@ def main():
                 if event.key == ord('u'):
                     a = TourArcher((target[0], target[1]), 'Neant',joueur1)
                     board.board.append(a)
-
 
         mouse_pos = pygame.mouse.get_pos()
 

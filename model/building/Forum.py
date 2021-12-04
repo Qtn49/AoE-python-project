@@ -13,11 +13,6 @@ class Forum(Batiment):
         self.needWood = 125
         self.maxpv = 10
 
-        if (self.needWood <= joueur.contenu["wood"]):
-            joueur.contenu["wood"] -= self.needWood
-        else:
-            print(self.needWood, "<", joueur.contenu["wood"])
-
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
