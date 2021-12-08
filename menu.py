@@ -1,3 +1,5 @@
+import os
+
 import pygame
 
 from model.draw.Draw import Draw
@@ -16,6 +18,7 @@ class Menu():
         self.run_display = True
         self.mid_w, self.mid_h = self.DISPLAY_W / 2, self.DISPLAY_H / 2
         self.game = False
+        self.from_saved_game = False
 
     def blit_screen(self):
         self.window.blit(Draw.DISPLAY, (0, 0))
@@ -65,6 +68,7 @@ class MainMenu(Menu):
                     elif selected_text == self.texts['load']:
                         self.load_menu.run_display = True
                         self.load_menu.display_menu()
+                        self.run_display = self.load_menu.new_display
 
                 if event.type == pygame.QUIT:
                     self.run_display = False
@@ -171,7 +175,11 @@ class LoadMenu(Menu):
         while self.run_display:
             Draw.fill(Draw.BLACK)
             Draw.draw_text("Charger une partie", 60, self.DISPLAY_W / 2, self.DISPLAY_H / 2.5 - 20)
-            Draw.draw_text("<Emplacement vide 1>", 40, self.DISPLAY_W / 2,
+            if os.path.isfile("resources/map/json/last_game.json"):
+                self.texts['last_game'] = Draw.draw_text("Last Game", 40, self.DISPLAY_W / 2,
+                               self.DISPLAY_H / 2 + 10)
+            else:
+                Draw.draw_text("<Emplacement vide 1>", 40, self.DISPLAY_W / 2,
                            self.DISPLAY_H / 2 + 10)
             Draw.draw_text("<Emplacement vide 2>", 40, self.DISPLAY_W / 2,
                            self.DISPLAY_H / 2 + 60)
@@ -191,6 +199,11 @@ class LoadMenu(Menu):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if selected_text == self.texts['retour']:
                         self.run_display = False
+                    if selected_text == self.texts['last_game']:
+                        self.game = True
+                        self.from_saved_game = True
+                        self.run_display = False
+                        self.new_display = False
 
                 if event.type == pygame.QUIT:
                     self.run_display = False

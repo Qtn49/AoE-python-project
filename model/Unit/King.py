@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from Unit import *
+from model.Unit.Unit import *
 import os
 
 class King(Unit):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, board):
         ### Tout ce qui fait un champion ###
         self.pv=10
         self.job="king"
@@ -25,4 +25,4 @@ class King(Unit):
         self.images.append(N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team, board)

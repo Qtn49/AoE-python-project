@@ -1,4 +1,4 @@
-import tkinter as tk
+import tk as tk
 
 class Console():
 

@@ -1,22 +1,16 @@
+import pygame
+
 from menu import *
-from model.Unit.Console import *
-from model.Unit.Horloge import *
+from model.Unit.Console import Console
+from model.Unit.Horloge import Horloge
 from model.Unit.Villager import *
+from model.Map_erle import MapE
 from model.Unit.Player import Player
 from model.building.Barracks import Barracks
 from model.building.Forum import Forum
 from model.building.House import House
 from model.building.TourArcher import TourArcher
 from model.building.Tree import Tree
-
-
-# def click_manager(sprite,pos):
-#     if sprite :
-#         if sprite[0].type == "unit":
-#             cache_clk = sprite[0]
-#     else:
-#         if cache_clk.type == "unit":
-#             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(pos[0], pos[1]))
 from model.hud.hud import Hud
 
 
@@ -32,6 +26,8 @@ def cadrillage(world):
 
 def main():
     pygame.init()
+
+    board = MapE()
     m = MainMenu()
     m.display_menu()
 
@@ -52,30 +48,38 @@ def main():
 
     hthr.start()
 
-    vil0 = Villager((0, 4500), 'R')
-    vil1 = Villager((0, 4000), 'B')
-    # vil2 = Villager((0, 3500), 'R')
-    # vil3 = Villager((0, 3000), 'R')
-    # vil4 = Villager((0, 2500), 'R')
-    # vil5 = Villager((0, 2000), 'R')
-    # vil6 = Villager((0,0),'R')
+    game = True
+    vil0 = Villager((0, 4500), 'R', board)
+    vil1 = Villager((0, 4000), 'B', board)
+    vil2 = Villager((0, 3500), 'R', board)
+    vil3 = Villager((0, 3000), 'R', board)
+    vil4 = Villager((0, 2500), 'R', board)
+    vil5 = Villager((0, 2000), 'R', board)
+    vil6 = Villager((0,0),'R', board)
     board.board.append(vil0)
     board.board.append(vil1)
-    # board.board.append(vil2)
-    # board.board.append(vil3)
-    # board.board.append(vil4)
-    # board.board.append(vil5)
-    # board.board.append(vil6)
-    king = Villager((4500, 500),'B')
+    board.board.append(vil2)
+    board.board.append(vil3)
+    board.board.append(vil4)
+    board.board.append(vil5)
+    board.board.append(vil6)
+    king = Villager((4500, 500),'B', board)
     board.board.append(king)
-    tree = Tree((700, 4000), 'Neant')
-
+    tree = Tree((700, 4000), 'Neant', board)
     board.board.append(tree)
 
-    joueur1 = m.joueur
-    forum = Forum((500,4500),'R',joueur1)
+    joueur1 = Player()
+    forum = Forum((500,4500),'R',joueur1, board)
     board.board.append(forum)
-    board.update_afg()
+
+    if m.from_saved_game:
+        board = board.create_map_from_file('last_game.json', joueur1)
+    else:
+        board = board.create_map_from_file('ma_daronne.png', joueur1)
+
+    pygame.mouse.set_cursor(pygame.cursors.arrow)
+
+    counter = 0
 
     """
     Loop
@@ -85,7 +89,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                game = False
+                try:
+                    sys.exit()
+                finally:
+                    game = False
 
             if event.type == pygame.KEYDOWN:
                 if event.key == ord('q'):
@@ -102,7 +109,6 @@ def main():
                     board.move_screen(-1, 0)
                 if event.key == pygame.K_RIGHT:
                     board.move_screen(1, 0)
-
                 if event.key == ord('a'):
                     if vil0.thr:
                         vil0.thr.tuer()
@@ -111,13 +117,17 @@ def main():
                     vil0.thr = Threadatuer(target=vil0.fetch, args=(forum, tree, joueur1))
                     vil0.thr.start()
                 if event.key == ord('e'):
-                    vil7 = Villager((500, 4500), 'R')
+                    vil7 = Villager((500, 4500), 'R', board)
                     board.board.append(vil7)
                 if event.key == ord('m'):
                     print(vil0.contenu)
                     print(joueur1.contenu)
                     cthr = Threadatuer(target=console.console, args=(joueur1,horloge))
                     cthr.start()
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_s] and pygame.key.get_mods() & pygame.KMOD_CTRL:
+                    board.create_json_file("last_game")
 
 
             if event.type == pygame.MOUSEBUTTONUP:
@@ -164,14 +174,19 @@ def main():
 
         mouse_pos = pygame.mouse.get_pos()
 
-        if mouse_pos[0] < 30:
-            board.move_screen(-1, 0)
-        if mouse_pos[1] < 30:
-            board.move_screen(0, -1)
-        if mouse_pos[0] > WIDTH-30:
-            board.move_screen(1, 0)
-        if mouse_pos[1] > HEIGHT-30:
-            board.move_screen(0, 1)
+        if counter == 0:
+            if mouse_pos[0] < 30:
+                board.move_screen(-1, 0)
+            if mouse_pos[1] < 30:
+                board.move_screen(0, -1)
+            if mouse_pos[0] > WIDTH-30:
+                board.move_screen(1, 0)
+            if mouse_pos[1] > HEIGHT-30:
+                board.move_screen(0, 1)
+        counter += 1
+
+        if counter == 3:
+            counter = 0
 
         world.fill((152, 251, 152))
         cadrillage(world)
