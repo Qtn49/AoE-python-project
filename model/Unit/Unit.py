@@ -32,6 +32,7 @@ class Unit(pygame.sprite.Sprite):
 		self.y = pos[1]
 		self.board = board
 		super().__init__()
+		print(self.board)
 
 	def control(self, x, y):
 		"""
@@ -139,6 +140,7 @@ class Unit(pygame.sprite.Sprite):
 		if (cX < 0 or cX >= (GAME_DIMENSIONS[0] - self.size + 1) * BASE) or (cY < 0 or cY >= (GAME_DIMENSIONS[1] - self.size + 1) * BASE):
 			return True
 
+		print(self.board)
 		# collision avec les sprites
 		for sprite in self.board.board:
 			if sprite != self:

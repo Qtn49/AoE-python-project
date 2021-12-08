@@ -27,9 +27,12 @@ def cadrillage(world):
 def main():
     pygame.init()
 
-    board = MapE()
+
+
     m = MainMenu()
     m.display_menu()
+
+    joueur1 = m.joueur
 
     cache_clk = None
     hudsprites = None
@@ -47,35 +50,14 @@ def main():
     hthr = Threadatuer(target=horloge.horloge, args=())
 
     hthr.start()
+    board = MapE()
 
     game = True
-    vil0 = Villager((0, 4500), 'R', board)
-    vil1 = Villager((0, 4000), 'B', board)
-    vil2 = Villager((0, 3500), 'R', board)
-    vil3 = Villager((0, 3000), 'R', board)
-    vil4 = Villager((0, 2500), 'R', board)
-    vil5 = Villager((0, 2000), 'R', board)
-    vil6 = Villager((0,0),'R', board)
-    board.board.append(vil0)
-    board.board.append(vil1)
-    board.board.append(vil2)
-    board.board.append(vil3)
-    board.board.append(vil4)
-    board.board.append(vil5)
-    board.board.append(vil6)
-    king = Villager((4500, 500),'B', board)
-    board.board.append(king)
-    tree = Tree((700, 4000), 'Neant', board)
-    board.board.append(tree)
 
-    joueur1 = Player()
-    forum = Forum((500,4500),'R',joueur1, board)
-    board.board.append(forum)
 
-    if m.from_saved_game:
-        board = board.create_map_from_file('last_game.json', joueur1)
-    else:
-        board = board.create_map_from_file('ma_daronne.png', joueur1)
+
+    forum = Forum((500,4500),'R', joueur1, board)
+    board = board.create_map_from_file('ma_daronne.png', joueur1)
 
     pygame.mouse.set_cursor(pygame.cursors.arrow)
 
@@ -137,8 +119,9 @@ def main():
                 target[0]=pos[0]+board.screenX
                 target[1]=pos[1]+board.screenY
 
-                # click_manager(clk_sprites, target)
+
                 if cache_clk:
+                    print("MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA BIT")
                     if not clk_sprites:
                         if cache_clk.type == "unit":
                             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
@@ -163,13 +146,13 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == ord('t'):
-                    m = House((target[0], target[1]), 'Neant',joueur1)
+                    m = House((target[0], target[1]), 'Neant',joueur1,board)
                     board.board.append(m)
                 if event.key == ord('y'):
-                    b = Barracks((target[0], target[1]), 'Neant',joueur1)
+                    b = Barracks((target[0], target[1]), 'Neant',joueur1,board)
                     board.board.append(b)
                 if event.key == ord('u'):
-                    a = TourArcher((target[0], target[1]), 'Neant',joueur1)
+                    a = TourArcher((target[0], target[1]), 'Neant',joueur1, board)
                     board.board.append(a)
 
         mouse_pos = pygame.mouse.get_pos()

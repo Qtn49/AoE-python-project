@@ -11,7 +11,7 @@ class Horloge():
             if (self.seconde > 59):
                 self.seconde = 0
                 self.minute+=1
-            print(self.minute ,":", self.seconde)
+            # print(self.minute ,":", self.seconde)
 
     def horlogex2(self):
         while 1:
@@ -20,7 +20,7 @@ class Horloge():
             if (self.seconde > 59):
                 self.seconde = 0
                 self.minute+=1
-            print(self.minute ,":", self.seconde)
+            #print(self.minute ,":", self.seconde)
 
 
 

@@ -80,24 +80,22 @@ class MapE():
 
         for y, line in enumerate(img_script):
             for x, column in enumerate(line):
-                if column != [1.0, 1.0, 1.0]:
-                    print(column)
                 if column == ElementsColor.Color.TREE.value:
-                    board.board.append(Tree((x * BASE, y * BASE), None, self.board))
+                    board.board.append(Tree((x * BASE, y * BASE), None, board))
                 elif column == ElementsColor.Color.GOLD_MINE.value:
-                    board.board.append(GoldMine((x * BASE, y * BASE), None, self.board))
+                    board.board.append(GoldMine((x * BASE, y * BASE), None, board))
                 elif column == ElementsColor.Color.STONE_MINE.value:
-                    board.board.append(StoneMine((x * BASE, y * BASE), None, self.board))
+                    board.board.append(StoneMine((x * BASE, y * BASE), None, board))
                 elif column == ElementsColor.Color.TOWN_CENTER.value:
-                    board.board.append(Forum((x * BASE, y * BASE), None, joueur, self.board))
+                    board.board.append(Forum((x * BASE, y * BASE), None, joueur, board))
                 elif column == ElementsColor.Color.KING.value:
-                    board.board.append(King((x * BASE, y * BASE), "R", self.board))
+                    board.board.append(King((x * BASE, y * BASE), "R", board))
                 elif column == ElementsColor.Color.CHAMPION.value:
-                    board.board.append(Champion((x * BASE, y * BASE), 'R', self.board))
+                    board.board.append(Champion((x * BASE, y * BASE), 'R', board))
                 elif column == ElementsColor.Color.VILLAGEOIS.value:
-                    board.board.append(Villager((x * BASE, y * BASE), 'B', self.board))
+                    board.board.append(Villager((x * BASE, y * BASE), 'B', board))
                 elif column == ElementsColor.Color.SHEEP.value:
-                    board.board.append(Sheep((x * BASE, y * BASE), None, self.board))
+                    board.board.append(Sheep((x * BASE, y * BASE), None, board))
 
         # board.create_json_file(file_path[0:file_path.rfind('.')])
 

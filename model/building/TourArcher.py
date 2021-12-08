@@ -3,7 +3,7 @@ from model.building.Batiment import *
 
 class TourArcher(Batiment):
 
-    def __init__(self, pos, team, joueur):
+    def __init__(self, pos, team, joueur, board):
         ### Tout ce que fait une Tour d'archer ###
         self.ok = True
         self.cstrtime = 3
@@ -31,4 +31,4 @@ class TourArcher(Batiment):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team, board);
