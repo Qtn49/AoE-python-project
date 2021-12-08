@@ -58,15 +58,18 @@ class Batiment(pygame.sprite.Sprite):
 				board.board.remove(self)
 				self.action="Neant"
 
-	def generateUnit(self, board, job):
+	def generateUnit(self, board, job, joueur):
 		ID = GenID.__next__()
 		print(ID)
-		if job == "villager":
-			gen = Villager((self.rect.x-base, self.rect.y), self.team)
-		if job == "knight":
-			gen = Knight((self.rect.x-base, self.rect.y), self.team)
-		if job == "archer":
-			gen = Archer((self.rect.x-base, self.rect.y), self.team)
+		if job == "villager" and joueur.contenu["food"]>=50:
+			gen = Villager((self.x-base, self.y), self.team)
+			joueur.contenu["food"] -= 50
+		if job == "knight" and joueur.contenu["food"]>=100:
+			gen = Knight((self.x-base, self.y), self.team)
+			joueur.contenu["food"] -= 100
+		if job == "archer" and joueur.contenu["food"]>=150:
+			gen = Archer((self.x-base, self.y), self.team)
+			joueur.contenu["food"] -= 150
 		board.add(gen)
 		return gen
 

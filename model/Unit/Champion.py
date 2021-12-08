@@ -7,6 +7,7 @@ class Champion(Unit):
     def __init__(self, pos, team, vague=0):
         ### Tout ce qui fait un champion ###
         self.pv=30
+        self.maxpv=30
         self.vague=vague
         self.size=1
         self.job="champion"
@@ -20,8 +21,8 @@ class Champion(Unit):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/images/champion.png")).convert()
-        N_img = pygame.transform.scale(img, (BASE, BASE))
-        self.images.append(N_img)
+        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

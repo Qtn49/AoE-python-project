@@ -12,6 +12,7 @@ class Tree(Batiment):
     def __init__(self, pos, team):
         ### Tout ce qui fait une batiment ressource ###
         self.pv = 40
+        self.maxpv=40
         self.job="tree"
         self.contenu = {"gold": 0, "stone": 0, "wood": 40, "food": 0, "inhabitant": 0}
         self.size = 1
@@ -19,8 +20,8 @@ class Tree(Batiment):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/building/images/Tree.png")).convert()
-        N_img = pygame.transform.scale(img, (BASE, BASE))
-        self.images.append(N_img)
+        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
 

@@ -7,6 +7,7 @@ class Knight(Unit):
     def __init__(self, pos, team):
         ### Tout ce qui fait un chevalier ###
         self.pv=30
+        self.maxpv=30
         self.job="knight"
         self.spd=100
         self.size=1
@@ -19,8 +20,8 @@ class Knight(Unit):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/images/soldat.png")).convert()
-        N_img = pygame.transform.scale(img, (BASE, BASE))
-        self.images.append(N_img)
+        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

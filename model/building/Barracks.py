@@ -3,8 +3,9 @@ from model.building.Batiment import *
 
 class Barracks(Batiment):
 
-    def __init__(self, pos, joueur, team="Neant"):
+    def __init__(self, pos, joueur, team, board):
         ### Tout ce que fait une palissade ###
+        self.maxpv=350
         self.cstrtime=3
         self.ok=True
         self.taille=2
@@ -20,10 +21,9 @@ class Barracks(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("model/building/images/Barracks.png")).convert()
-
-        N_img = pygame.transform.scale(img, (base, base))
-        self.images.append(N_img)
+        self.img = pygame.image.load(os.path.join("model/building/images/Barracks.png")).convert()
+        self.N_img = pygame.transform.scale(self.img, (base, base))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team, board)

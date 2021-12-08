@@ -8,6 +8,7 @@ class King(Unit):
     def __init__(self, pos, team):
         ### Tout ce qui fait un champion ###
         self.pv=10
+        self.maxpv=10
         self.job="king"
         self.size=2
         self.spd=100
@@ -20,8 +21,8 @@ class King(Unit):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/images/king.png")).convert()
-        N_img = pygame.transform.scale(img, (BASE*self.size, BASE*self.size))
-        self.images.append(N_img)
+        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

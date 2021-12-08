@@ -8,6 +8,7 @@ class Archer(Unit):
     def __init__(self, pos, team):
         ### Tout ce qui fait un archer ###
         self.pv = 50
+        self.maxpv = 50
         self.size=1
         self.job = "archer"
         self.spd = 700
@@ -20,8 +21,8 @@ class Archer(Unit):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/images/archer.png")).convert()
-        N_img = pygame.transform.scale(img, (BASE, BASE))
-        self.images.append(N_img)
+        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

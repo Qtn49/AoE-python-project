@@ -7,6 +7,7 @@ class House(Batiment):
         self.ok=True
         self.cstrtime=3
         self.pv=75
+        self.maxpv=75
         self.job="house"
         self.action="Neant"
         self.inhabitant=5
@@ -23,9 +24,8 @@ class House(Batiment):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/building/images/House.png")).convert()
-        img.convert_alpha()  # optimise alpha
-        img.set_colorkey(ALPHA)  # set alpha
-        self.images.append(img)
+        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team);

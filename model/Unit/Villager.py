@@ -11,6 +11,7 @@ class Villager(Unit):
         ### Tout ce qui fait un villageois ###
         self.size = 1
         self.pv = 20
+        self.maxpv=20
         self.job = "villager"
         self.spd = 500
         self.atk = 2
@@ -26,8 +27,8 @@ class Villager(Unit):
         self.frame = 0
         self.images = []
         img = pygame.image.load(os.path.join("model/Unit/images/villager.png")).convert()
-        N_img = pygame.transform.scale(img, (BASE, BASE))
-        self.images.append(N_img)
+        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         super().__init__(pos, team)

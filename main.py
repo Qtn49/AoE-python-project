@@ -27,6 +27,7 @@ def main():
 
     age = Age()
     cache_clk = None
+    hudsprites = None
     target = [0, 0]
     world = pygame.display.set_mode([WIDTH, HEIGHT])
     clock = pygame.time.Clock()
@@ -34,6 +35,7 @@ def main():
 
     m = MainMenu()
     m.display_menu()
+    joueur1 = m.joueur
 
     hud = Hud()
     console = Console()
@@ -52,7 +54,7 @@ def main():
     tree = Tree((700, 4000), 'Neant')
     board.board.append(tree)
 
-    joueur1 = Player()
+
     forum = Forum((500,4500),'R',joueur1)
     board.board.append(forum)
     board.update_afg()
@@ -115,7 +117,7 @@ def main():
                     vil0.thr = Threadatuer(target=vil0.fetch, args=(forum, tree, joueur1))
                     vil0.thr.start()
                 if event.key == ord('e'):
-                    vil7 = Villager((500, 4500), 'R')
+                    vil7 = Villager((450, 4500), 'R')
                     board.board.append(vil7)
                 if event.key == ord('z'):
                     age.changement(joueur1, forum)
@@ -153,6 +155,7 @@ def main():
                                 cache_clk = None
 
                 if clk_sprites:
+                    hudsprites = clk_sprites[0]
                     if clk_sprites[0].type == "unit":
                         cache_clk = clk_sprites[0]
                     if clk_sprites[0].job == "tree":
@@ -163,6 +166,8 @@ def main():
                                     cache_clk.action[i] = False
                             cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1)).start()
                             cache_clk = None
+                else:
+                    hudsprites = None
 
         if vague[10] and horloge.minute==10:
             for ob in board.board :
@@ -183,7 +188,10 @@ def main():
 
         world.fill((152, 251, 152))
         cadrillage(world)
-        hud.hud_joueur(world, clock, joueur1, horloge)
+        hud.hud_joueur(world, joueur1, horloge)
+
+        if hudsprites:
+            hud.hud_item(world, hudsprites)
 
         board.update_afg()
         board.afg.draw(world)
