@@ -8,7 +8,6 @@ class Knight(Unit):
         ### Tout ce qui fait un chevalier ###
         self.pv=20
         self.job="knight"
-        self.action="Neant"
         self.spd=100
         self.size=1
         self.atk=4

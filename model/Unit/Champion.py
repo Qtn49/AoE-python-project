@@ -4,13 +4,14 @@ from model.Unit.Unit import *
 
 class Champion(Unit):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, vague=0):
         ### Tout ce qui fait un champion ###
         self.pv=30
+        self.vague=vague
         self.size=1
         self.job="champion"
-        self.spd=100
-        self.atk=4
+        self.spd=300
+        self.atk=100
         self.atk_spd=50
         self.rng=1
         self.sight=2

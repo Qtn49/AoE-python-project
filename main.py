@@ -1,4 +1,4 @@
-# from resources.Console import *
+from resources.Console import *
 from resources.Horloge import *
 from model.Unit.Villager import *
 from model.Unit.Player import *
@@ -30,6 +30,8 @@ def cadrillage(world):
 
 
 def main():
+    vague = {10:True, 20:True, 25:True, 30:True}
+
     age = Age()
     cache_clk = None
     target = [0, 0]
@@ -38,7 +40,7 @@ def main():
     pygame.init()
 
     hud = Hud()
-    # console = Console()
+    console = Console()
 
     horloge = Horloge()
     hthr = Threadatuer(target=horloge.horloge, args=())
@@ -68,6 +70,30 @@ def main():
     forum = Forum((500,4500),'R',joueur1)
     board.board.append(forum)
     board.update_afg()
+
+    for i in range(4):
+        champ = Champion((4450, 450+i*BASE),'B')
+        board.board.append(champ)
+
+    for i in range(3):
+        champ = Champion((4500+i*BASE, 600),'B')
+        board.board.append(champ)
+
+    for i in range(4):
+        champ = Knight((100, 4000+i*BASE),'R')
+        board.board.append(champ)
+
+    for i in range(3):
+        champ = Knight((600+i*BASE, 4000),'R')
+        board.board.append(champ)
+
+    for i in range(4):
+        champ = Champion((4300, 300+i*3*BASE),'B',10)
+        board.board.append(champ)
+
+    for i in range(3):
+        champ = Champion((4400+i*3*BASE, 800),'B',10)
+        board.board.append(champ)
     """
     Loop
     """
@@ -107,13 +133,11 @@ def main():
                     board.board.append(vil7)
                 if event.key == ord('z'):
                     age.changement(joueur1, forum)
-                """ CONSOLE
+
                 if event.key == ord('m'):
-                    print(vil0.contenu)
-                    print(joueur1.contenu)
                     cthr = Threadatuer(target=console.console, args=(joueur1, horloge))
                     cthr.start()
-                """
+
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
@@ -126,11 +150,19 @@ def main():
                 if cache_clk:
                     if not clk_sprites:
                         if cache_clk.type == "unit":
+                            if cache_clk.thr:
+                                cache_clk.thr.tuer()
+                                for i in cache_clk.action:
+                                    cache_clk.action[i] = False
                             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
                             cache_clk = None
                     else:
                         if clk_sprites[0].type == "unit":
                             if clk_sprites[0].team != cache_clk.team:
+                                if cache_clk.thr:
+                                    cache_clk.thr.tuer()
+                                    for i in cache_clk.action:
+                                        cache_clk.action[i] = False
                                 cache_clk.thr = Threadatuer(target=cache_clk.attack, args=(clk_sprites[0],)).start()
                                 cache_clk = None
 
@@ -139,9 +171,18 @@ def main():
                         cache_clk = clk_sprites[0]
                     if clk_sprites[0].job == "tree":
                         if cache_clk and cache_clk.job=="villager":
+                            if cache_clk.thr:
+                                cache_clk.thr.tuer()
+                                for i in cache_clk.action:
+                                    cache_clk.action[i] = False
                             cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1)).start()
                             cache_clk = None
 
+        if vague[10] and horloge.minute==10:
+            for ob in board.board :
+                if ob.job=="champion" and ob.vague==10:
+                    ob.thr = Threadatuer(target=ob.attack, args=(forum,)).start()
+            vague[10]=False
 
         mouse_pos = pygame.mouse.get_pos()
 
@@ -160,6 +201,29 @@ def main():
 
         board.update_afg()
         board.afg.draw(world)
+
+        if king.pv <= 0:
+            img = pygame.image.load(os.path.join("resources/gagner.png")).convert()
+            world.blit(img, (500, 500))
+            pygame.display.update()
+            game=False
+            sleep(2)
+            pygame.quit()
+            hthr.tuer()
+            for ob in board.board:
+                if ob.thr:
+                    ob.thr.tuer()
+        if forum.pv <= 0:
+            img = pygame.image.load(os.path.join("resources/perdu.png")).convert()
+            world.blit(img, (500, 500))
+            pygame.display.update()
+            game=False
+            sleep(2)
+            pygame.quit()
+            hthr.tuer()
+            for ob in board.board:
+                if ob.thr:
+                    ob.thr.tuer()
         pygame.display.update()
         # pygame.display.flip()
         clock.tick(fps)

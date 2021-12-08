@@ -22,7 +22,7 @@ class Unit(pygame.sprite.Sprite):
 		create
 		"""
 		self.thr = None
-		self.action = None
+		self.action = {"atk":False, "defend":False, "Construction":False, "fetch":False}
 		self.type = "unit"
 		self.team = team
 		self.rect.x = legal(pos[0])
@@ -181,11 +181,11 @@ class Unit(pygame.sprite.Sprite):
 		elif dirY != 0:
 			cX = legal(self.x)
 			cY = legal(self.y) + BASE * dirY
-			print(self.x," : ", self.y)
-			print(cX, " : ", cY)
+			# print(self.x," : ", self.y)
+			# print(cX, " : ", cY)
 			if not self.collision(cX, cY):
 				box[1] = True
-				print("V")
+				# print("V")
 
 		if not box[0] and not box[1] and not box[2]:
 			return False
@@ -205,14 +205,14 @@ class Unit(pygame.sprite.Sprite):
 		"""
 		retour = []
 
-		for i in range(-rng, rng + 1):
+		for i in range(-rng, rng + self.size):
 			x = legal(self.x) + i * BASE
 
-			for j in range(-rng, rng + 1):
+			for j in range(-rng, rng + self.size):
 				y = legal(self.y) + j * BASE
 
 				for ob in board.board:
-					if legal(ob.x) == x and legal(ob.y) == y and ob != self:
+					if legal(ob.x)<= x < legal(ob.x)+ob.size*BASE and legal(ob.y) <= y < legal(ob.y)+ob.size*BASE and ob != self:
 						retour.append(ob)
 		return retour
 
@@ -222,11 +222,10 @@ class Unit(pygame.sprite.Sprite):
 		"""
 		retour = []
 
-		for i in range(-rang, rang + 1):
-			x = legal(self.rect.x) + i * BASE
-
-			for j in range(-rang, rang + 1):
-				y = legal(self.rect.y) + j * BASE
+		for i in range(-rang, rang + self.size):
+			x = legal(self.x) + i * BASE
+			for j in range(-rang, rang + self.size):
+				y = legal(self.y) + j * BASE
 
 				if abs(i) + abs(j) <= rang:
 					for ob in board.board:
@@ -239,15 +238,11 @@ class Unit(pygame.sprite.Sprite):
 		attacking
 		"""
 		# sauvegarder
-		self.cache = self.action
-		self.action = "atk"
+		self.action["atk"]=True
 
-		while target.pv > 0 and self.action == "atk":
-
+		while target.pv > 0 and self.action["atk"]:
 			# se déplacer
 			if not self.march(target):
-				self.action = None
-				self.thr.tuer()
 				break
 
 			# frapper
@@ -257,20 +252,21 @@ class Unit(pygame.sprite.Sprite):
 			sleep(100 / self.atk_spd)
 
 			check(target)
-		self.action = self.cache
+
+		self.action["atk"] = False
+		# self.defend(self.x,self.y)
 
 	def defend(self, newX, newY):
 		"""
 		defend a position
 		"""
-		self.action = "defend"
+		self.action["defend"]=True
 		self.move(newX, newY)
 
-		while self.action == "defend":
-			sleep(1)
+		while self.action["defend"]:
 			zone = self.scanMan(self.sight)
 			for ob in zone:
-				if ob.team != self.team and ob.team != "Neant":
+				if ob.team and ob.team != self.team and ob.type=="unit" or ob.type=="batiment":
 					self.attack(ob)
 
 			if self.pv <= 0:
@@ -281,7 +277,7 @@ class Unit(pygame.sprite.Sprite):
 				if self in board.board:
 					board.board.remove(self)
 					board.afg.remove(self)
-				self.action = None
+				self.action = {"atk":False, "defend":False}
 				if self.thr:
 					self.thr.tuer()
 			sleep(1)
@@ -291,25 +287,30 @@ def check(target):
 	state checking
 	"""
 	if target.pv <= 0:
-		print(board.board)
+
+		# changer le sprite
+		print("mort :", target)
 		img = pygame.image.load("model/Unit/images/R_square.png")
 		img = pygame.transform.scale(img, (BASE, BASE))
 		target.image= img
 		sleep(2)
-		for i in board.board:
-			print(i.team)
-		for i in board.afg:
-			print(i)
+
 		if target in board.board:
 			board.board.remove(target)
+		if target in board.afg:
 			board.afg.remove(target)
-			print(target.team)
-		target.action = None
+
+		target.action = {"atk":False, "defend":False}
+
 		if target.thr:
 			target.thr.tuer()
+			target.thr=None
+		if not target.job == "forum":
+			del target
 
-	elif target.action!="atk":
-		# if target.thr:
-		# 	target.thr.tuer()
+	elif not target.action["atk"] or not target.action["defend"]:
+		if target.thr:
+			target.thr.tuer()
+			target.thr = None
 		target.thr = Threadatuer(target=target.defend, args=(target.x, target.y))
 		target.thr.start()

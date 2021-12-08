@@ -13,7 +13,7 @@ class Bush(Batiment):
         ### Tout ce qui fait une batiment ressource ###
         self.pv = 40
         self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 40, "inhabitant":0}
-
+        self.team = None
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

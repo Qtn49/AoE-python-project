@@ -10,7 +10,6 @@ class King(Unit):
         self.pv=10
         self.job="king"
         self.size=2
-        self.action="Neant"
         self.spd=100
         self.atk=4
         self.atk_spd=50

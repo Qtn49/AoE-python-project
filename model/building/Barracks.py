@@ -3,14 +3,13 @@ from model.building.Batiment import *
 
 class Barracks(Batiment):
 
-    def __init__(self, pos, team, joueur):
+    def __init__(self, pos, joueur, team="Neant"):
         ### Tout ce que fait une palissade ###
         self.cstrtime=3
         self.ok=True
         self.taille=2
         self.pv=350
         self.job="barracks"
-        self.action="Neant"
         self.sight=6
         self.needWood = 125
         if (self.needWood <= joueur.contenu["wood"]):

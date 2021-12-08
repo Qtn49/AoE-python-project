@@ -35,9 +35,9 @@ class Villager(Unit):
     def fetch(self, forum, cible, joueur):
 
         self.but = cible.ressource
-        self.action = "fetch"
+        self.action["fetch"] = True
 
-        while self.action == "fetch":
+        while self.action["fetch"]:
 
             self.move(cible.x, cible.y)
 
@@ -56,6 +56,8 @@ class Villager(Unit):
                 print("----")
                 # bouger
                 self.move(cible.x, cible.y)
+                x= cible.x
+                y= cible.y
                 zone = self.scanMan(self.rng)
 
                 if cible not in zone:
@@ -63,17 +65,20 @@ class Villager(Unit):
                     # break
 
                 # remplir
-                while self.espace > 0 and cible.pv > 0:
+                while cible and self.espace > 0 and cible.pv > 0:
                     cible.contenu[self.but] -= 1
                     self.contenu[self.but] += 1
                     self.espace -= 1
                     sleep(10 / self.atk_spd)
                     cible.pv -= 1
+                    print(cible.pv)
                     if cible.pv <=0:
                         if cible in board.board:
                             board.board.remove(cible)
                             board.afg.remove(cible)
-                    print(cible.pv)
+                            del cible
+                            cible =None
+
 
                 # bouger
                 self.move(forum.x, forum.y)
@@ -84,8 +89,10 @@ class Villager(Unit):
                     self.espace += 1
                     self.contenu[self.but] -= 1
 
+            self.move(x,y)
+
     def construction(self, Target, place):
-        self.action = "Contruction"
+        self.action["construction"] = True
 
         self.move(place[0]-base, place[1])
 
