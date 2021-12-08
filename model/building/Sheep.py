@@ -8,7 +8,7 @@ from model.building.Batiment import *
 
 class Sheep(Batiment):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, board):
         ### Tout ce qui fait un mouton ###
         self.pv = 20
         self.maxpv=20
@@ -30,7 +30,7 @@ class Sheep(Batiment):
         self.image = self.images[0]
         self.rect = self.image.get_rect()
 
-        super().__init__(pos, team);
+        super().__init__(pos, team, board);
         self.ressource = "food"
         self.type = "ressource"
 

@@ -17,7 +17,7 @@ class Unit(pygame.sprite.Sprite):
 	Possible actions for Units (moving, attack...)
 	"""
 
-	def __init__(self, pos, team):
+	def __init__(self, pos, team, board):
 		"""
 		create
 		"""

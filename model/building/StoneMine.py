@@ -11,7 +11,7 @@ class StoneMine(Batiment):
     Spawn a Player
     """
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, board):
         ### Tout ce qui fait une batiment ressource ###
         self.pv = 40
         self.maxpv=40
@@ -28,6 +28,6 @@ class StoneMine(Batiment):
         self.image = self.images[0]
         self.rect = self.image.get_rect()
 
-        super().__init__(pos, team);
+        super().__init__(pos, team, board);
         self.ressource = "stone"
         self.type = "ressource"

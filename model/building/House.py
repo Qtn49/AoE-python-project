@@ -3,7 +3,7 @@ from model.building.Batiment import *
 
 class House(Batiment):
 
-    def __init__(self, pos, team, joueur):
+    def __init__(self, pos, team, joueur, board):
         self.ok=True
         self.cstrtime=3
         self.pv=75
@@ -12,6 +12,7 @@ class House(Batiment):
         self.action="Neant"
         self.inhabitant=5
         self.sight=2
+        self.size=1
         self.needWood = 30
         if (self.needWood <= joueur.contenu["wood"]):
             joueur.contenu["wood"] -= self.needWood
@@ -28,4 +29,4 @@ class House(Batiment):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team, board);

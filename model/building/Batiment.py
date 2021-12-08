@@ -16,7 +16,7 @@ class Batiment(pygame.sprite.Sprite):
 	Possible actions for Buildings
 	"""
 
-	def __init__(self, pos, team):
+	def __init__(self, pos, team,board):
 		"""
 		create
 		"""

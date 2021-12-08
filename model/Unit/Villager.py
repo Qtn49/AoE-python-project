@@ -7,7 +7,7 @@ from model.Unit.Unit import *
 
 class Villager(Unit):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team,board):
         ### Tout ce qui fait un villageois ###
         self.size = 1
         self.pv = 20
@@ -31,7 +31,7 @@ class Villager(Unit):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team)
+        super().__init__(pos, team,board)
 
     def fetch(self, forum, cible, joueur):
 

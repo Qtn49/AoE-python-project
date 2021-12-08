@@ -5,7 +5,7 @@ import os
 
 class King(Unit):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, board):
         ### Tout ce qui fait un champion ###
         self.pv=10
         self.maxpv=10
@@ -25,4 +25,4 @@ class King(Unit):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team, board);

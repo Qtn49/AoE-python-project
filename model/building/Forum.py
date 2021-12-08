@@ -3,7 +3,7 @@ from model.building.Batiment import *
 
 class Forum(Batiment):
 
-    def __init__(self, pos, team, joueur):
+    def __init__(self, pos, team, joueur, board):
         ### Tout ce que fait le Forum ###
         self.maxpv=1000
         self.pv=1000
@@ -26,4 +26,4 @@ class Forum(Batiment):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team)
+        super().__init__(pos, team, board)

@@ -4,7 +4,7 @@ from model.Unit.Unit import *
 
 class Knight(Unit):
 
-    def __init__(self, pos, team):
+    def __init__(self, pos, team, board):
         ### Tout ce qui fait un chevalier ###
         self.pv=30
         self.maxpv=30
@@ -24,4 +24,4 @@ class Knight(Unit):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team, board);

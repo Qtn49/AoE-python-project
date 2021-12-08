@@ -1,3 +1,6 @@
+from model.building.Barracks import Barracks
+from model.building.House import House
+from model.building.TourArcher import TourArcher
 from resources.Console import *
 from resources.Horloge import *
 from model.Unit.Villager import *
@@ -23,6 +26,7 @@ def cadrillage(world):
 
 
 def main():
+    counter = 0
     vague = {10:True, 20:True, 25:True, 30:True}
 
     age = Age()
@@ -45,42 +49,42 @@ def main():
     hthr.start()
 
     game = True
-    vil0 = Villager((0, 4500), 'R')
-    vil1 = Champion((0, 4000), 'B')
+    vil0 = Villager((0, 4500), 'R', board)
+    vil1 = Champion((0, 4000), 'B', board)
     board.board.append(vil0)
     board.board.append(vil1)
-    king = King((4500, 500), 'B')
+    king = King((4500, 500), 'B', board)
     board.board.append(king)
-    tree = Tree((700, 4000), 'Neant')
+    tree = Tree((700, 4000), 'Neant', board)
     board.board.append(tree)
 
 
-    forum = Forum((500,4500),'R',joueur1)
+    forum = Forum((500,4500),'R',joueur1, board)
     board.board.append(forum)
     board.update_afg()
 
     for i in range(5):
-        champ = Champion((4450, 450+i*BASE),'B')
+        champ = Champion((4450, 450+i*BASE),board,'B')
         board.board.append(champ)
 
     for i in range(5):
-        champ = Champion((4500+i*BASE, 650),'B')
+        champ = Champion((4500+i*BASE, 650),board,'B')
         board.board.append(champ)
 
     for i in range(5):
-        champ = Knight((100, 4000+i*BASE),'R')
+        champ = Knight((100, 4000+i*BASE),board,'R')
         board.board.append(champ)
 
     for i in range(5):
-        champ = Knight((600+i*2*BASE, 4050),'R')
+        champ = Knight((600+i*2*BASE, 4050),'R',board)
         board.board.append(champ)
 
     for i in range(4):
-        champ = Champion((4300, 300+i*3*BASE),'B',10)
+        champ = Champion((4300, 300+i*3*BASE),'B',board,10)
         board.board.append(champ)
 
     for i in range(3):
-        champ = Champion((4400+i*3*BASE, 800),'B',10)
+        champ = Champion((4400+i*3*BASE, 800),'B',board,10)
         board.board.append(champ)
     """
     Loop
@@ -94,11 +98,7 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == ord('q'):
-                    pygame.quit()
-                    hthr.tuer()
-                    for ob in board.board:
-                        if ob.thr:
-                            ob.thr.tuer()
+                    game=False
 
                 if event.key == pygame.K_UP:
                     board.move_screen(0, -1)
@@ -169,6 +169,17 @@ def main():
                 else:
                     hudsprites = None
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == ord('t'):
+                    m = House((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
+                    board.board.append(m)
+                if event.key == ord('y'):
+                    b = Barracks((legal(target[0]), legal(target[1])),'R', joueur1, board)
+                    board.board.append(b)
+                if event.key == ord('u'):
+                    a = TourArcher((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
+                    board.board.append(a)
+
         if vague[10] and horloge.minute==10:
             for ob in board.board :
                 if ob.job=="champion" and ob.vague==10:
@@ -177,14 +188,21 @@ def main():
 
         mouse_pos = pygame.mouse.get_pos()
 
-        if mouse_pos[0] < 30:
-            board.move_screen(-1, 0)
-        if mouse_pos[1] < 30:
-            board.move_screen(0, -1)
-        if mouse_pos[0] > WIDTH-30:
-            board.move_screen(1, 0)
-        if mouse_pos[1] > HEIGHT-30:
-            board.move_screen(0, 1)
+
+
+        if counter == 0:
+            if mouse_pos[0] < 30:
+                board.move_screen(-1, 0)
+            if mouse_pos[1] < 30:
+                board.move_screen(0, -1)
+            if mouse_pos[0] > WIDTH - 30:
+                board.move_screen(1, 0)
+            if mouse_pos[1] > HEIGHT - 30:
+                board.move_screen(0, 1)
+        counter += 1
+
+        if counter == 2:
+            counter = 0
 
         world.fill((152, 251, 152))
         cadrillage(world)
@@ -222,5 +240,10 @@ def main():
         # pygame.display.flip()
         clock.tick(fps)
 
+    pygame.quit()
+    hthr.tuer()
+    for ob in board.board:
+        if ob.thr:
+            ob.thr.tuer()
 
 if __name__ == '__main__': main()

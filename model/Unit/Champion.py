@@ -4,7 +4,7 @@ from model.Unit.Unit import *
 
 class Champion(Unit):
 
-    def __init__(self, pos, team, vague=0):
+    def __init__(self, pos, team, board, vague=0):
         ### Tout ce qui fait un champion ###
         self.pv=30
         self.maxpv=30
@@ -25,4 +25,4 @@ class Champion(Unit):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team,board);
