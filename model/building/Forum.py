@@ -5,7 +5,7 @@ class Forum(Batiment):
 
     def __init__(self, pos, team, joueur):
         ### Tout ce que fait le Forum ###
-        self.pv=10
+        self.pv=1000
         self.cstrtime=3
         self.size = 2
         self.ok=True

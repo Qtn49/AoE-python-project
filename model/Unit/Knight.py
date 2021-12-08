@@ -6,11 +6,11 @@ class Knight(Unit):
 
     def __init__(self, pos, team):
         ### Tout ce qui fait un chevalier ###
-        self.pv=20
+        self.pv=30
         self.job="knight"
         self.spd=100
         self.size=1
-        self.atk=4
+        self.atk=6
         self.atk_spd=50
         self.rng=1
         self.sight=3

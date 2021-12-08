@@ -130,7 +130,6 @@ class Unit(pygame.sprite.Sprite):
 
 			zone = self.scanEuc(self.rng)
 
-
 		return True
 
 	def collision(self, cX, cY):
@@ -142,9 +141,7 @@ class Unit(pygame.sprite.Sprite):
 		# collision avec les sprites
 		for sprite in board.board:
 			if sprite != self:
-				if legal(sprite.x) <= cX <= legal(sprite.x) + (sprite.size - 1) * BASE or legal(
-						sprite.rect.x) <= cX + (self.size - 1) * BASE <= legal(sprite.x) + (
-						sprite.size - 1) * BASE:
+				if legal(sprite.x) <= cX <= legal(sprite.x) + (sprite.size - 1) * BASE or legal(sprite.x) <= cX + (self.size-1) * BASE <= legal(sprite.x) + (sprite.size - 1) * BASE:
 					if legal(sprite.y) <= cY <= legal(sprite.y) + (sprite.size - 1) * BASE or legal(
 							sprite.y) <= cY + (self.size - 1) * BASE <= legal(sprite.y) + (
 							sprite.size - 1) * BASE:

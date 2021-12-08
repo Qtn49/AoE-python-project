@@ -11,7 +11,7 @@ class Champion(Unit):
         self.size=1
         self.job="champion"
         self.spd=300
-        self.atk=100
+        self.atk=6
         self.atk_spd=50
         self.rng=1
         self.sight=2

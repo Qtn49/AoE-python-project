@@ -9,14 +9,7 @@ from resources.game_constants import *
 from model.Unit.Champion import *
 from model.Unit.King import *
 from model.age.Age import *
-
-# def click_manager(sprite,pos):
-#     if sprite :
-#         if sprite[0].type == "unit":
-#             cache_clk = sprite[0]
-#     else:
-#         if cache_clk.type == "unit":
-#             cache_clk.thr = Threadatuer(target=cache_clk.move, args=(pos[0], pos[1]))
+from view.menu import MainMenu
 
 
 def cadrillage(world):
@@ -39,6 +32,9 @@ def main():
     clock = pygame.time.Clock()
     pygame.init()
 
+    m = MainMenu()
+    m.display_menu()
+
     hud = Hud()
     console = Console()
 
@@ -49,18 +45,8 @@ def main():
     game = True
     vil0 = Villager((0, 4500), 'R')
     vil1 = Champion((0, 4000), 'B')
-    # vil2 = Villager((0, 3500), 'R')
-    # vil3 = Villager((0, 3000), 'R')
-    # vil4 = Villager((0, 2500), 'R')
-    # vil5 = Villager((0, 2000), 'R')
-    # vil6 = Villager((0,0),'R')
     board.board.append(vil0)
     board.board.append(vil1)
-    # board.board.append(vil2)
-    # board.board.append(vil3)
-    # board.board.append(vil4)
-    # board.board.append(vil5)
-    # board.board.append(vil6)
     king = King((4500, 500), 'B')
     board.board.append(king)
     tree = Tree((700, 4000), 'Neant')
@@ -71,20 +57,20 @@ def main():
     board.board.append(forum)
     board.update_afg()
 
-    for i in range(4):
+    for i in range(5):
         champ = Champion((4450, 450+i*BASE),'B')
         board.board.append(champ)
 
-    for i in range(3):
-        champ = Champion((4500+i*BASE, 600),'B')
+    for i in range(5):
+        champ = Champion((4500+i*BASE, 650),'B')
         board.board.append(champ)
 
-    for i in range(4):
+    for i in range(5):
         champ = Knight((100, 4000+i*BASE),'R')
         board.board.append(champ)
 
-    for i in range(3):
-        champ = Knight((600+i*BASE, 4000),'R')
+    for i in range(5):
+        champ = Knight((600+i*2*BASE, 4050),'R')
         board.board.append(champ)
 
     for i in range(4):
