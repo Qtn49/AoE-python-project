@@ -1,3 +1,5 @@
+import pygame.mouse
+
 from model.building.Barracks import Barracks
 from model.building.House import House
 from model.building.TourArcher import TourArcher
@@ -7,6 +9,7 @@ from model.Unit.Villager import *
 from model.Unit.Player import *
 from model.building.Forum import *
 from model.building.Tree import *
+from view.Map_erle import MapE
 from view.hud.hud import *
 from resources.game_constants import *
 from model.Unit.Champion import *
@@ -26,6 +29,7 @@ def cadrillage(world):
 
 
 def main():
+    board = MapE()
     counter = 0
     vague = {10:True, 20:True, 25:True, 30:True}
 
@@ -67,6 +71,8 @@ def main():
     forum = Forum((500,4500),'R',joueur1, board)
     board.board.append(forum)
     board.update_afg()
+
+    pygame.mouse.set_cursor(pygame.cursors.arrow)
 
     for i in range(5):
         champ = Champion((4450, 450+i*BASE),board,'B')
