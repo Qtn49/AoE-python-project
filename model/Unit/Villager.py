@@ -7,7 +7,7 @@ from model.Unit.Unit import *
 
 class Villager(Unit):
 
-    def __init__(self, pos, team,board):
+    def __init__(self, pos, team, board):
         ### Tout ce qui fait un villageois ###
         self.size = 1
         self.pv = 20
@@ -33,7 +33,7 @@ class Villager(Unit):
         self.rect = self.image.get_rect()
         super().__init__(pos, team,board)
 
-    def fetch(self, forum, cible, joueur):
+    def fetch(self, forum, cible, joueur, board):
 
         self.but = cible.ressource
         self.action["fetch"] = True
@@ -92,7 +92,7 @@ class Villager(Unit):
 
             self.move(x,y)
 
-    def construction(self, Target, place):
+    def construction(self, Target, place, board):
         self.action["construction"] = True
 
         self.move(place[0]-base, place[1])

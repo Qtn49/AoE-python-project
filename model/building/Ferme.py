@@ -18,7 +18,7 @@ class Ferme(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        self.img = pygame.image.load(os.path.join("building/images/Farm.png")).convert()
+        self.img = pygame.image.load(os.path.join("model/building/images/Farm.png")).convert()
         self.images.append(self.img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

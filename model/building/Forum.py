@@ -11,12 +11,6 @@ class Forum(Batiment):
         self.size = 2
         self.ok=True
         self.job="forum"
-        self.needWood = 125
-
-        if (self.needWood <= joueur.contenu["wood"]):
-            joueur.contenu["wood"] -= self.needWood
-        else:
-            print(self.needWood, "<", joueur.contenu["wood"])
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

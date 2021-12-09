@@ -20,11 +20,12 @@ class Sheep(Batiment):
         self.atk_spd=50
         self.rng=1
         self.sight=2
+        self.size = 1
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("building/images/sheep.png")).convert()
+        img = pygame.image.load(os.path.join("model/building/images/sheep.png")).convert()
         self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
         self.images.append(self.N_img)
         self.image = self.images[0]

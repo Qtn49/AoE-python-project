@@ -175,21 +175,30 @@ def main():
                                 cache_clk.thr.tuer()
                                 for i in cache_clk.action:
                                     cache_clk.action[i] = False
-                            cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1)).start()
+                            cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1, board)).start()
                             cache_clk = None
                 else:
                     hudsprites = None
 
             if event.type == pygame.KEYDOWN:
-                if event.key == ord('t'):
+                if event.key == ord('w'):
                     m = House((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
                     board.board.append(m)
-                if event.key == ord('y'):
+                if event.key == ord('x'):
                     b = Barracks((legal(target[0]), legal(target[1])),'R', joueur1, board)
                     board.board.append(b)
-                if event.key == ord('u'):
+                if event.key == ord('c'):
                     a = TourArcher((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
                     board.board.append(a)
+                if event.key == ord('v'):
+                    vil = Villager((legal(target[0]), legal(target[1])), 'R', board)
+                    board.board.append(vil)
+                if event.key == ord('b'):
+                    b = Knight((legal(target[0]), legal(target[1])), 'R', board)
+                    board.board.append(b)
+                if event.key == ord('n'):
+                    n = Champion((legal(target[0]), legal(target[1])), 'B', board)
+                    board.board.append(n)
 
         if vague[10] and horloge.minute==10:
             for ob in board.board :
