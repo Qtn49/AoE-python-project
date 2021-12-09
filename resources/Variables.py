@@ -1,9 +1,6 @@
 import pygame
 from resources.Generator import *
-from view.Map_erle import *
 from resources.game_constants import *
-
-board = MapE()
 
 autorisation = {"Archer": False, "2_TownCenter": False}
 

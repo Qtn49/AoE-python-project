@@ -31,6 +31,7 @@ class Unit(pygame.sprite.Sprite):
 		self.moveY = 0
 		self.x = pos[0]
 		self.y = pos[1]
+		self.board = board
 		super().__init__()
 
 	def control(self, x, y):
@@ -139,7 +140,7 @@ class Unit(pygame.sprite.Sprite):
 			return True
 
 		# collision avec les sprites
-		for sprite in board.board:
+		for sprite in self.board.board:
 			if sprite != self:
 				if legal(sprite.x) <= cX <= legal(sprite.x) + (sprite.size - 1) * BASE or legal(sprite.x) <= cX + (self.size-1) * BASE <= legal(sprite.x) + (sprite.size - 1) * BASE:
 					if legal(sprite.y) <= cY <= legal(sprite.y) + (sprite.size - 1) * BASE or legal(
@@ -208,7 +209,7 @@ class Unit(pygame.sprite.Sprite):
 			for j in range(-rng, rng + self.size):
 				y = legal(self.y) + j * BASE
 
-				for ob in board.board:
+				for ob in self.board.board:
 					if legal(ob.x)<= x < legal(ob.x)+ob.size*BASE and legal(ob.y) <= y < legal(ob.y)+ob.size*BASE and ob != self:
 						retour.append(ob)
 		return retour
@@ -225,7 +226,7 @@ class Unit(pygame.sprite.Sprite):
 				y = legal(self.y) + j * BASE
 
 				if abs(i) + abs(j) <= rang:
-					for ob in board.board:
+					for ob in self.board.board:
 						if legal(ob.x) == x and legal(ob.y) == y and ob != self:
 							retour.append(ob)
 		return retour
@@ -248,7 +249,7 @@ class Unit(pygame.sprite.Sprite):
 			# attendre
 			sleep(100 / self.atk_spd)
 
-			check(target)
+			check(target, self.board)
 
 		self.action["atk"] = False
 		# self.defend(self.x,self.y)
@@ -271,15 +272,15 @@ class Unit(pygame.sprite.Sprite):
 				img = pygame.transform.scale(img, (BASE, BASE))
 				self.image = img
 				sleep(2)
-				if self in board.board:
-					board.board.remove(self)
-					board.afg.remove(self)
+				if self in self.board.board:
+					self.board.board.remove(self)
+					self.board.afg.remove(self)
 				self.action = {"atk":False, "defend":False}
 				if self.thr:
 					self.thr.tuer()
 			sleep(1)
 
-def check(target):
+def check(target, board):
 	"""
 	state checking
 	"""
