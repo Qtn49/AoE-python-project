@@ -21,8 +21,8 @@ class GoldMine(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join("building/images/GoldMine.png")).convert()
-        self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
+        self.img = pygame.image.load(os.path.join("building/images/GoldMine.png")).convert()
+        self.N_img = pygame.transform.scale(self.img, (BASE * self.size, BASE * self.size))
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

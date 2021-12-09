@@ -52,10 +52,10 @@ def main():
     hthr = Threadatuer(target=horloge.horloge, args=())
     hthr.start()
 
-    # if m.from_saved_game:
-    #     board = board.create_map_from_file('last_game.json', joueur1)
-    # else:
-    #     board = board.create_map_from_file('map.png', joueur1)
+    if m.from_saved_game:
+         board = board.create_map_from_file('last_game.json', joueur1)
+    else:
+         board = board.create_map_from_file('map.png', joueur1)
 
     game = True
     vil0 = Villager((0, 4500), 'R', board)

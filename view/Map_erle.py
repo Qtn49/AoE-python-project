@@ -70,7 +70,7 @@ class MapE():
         #     self.update_images(map.board)
         #     return map
 
-        img_script = mpimg.imread('resources/map/png/' + file_path).tolist()
+        img_script = mpimg.imread('resources/png/' + file_path).tolist()
 
         board = MapE()
 
