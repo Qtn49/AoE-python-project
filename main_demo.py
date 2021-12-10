@@ -55,8 +55,7 @@ def main():
     if m.from_saved_game:
          board = board.create_map_from_file('last_game.json', joueur1)
     else:
-         board = board.create_map_from_file('map.png', joueur1)
-
+         board = board.create_map_from_file('map_n.png', joueur1)
     game = True
 
     # les deux sont placés avant car trop pénible de chercher dans le tableau map
@@ -185,13 +184,16 @@ def main():
 
         world.fill((152, 251, 152))
         cadrillage(world)
+
+
+        board.update_afg()
+
+        board.afg.draw(world)
         hud.hud_joueur(world, joueur1, horloge)
 
         if hudsprites:
             hud.hud_item(world, hudsprites)
 
-        board.update_afg()
-        board.afg.draw(world)
 
         if king.pv <= 0:
             img = pygame.image.load(os.path.join("resources/gagner.png")).convert()

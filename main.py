@@ -226,13 +226,15 @@ def main():
 
         world.fill((152, 251, 152))
         cadrillage(world)
+
+
+        board.update_afg()
+        board.afg.draw(world)
+
         hud.hud_joueur(world, joueur1, horloge)
 
         if hudsprites:
             hud.hud_item(world, hudsprites)
-
-        board.update_afg()
-        board.afg.draw(world)
 
         if king.pv <= 0:
             img = pygame.image.load(os.path.join("resources/gagner.png")).convert()
