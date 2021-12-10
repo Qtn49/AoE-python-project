@@ -1,0 +1,228 @@
+import pygame.mouse
+
+from model.building.Barracks import Barracks
+from model.building.House import House
+from model.building.TourArcher import TourArcher
+from resources.Console import *
+from resources.Horloge import *
+from model.Unit.Villager import *
+from model.Unit.Player import *
+from model.building.Forum import *
+from model.building.Tree import *
+from view.Map_erle import MapE
+from view.hud.hud import *
+from resources.game_constants import *
+from model.Unit.Champion import *
+from model.Unit.King import *
+from model.age.Age import *
+from view.menu import MainMenu
+
+
+def cadrillage(world):
+    nb_X = WIDTH // BASE
+    nb_Y = HEIGHT // BASE
+
+    for i in range(1,nb_X+1):
+        pygame.draw.line(world, (105, 105, 105), (i * BASE, 0), (i * BASE, HEIGHT), width=1)
+    for i in range(1, nb_Y + 1):
+        pygame.draw.line(world, (105, 105, 105), (0, i * BASE), (WIDTH, i * BASE), width=1)
+
+
+def main():
+    board = MapE()
+    counter = 0
+    vague = {10:True, 20:True, 25:True, 30:True}
+
+    age = Age()
+    cache_clk = None
+    hudsprites = None
+    target = [0, 0]
+    world = pygame.display.set_mode([WIDTH, HEIGHT])
+    clock = pygame.time.Clock()
+    pygame.init()
+
+    m = MainMenu()
+    m.display_menu()
+    joueur1 = m.joueur
+
+    hud = Hud()
+    console = Console()
+
+    horloge = Horloge()
+    hthr = Threadatuer(target=horloge.horloge, args=())
+    hthr.start()
+
+    if m.from_saved_game:
+         board = board.create_map_from_file('last_game.json', joueur1)
+    else:
+         board = board.create_map_from_file('map.png', joueur1)
+
+    game = True
+
+    # les deux sont placés avant car trop pénible de chercher dans le tableau map
+    forum = Forum((500,4500),'R',joueur1, board)
+    board.board.append(forum)
+    king = King((4500, 500), 'B', board)
+    board.board.append(king)
+    board.update_afg()
+
+    pygame.mouse.set_cursor(pygame.cursors.arrow)
+
+    """
+    Loop
+    """
+    while game:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                game = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == ord('q'):
+                    game=False
+
+                if event.key == pygame.K_UP:
+                    board.move_screen(0, -1)
+                if event.key == pygame.K_DOWN:
+                    board.move_screen(0, 1)
+                if event.key == pygame.K_LEFT:
+                    board.move_screen(-1, 0)
+                if event.key == pygame.K_RIGHT:
+                    board.move_screen(1, 0)
+                if event.key == ord('z'):
+                    age.changement(joueur1, forum)
+                if event.key == ord('m'):
+                    cthr = Threadatuer(target=console.console, args=(joueur1, horloge))
+                    cthr.start()
+
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                clk_sprites = [s for s in board.afg if s.rect.collidepoint(pos)]
+
+                target[0]=pos[0]+board.screenX
+                target[1]=pos[1]+board.screenY
+
+                # click_manager(clk_sprites, target)
+                if cache_clk:
+                    if not clk_sprites:
+                        if cache_clk.type == "unit":
+                            if cache_clk.thr:
+                                cache_clk.thr.tuer()
+                                for i in cache_clk.action:
+                                    cache_clk.action[i] = False
+                            cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
+                            cache_clk = None
+                    else:
+                        if clk_sprites[0].type == "unit":
+                            if clk_sprites[0].team != cache_clk.team:
+                                if cache_clk.thr:
+                                    cache_clk.thr.tuer()
+                                    for i in cache_clk.action:
+                                        cache_clk.action[i] = False
+                                cache_clk.thr = Threadatuer(target=cache_clk.attack, args=(clk_sprites[0],)).start()
+                                cache_clk = None
+
+                if clk_sprites:
+                    hudsprites = clk_sprites[0]
+                    if clk_sprites[0].type == "unit":
+                        cache_clk = clk_sprites[0]
+                    if clk_sprites[0].job == "tree":
+                        if cache_clk and cache_clk.job=="villager":
+                            if cache_clk.thr:
+                                cache_clk.thr.tuer()
+                                for i in cache_clk.action:
+                                    cache_clk.action[i] = False
+                            cache_clk.thr = Threadatuer(target=cache_clk.fetch, args=(forum, clk_sprites[0], joueur1, board)).start()
+                            cache_clk = None
+                else:
+                    hudsprites = None
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == ord('w'):
+                    m = House((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
+                    board.board.append(m)
+                if event.key == ord('x'):
+                    b = Barracks((legal(target[0]), legal(target[1])),'R', joueur1, board)
+                    board.board.append(b)
+                if event.key == ord('c'):
+                    a = TourArcher((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
+                    board.board.append(a)
+                if event.key == ord('v'):
+                    vil = Villager((legal(target[0]), legal(target[1])), 'R', board)
+                    board.board.append(vil)
+                if event.key == ord('b'):
+                    b = Knight((legal(target[0]), legal(target[1])), 'R', board)
+                    board.board.append(b)
+                if event.key == ord('n'):
+                    n = Champion((legal(target[0]), legal(target[1])), 'B', board)
+                    board.board.append(n)
+
+        if vague[10] and horloge.minute==10:
+            for ob in board.board :
+                if ob.job=="champion" and ob.vague==10:
+                    ob.thr = Threadatuer(target=ob.attack, args=(forum,)).start()
+            vague[10]=False
+
+        mouse_pos = pygame.mouse.get_pos()
+
+
+
+        if counter == 0:
+            if mouse_pos[0] < 30:
+                board.move_screen(-1, 0)
+            if mouse_pos[1] < 30:
+                board.move_screen(0, -1)
+            if mouse_pos[0] > WIDTH - 30:
+                board.move_screen(1, 0)
+            if mouse_pos[1] > HEIGHT - 30:
+                board.move_screen(0, 1)
+        counter += 1
+
+        if counter == 2:
+            counter = 0
+
+        world.fill((152, 251, 152))
+        cadrillage(world)
+        hud.hud_joueur(world, joueur1, horloge)
+
+        if hudsprites:
+            hud.hud_item(world, hudsprites)
+
+        board.update_afg()
+        board.afg.draw(world)
+
+        if king.pv <= 0:
+            img = pygame.image.load(os.path.join("resources/gagner.png")).convert()
+            world.blit(img, (500, 500))
+            pygame.display.update()
+            game=False
+            sleep(2)
+            pygame.quit()
+            hthr.tuer()
+            for ob in board.board:
+                if ob.thr:
+                    ob.thr.tuer()
+        if forum.pv <= 0:
+            img = pygame.image.load(os.path.join("resources/perdu.png")).convert()
+            world.blit(img, (500, 500))
+            pygame.display.update()
+            game=False
+            sleep(2)
+            pygame.quit()
+            hthr.tuer()
+            for ob in board.board:
+                if ob.thr:
+                    ob.thr.tuer()
+        pygame.display.update()
+        # pygame.display.flip()
+        clock.tick(fps)
+
+    pygame.quit()
+    hthr.tuer()
+    for ob in board.board:
+        if ob.thr:
+            ob.thr.tuer()
+
+if __name__ == '__main__': main()
