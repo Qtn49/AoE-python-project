@@ -18,6 +18,22 @@ from model.age.Age import *
 from view.menu import MainMenu
 
 
+def collision(self, cX, cY, board):
+    # limites de la map
+    if (cX < 0 or cX >= (GAME_DIMENSIONS[0] - self.size + 1) * BASE) or (cY < 0 or cY >= (GAME_DIMENSIONS[1] - self.size + 1) * BASE):
+        return True
+
+    # collision avec les sprites
+    for sprite in board.board:
+        if legal(sprite.x) <= cX <= legal(sprite.x) + (sprite.size - 1) * BASE or legal(sprite.x) <= cX + (
+                self.size - 1) * BASE <= legal(sprite.x) + (sprite.size - 1) * BASE:
+            if legal(sprite.y) <= cY <= legal(sprite.y) + (sprite.size - 1) * BASE or legal(
+                    sprite.y) <= cY + (self.size - 1) * BASE <= legal(sprite.y) + (
+                    sprite.size - 1) * BASE:
+                return True
+
+    return False
+
 def cadrillage(world):
     nb_X = WIDTH // BASE
     nb_Y = HEIGHT // BASE
@@ -29,6 +45,9 @@ def cadrillage(world):
 
 
 def main():
+    fetchable=("tree", "stonemine", "goldmine", "animal")
+    fightable = ("house", "tourarcher", "tourarcher", "forum", "villager", "knight", "champion")
+
     board = MapE()
     counter = 0
     vague = {10:True, 20:True, 25:True, 30:True}
@@ -41,9 +60,9 @@ def main():
     clock = pygame.time.Clock()
     pygame.init()
 
-    m = MainMenu()
-    m.display_menu()
-    joueur1 = m.joueur
+    d = MainMenu()
+    d.display_menu()
+    joueur1 = d.joueur
 
     hud = Hud()
     console = Console()
@@ -52,7 +71,7 @@ def main():
     hthr = Threadatuer(target=horloge.horloge, args=())
     hthr.start()
 
-    if m.from_saved_game:
+    if d.from_saved_game:
          board = board.create_map_from_file('last_game.json', joueur1)
     else:
          board = board.create_map_from_file('map_n.png', joueur1)
@@ -109,12 +128,13 @@ def main():
                         if cache_clk.type == "unit":
                             if cache_clk.thr:
                                 cache_clk.thr.tuer()
+                                cache_clk.thr=None
                                 for i in cache_clk.action:
                                     cache_clk.action[i] = False
-                            cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
+                            cache_clk.thr = Threadatuer(target=cache_clk.defend, args=(target[0], target[1])).start()
                             cache_clk = None
                     else:
-                        if clk_sprites[0].type == "unit":
+                        if clk_sprites[0].job in fightable:
                             if clk_sprites[0].team != cache_clk.team:
                                 if cache_clk.thr:
                                     cache_clk.thr.tuer()
@@ -127,7 +147,7 @@ def main():
                     hudsprites = clk_sprites[0]
                     if clk_sprites[0].type == "unit":
                         cache_clk = clk_sprites[0]
-                    if clk_sprites[0].job == "tree":
+                    if clk_sprites[0].job in fetchable:
                         if cache_clk and cache_clk.job=="villager":
                             if cache_clk.thr:
                                 cache_clk.thr.tuer()
@@ -137,26 +157,38 @@ def main():
                             cache_clk = None
                 else:
                     hudsprites = None
+                    cache_clk=None
 
             if event.type == pygame.KEYDOWN:
+                m = None
                 if event.key == ord('w'):
-                    m = House((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
-                    board.board.append(m)
+                    m = House((legal(target[0]), legal(target[1])), 'R', joueur1, board)
+
                 if event.key == ord('x'):
-                    b = Barracks((legal(target[0]), legal(target[1])),'R', joueur1, board)
-                    board.board.append(b)
+                    m = Barracks((legal(target[0]), legal(target[1])),'R', joueur1, board)
+
                 if event.key == ord('c'):
-                    a = TourArcher((legal(target[0]), legal(target[1])), 'Neant', joueur1, board)
-                    board.board.append(a)
+                    m = TourArcher((legal(target[0]), legal(target[1])), 'R', joueur1, board)
+
                 if event.key == ord('v'):
-                    vil = Villager((legal(target[0]), legal(target[1])), 'R', board)
-                    board.board.append(vil)
+                    m = Villager((legal(target[0]), legal(target[1])), 'R', board, joueur1)
+
                 if event.key == ord('b'):
-                    b = Knight((legal(target[0]), legal(target[1])), 'R', board)
-                    board.board.append(b)
+
+                    m = Knight((legal(target[0]), legal(target[1])), 'R', board, joueur1)
+
                 if event.key == ord('n'):
-                    n = Champion((legal(target[0]), legal(target[1])), 'B', board)
-                    board.board.append(n)
+                    m = Champion((legal(target[0]), legal(target[1])), 'B', board, joueur1)
+
+                if m and not collision(m, target[0], target[1], board) :
+                    if (m.needFood <= joueur1.contenu["food"] and m.needInhabitant <= joueur1.contenu["inhabitant"] and m.needGold <= joueur1.contenu["gold"] and m.needStone <= joueur1.contenu["stone"] and m.needWood <= joueur1.contenu["wood"]):
+                        joueur1.contenu["food"] -= m.needFood
+                        joueur1.contenu["inhabitant"] -= m.needInhabitant
+                        joueur1.contenu["gold"] -= m.needGold
+                        joueur1.contenu["wood"] -= m.needWood
+                        joueur1.contenu["stone"] -= m.needStone
+                        board.board.append(m)
+
 
         if vague[10] and horloge.minute==10:
             for ob in board.board :

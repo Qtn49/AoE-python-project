@@ -4,7 +4,7 @@ from model.Unit.Unit import *
 
 class Knight(Unit):
 
-    def __init__(self, pos, team, board):
+    def __init__(self, pos, team, board, joueur):
         ### Tout ce qui fait un chevalier ###
         self.pv=30
         self.maxpv=30
@@ -15,6 +15,13 @@ class Knight(Unit):
         self.atk_spd=50
         self.rng=1
         self.sight=3
+        self.needWood = 0
+        self.needGold = 0
+        self.needStone = 0
+        self.needFood = 50
+        self.needInhabitant = 2
+
+
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

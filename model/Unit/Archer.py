@@ -5,7 +5,7 @@ from model.Unit.Unit import *
 
 class Archer(Unit):
 
-    def __init__(self, pos, team,board):
+    def __init__(self, pos, team,board, joueur):
         ### Tout ce qui fait un archer ###
         self.pv = 50
         self.maxpv = 50

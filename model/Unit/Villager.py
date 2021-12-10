@@ -7,7 +7,7 @@ from model.Unit.Unit import *
 
 class Villager(Unit):
 
-    def __init__(self, pos, team, board):
+    def __init__(self, pos, team, board, joueur):
         ### Tout ce qui fait un villageois ###
         self.size = 1
         self.pv = 20
@@ -18,6 +18,12 @@ class Villager(Unit):
         self.atk_spd = 200
         self.rng = 1
         self.sight = 4
+
+        self.needFood = 30
+        self.needWood = 0
+        self.needGold = 0
+        self.needStone = 0
+        self.needInhabitant = 1
 
         self.capa = 50
         self.espace = 50
@@ -37,21 +43,24 @@ class Villager(Unit):
 
         self.but = cible.ressource
         self.action["fetch"] = True
+        x = cible.x
+        y = cible.y
 
         while self.action["fetch"]:
 
-            self.move(cible.x, cible.y)
+            self.move(x, y)
 
             if cible not in board.board:
-
                 zone = self.scanEuc(self.sight)
 
                 for ob in zone:
                     if ob.type == "ressource" and ob.ressource == self.but:
                         cible = ob
+                        x = cible.x
+                        y = cible.y
                     else:
                         print("non")
-                        self.action = "None"
+                        self.action["fetch"]=False
 
             while cible and cible.contenu[self.but]:
                 print("----")
@@ -72,7 +81,6 @@ class Villager(Unit):
                     self.espace -= 1
                     sleep(10 / self.atk_spd)
                     cible.pv -= 1
-                    print(cible.pv)
                     if cible.pv <=0:
                         if cible in board.board:
                             board.board.remove(cible)
@@ -90,7 +98,7 @@ class Villager(Unit):
                     self.espace += 1
                     self.contenu[self.but] -= 1
 
-            self.move(x,y)
+            self.move(x, y)
 
     def construction(self, Target, place, board):
         self.action["construction"] = True

@@ -5,20 +5,18 @@ class TourArcher(Batiment):
 
     def __init__(self, pos, team, joueur, board):
         ### Tout ce que fait une Tour d'archer ###
-        self.pv = 700
-        self.maxpv=700
+        self.pv = 7
+        self.maxpv=7
         self.job = "tourarcher"
         self.action = "Neant"
         self.sight = 10
         self.rng = 4
-        self.size = 1
+        self.size = 2
         self.needGold = 50
         self.needStone = 120
-        if (self.needStone <= joueur.contenu["stone"] & self.needGold <= joueur.contenu["gold"]):
-            joueur.contenu["stone"] -= self.needStone
-            joueur.contenu["gold"] -= self.needGold
-        else:
-            print(self.needGold , self.needStone,"<", joueur.contenu["stone"], joueur.contenu["gold"])
+        self.needWood = 30
+        self.needFood = 0
+        self.needInhabitant = 0
 
 
         pygame.sprite.Sprite.__init__(self)

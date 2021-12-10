@@ -5,12 +5,13 @@ class Forum(Batiment):
 
     def __init__(self, pos, team, joueur, board):
         ### Tout ce que fait le Forum ###
-        self.maxpv=1000
-        self.pv=1000
+        self.maxpv=100
+        self.pv=100
         self.cstrtime=3
-        self.size = 2
+        self.size = 3
         self.ok=True
         self.job="forum"
+
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

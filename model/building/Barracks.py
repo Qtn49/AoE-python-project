@@ -12,12 +12,12 @@ class Barracks(Batiment):
         self.pv=350
         self.job="barracks"
         self.sight=6
-        self.size=1
+        self.size=2
         self.needWood = 125
-        if (self.needWood <= joueur.contenu["wood"]):
-            joueur.contenu["wood"] -= self.needWood
-        else:
-            print(self.needWood ,"<", joueur.contenu["wood"])
+        self.needGold = 0
+        self.needStone = 0
+        self.needFood = 0
+        self.needInhabitant = 0
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

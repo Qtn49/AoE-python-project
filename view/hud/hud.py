@@ -88,7 +88,6 @@ class Hud():
         pv_max = element.maxpv
         pv = element.pv*100
         pv_size = pv/pv_max
-        print(pv_size)
 
         bar_color = (111, 210, 46)
         back_bar_color = (60, 63, 60)

@@ -85,11 +85,11 @@ class MapE():
                 elif column == ElementsColor.Color.TOWN_CENTER.value:
                     board.board.append(Forum((x * BASE, y * BASE), None, joueur, board))
                 elif column == ElementsColor.Color.KING.value:
-                    board.board.append(King((x * BASE, y * BASE), "R", board))
+                    board.board.append(King((x * BASE, y * BASE), "B", board))
                 elif column == ElementsColor.Color.CHAMPION.value:
-                    board.board.append(Champion((x * BASE, y * BASE), 'R', board))
+                    board.board.append(Champion((x * BASE, y * BASE), 'B', board, 10))
                 elif column == ElementsColor.Color.VILLAGEOIS.value:
-                    board.board.append(Villager((x * BASE, y * BASE), 'B', board))
+                    board.board.append(Villager((x * BASE, y * BASE), 'R', board, joueur))
                 elif column == ElementsColor.Color.SHEEP.value:
                     board.board.append(Sheep((x * BASE, y * BASE), None, board))
 

@@ -278,6 +278,7 @@ class Unit(pygame.sprite.Sprite):
 				self.action = {"atk":False, "defend":False}
 				if self.thr:
 					self.thr.tuer()
+				del self
 			sleep(1)
 
 def check(target, board):
@@ -291,7 +292,7 @@ def check(target, board):
 		img = pygame.image.load("model/Unit/images/R_square.png")
 		img = pygame.transform.scale(img, (BASE, BASE))
 		target.image= img
-		sleep(2)
+		sleep(0.5)
 
 		if target in board.board:
 			board.board.remove(target)

@@ -20,9 +20,8 @@ class Batiment(pygame.sprite.Sprite):
 		"""
 		create
 		"""
+		self.action = {"atk": False, "defend": False, "Construction": False, "fetch": False}
 		self.thr=None
-		self.action = None
-		self.size=2
 		self.type="Batiment"
 		self.team=team
 		self.rect.x = legal(pos[0])

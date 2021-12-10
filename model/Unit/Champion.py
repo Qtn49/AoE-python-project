@@ -17,6 +17,12 @@ class Champion(Unit):
         self.rng=1
         self.sight=2
 
+        self.needFood = 0
+        self.needWood = 0
+        self.needGold = 0
+        self.needStone = 0
+        self.needInhabitant = 0
+
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []

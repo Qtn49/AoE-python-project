@@ -10,15 +10,15 @@ class House(Batiment):
         self.maxpv=75
         self.job="house"
         self.action="Neant"
-        self.inhabitant=5
+
         self.sight=2
-        self.size=1
+        self.size=2
         self.needWood = 30
-        if (self.needWood <= joueur.contenu["wood"]):
-            joueur.contenu["wood"] -= self.needWood
-            joueur.contenu["inhabitant"] += self.inhabitant
-        else:
-            print(self.needWood, "<", joueur.contenu["wood"])
+        self.needGold = 0
+        self.needStone = 0
+        self.needFood = 0
+        self.needInhabitant = -5
+
 
 
         pygame.sprite.Sprite.__init__(self)
