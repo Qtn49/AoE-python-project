@@ -5,8 +5,8 @@ class TourArcher(Batiment):
 
     def __init__(self, pos, team, joueur, board):
         ### Tout ce que fait une Tour d'archer ###
-        self.pv = 7
-        self.maxpv=7
+        self.pv = 30
+        self.maxpv= 30
         self.team=team
         self.job = "tourarcher"
         self.action = "Neant"

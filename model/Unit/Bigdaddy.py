@@ -11,7 +11,7 @@ class Bigdaddy(Unit):
         self.maxpv=5000
         self.job="bigdaddy"
         self.size=2
-        self.spd=200
+        self.spd=300
         self.atk=100
         self.atk_spd=50
         self.rng=1

@@ -6,8 +6,8 @@ class Champion(Unit):
 
     def __init__(self, pos, team, board, vague=0):
         ### Tout ce qui fait un champion ###
-        self.pv=30
-        self.maxpv=30
+        self.pv=50
+        self.maxpv=50
         self.vague=vague
         self.size=1
         self.job="champion"

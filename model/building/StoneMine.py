@@ -13,8 +13,8 @@ class StoneMine(Batiment):
 
     def __init__(self, pos, team, board):
         ### Tout ce qui fait une batiment ressource ###
-        self.pv = 70
-        self.maxpv=70
+        self.pv = 50
+        self.maxpv= 50
         self.contenu = {"gold": 0, "stone": 40, "wood": 0, "food": 0}
         self.job = "stonemine"
         self.action = "Neant"

@@ -9,9 +9,9 @@ class Knight(Unit):
         self.pv=50
         self.maxpv=50
         self.job="knight"
-        self.spd=100
+        self.spd=300
         self.size=1
-        self.atk=6
+        self.atk=5
         self.atk_spd=50
         self.rng=1
         self.sight=3

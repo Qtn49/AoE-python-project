@@ -21,6 +21,5 @@ class Age():
         print(forum.images)
         autorisation["archer"] = True
         autorisation["2_TownCenter"] = True
-        #joueur.contenu["gold"] -= 1000
 
 

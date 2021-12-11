@@ -10,10 +10,10 @@ class Villager(Unit):
     def __init__(self, pos, team, board, joueur):
         ### Tout ce qui fait un villageois ###
         self.size = 1
-        self.pv = 20
-        self.maxpv=20
+        self.pv = 30
+        self.maxpv=30
         self.job = "villager"
-        self.spd = 500
+        self.spd = 300
         self.atk = 2
         self.atk_spd = 200
         self.rng = 1

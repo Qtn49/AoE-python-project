@@ -10,8 +10,8 @@ class Sheep(Batiment):
 
     def __init__(self, pos, team, board):
         ### Tout ce qui fait un mouton ###
-        self.pv = 20
-        self.maxpv=20
+        self.pv = 50
+        self.maxpv= 50
         self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 50, "inhabitant":0}
         self.job="animal"
         self.action="Neant"

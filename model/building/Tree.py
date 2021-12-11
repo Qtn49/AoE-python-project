@@ -19,7 +19,7 @@ class Tree(Batiment):
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0
         self.images = []
-        self.team = "Neant"
+        self.team = None
         img = pygame.image.load(os.path.join("model/building/images/Tree.png")).convert()
         self.N_img = pygame.transform.scale(img, (BASE * self.size, BASE * self.size))
         self.images.append(self.N_img)
