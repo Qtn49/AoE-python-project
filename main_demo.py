@@ -189,14 +189,19 @@ def main():
                     m = Barracks((legal(target[0]), legal(target[1])),'R', joueur1, board)
 
                 if event.key == ord('c'):
-                    m = TourArcher((legal(target[0]), legal(target[1])), 'R', joueur1, board)
+                    if age.agePassed:
+                        m = TourArcher((legal(target[0]), legal(target[1])), 'R', joueur1, board)
 
                 if event.key == ord('v'):
                     m = Villager((legal(target[0]), legal(target[1])), 'R', board, joueur1)
 
                 if event.key == ord('b'):
-
-                    m = Knight((legal(target[0]), legal(target[1])), 'R', board, joueur1)
+                    kght =False
+                    for i in board.board:
+                        if i.job=="barracks":
+                            kght=True
+                    if kght :
+                        m = Knight((legal(target[0]), legal(target[1])), 'R', board, joueur1)
 
                 if event.key == ord('n'):
                     m = Champion((legal(target[0]), legal(target[1])), 'B', board, joueur1)

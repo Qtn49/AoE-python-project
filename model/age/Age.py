@@ -7,6 +7,7 @@ from resources.Variables import *
 class Age():
     buff = 1.2
     toChange = 1000
+    agePassed = False
 
     def changement(self,joueur, forum):
         if (10000 <= joueur.contenu["gold"]):
@@ -17,6 +18,7 @@ class Age():
         forum.images = []
         img = pygame.image.load(os.path.join("model/building/images/Towncenter2.png")).convert()
         img = pygame.transform.scale(img, (BASE*forum.size, BASE*forum.size))
+        self.agePassed=True
         forum.image= img
         print(forum.images)
         autorisation["archer"] = True
