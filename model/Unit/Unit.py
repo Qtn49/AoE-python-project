@@ -70,6 +70,7 @@ class Unit(pygame.sprite.Sprite):
         # définir la case d'arrivée
         newX = legal(newX)
         newY = legal(newY)
+        
         # bouger tant que le lieu d'arrivée n'est pas le bon
         while self.x != newX or self.y != newY:
             dir = self.direction(newX, newY)

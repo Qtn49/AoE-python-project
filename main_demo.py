@@ -152,7 +152,7 @@ def main():
                                 cache_clk.thr=None
                                 for i in cache_clk.action:
                                     cache_clk.action[i] = False
-                            cache_clk.thr = Threadatuer(target=cache_clk.defend, args=(target[0], target[1])).start()
+                            cache_clk.thr = Threadatuer(target=cache_clk.move, args=(target[0], target[1])).start()
                             cache_clk = None
                     else:
                         if clk_sprites[0].job in fightable:
