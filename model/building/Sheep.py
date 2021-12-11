@@ -15,6 +15,7 @@ class Sheep(Batiment):
         self.contenu = {"gold": 0, "stone": 0, "wood": 0, "food": 50, "inhabitant":0}
         self.job="animal"
         self.action="Neant"
+        self.team=None
         self.spd=100
         self.atk=2
         self.atk_spd=50

@@ -19,6 +19,7 @@ class StoneMine(Batiment):
         self.job = "stonemine"
         self.action = "Neant"
         self.size = 1
+        self.team = None
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

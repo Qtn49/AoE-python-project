@@ -7,6 +7,7 @@ class TourArcher(Batiment):
         ### Tout ce que fait une Tour d'archer ###
         self.pv = 7
         self.maxpv=7
+        self.team=team
         self.job = "tourarcher"
         self.action = "Neant"
         self.sight = 10

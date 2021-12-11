@@ -10,7 +10,7 @@ class House(Batiment):
         self.maxpv=75
         self.job="house"
         self.action="Neant"
-
+        self.team = team
         self.sight=2
         self.size=2
         self.needWood = 30

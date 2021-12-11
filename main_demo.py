@@ -196,7 +196,8 @@ def main():
         if vague[10] and horloge.minute==10:
             for ob in board.board :
                 if ob.job=="champion" and ob.vague==10:
-                    ob.thr = Threadatuer(target=ob.attack, args=(forum,)).start()
+                    ob.cacheTarget = forum
+                    ob.thr = Threadatuer(target=ob.defend, args=(forum.x,forum.y)).start()
             vague[10]=False
 
         mouse_pos = pygame.mouse.get_pos()
