@@ -175,7 +175,7 @@ class LoadMenu(Menu):
         while self.run_display:
             Draw.fill(Draw.BLACK)
             Draw.draw_text("Charger une partie", 60, self.DISPLAY_W / 2, self.DISPLAY_H / 2.5 - 20)
-            if os.path.isfile("resources/map/json/last_game.json"):
+            if os.path.isfile("resources/json/last_game.json"):
                 self.texts['last_game'] = Draw.draw_text("Last Game", 40, self.DISPLAY_W / 2,
                                self.DISPLAY_H / 2 + 10)
             else:
@@ -200,10 +200,11 @@ class LoadMenu(Menu):
                     if selected_text == self.texts['retour']:
                         self.run_display = False
                     elif selected_text == self.texts['last_game']:
-                        self.game = True
-                        self.from_saved_game = True
                         self.run_display = False
                         self.new_display = False
+                        self.game = True
+                        self.from_saved_game = True
+
 
                 if event.type == pygame.QUIT:
                     self.run_display = False

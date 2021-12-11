@@ -98,7 +98,8 @@ class MapE():
         return board
 
     def create_json_file(self, file_name):
-        file = open('resources/map/json/' + file_name + '.json', 'w')
+        file = open('resources/json/' + file_name + '.json', 'w')
+        print("saved")
         file.write(jsonpickle.encode(self.board))
         file.close()
 

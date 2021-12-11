@@ -1,8 +1,11 @@
 import tkinter as tk
 
+from model.Unit.Bigdaddy import Bigdaddy
+
+
 class Console():
 
-    def console(self, joueur,timer):
+    def console(self, joueur,timer, board):
         root = tk.Tk()
 
         canvas1 = tk.Canvas(root, width=400, height=300)
@@ -30,6 +33,12 @@ class Console():
                 timer.seconde = 0
                 label3 = tk.Label(root, text='TIMER25 done !', font=('helvetica', 10))
                 canvas1.create_window(200, 210, window=label3)
+            if (x1 == "BIGDADDY"):
+                b = Bigdaddy((700, 4500), 'R', board)
+                board.board.append(b)
+                label3 = tk.Label(root, text='VROUUUUMMMMMMMMMMMMMMMMMMMMM !', font=('helvetica', 10))
+                canvas1.create_window(200, 210, window=label3)
+
 
 
         button1 = tk.Button(text='Enter', command=print)

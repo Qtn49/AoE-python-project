@@ -46,7 +46,7 @@ def cadrillage(world):
 
 def main():
     fetchable=("tree", "stonemine", "goldmine", "animal")
-    fightable = ("house", "tourarcher", "tourarcher", "forum", "villager", "knight", "champion")
+    fightable = ("house", "tourarcher", "tourarcher", "forum", "villager", "knight", "champion", "bigdaddy")
 
     board = MapE()
     counter = 0
@@ -111,8 +111,11 @@ def main():
                 if event.key == ord('z'):
                     age.changement(joueur1, forum)
                 if event.key == ord('m'):
-                    cthr = Threadatuer(target=console.console, args=(joueur1, horloge))
+                    cthr = Threadatuer(target=console.console, args=(joueur1, horloge, board))
                     cthr.start()
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_s] and pygame.key.get_mods() & pygame.KMOD_CTRL:
+                    board.create_json_file("last_game")
 
 
             if event.type == pygame.MOUSEBUTTONDOWN:
