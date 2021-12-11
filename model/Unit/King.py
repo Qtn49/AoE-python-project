@@ -16,6 +16,7 @@ class King(Unit):
         self.atk_spd=50
         self.rng=1
         self.sight=2
+        self.vague = 20
 
         pygame.sprite.Sprite.__init__(self)
         self.frame = 0

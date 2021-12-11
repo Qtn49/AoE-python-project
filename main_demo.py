@@ -17,6 +17,16 @@ from model.Unit.King import *
 from model.age.Age import *
 from view.menu import MainMenu
 
+def createWave(time, number, board):
+    # sleep(60)
+    for i in range(number):
+        for j in range(5+i):
+            c = Champion((4200-i*3*BASE, 450+j*2*BASE+i*BASE),'B', board, time)
+            board.board.append(c)
+        for j in range(4+i):
+            c = Champion((4200-i*3*BASE+2*BASE+j*2*BASE, 450+(6-2)*2*BASE+i*3*BASE),'B', board, time)
+            board.board.append(c)
+    board.update_afg()
 
 def collision(self, cX, cY, board):
     # limites de la map
@@ -45,6 +55,7 @@ def cadrillage(world):
 
 
 def main():
+    thr = []
     fetchable=("tree", "stonemine", "goldmine", "animal")
     fightable = ("house", "tourarcher", "tourarcher", "forum", "villager", "knight", "champion", "bigdaddy")
 
@@ -98,6 +109,11 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == ord('q'):
+                    pygame.quit()
+                    hthr.tuer()
+                    for ob in board.board:
+                        if ob.thr:
+                            ob.thr.tuer()
                     game=False
 
                 if event.key == pygame.K_UP:
@@ -198,6 +214,7 @@ def main():
                 if ob.job=="champion" and ob.vague==10:
                     ob.cacheTarget = forum
                     ob.thr = Threadatuer(target=ob.defend, args=(forum.x,forum.y)).start()
+            thr.append(Threadatuer(target=createWave, args=(20,2,board)).start())
             vague[10]=False
 
         mouse_pos = pygame.mouse.get_pos()
