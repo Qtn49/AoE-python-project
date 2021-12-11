@@ -7,8 +7,8 @@ class King(Unit):
 
     def __init__(self, pos, team, board):
         ### Tout ce qui fait un champion ###
-        self.pv=10
-        self.maxpv=10
+        self.pv=100
+        self.maxpv=100
         self.job="king"
         self.size=2
         self.spd=100

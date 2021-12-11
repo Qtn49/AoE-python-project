@@ -6,8 +6,8 @@ class Knight(Unit):
 
     def __init__(self, pos, team, board, joueur):
         ### Tout ce qui fait un chevalier ###
-        self.pv=30
-        self.maxpv=30
+        self.pv=50
+        self.maxpv=50
         self.job="knight"
         self.spd=100
         self.size=1

@@ -12,8 +12,8 @@ class GoldMine(Batiment):
 
     def __init__(self, pos, team,board):
         ### Tout ce qui fait une batiment ressource ###
-        self.pv = 40
-        self.maxpv=40
+        self.pv = 90
+        self.maxpv=90
         self.contenu = {"gold": 40, "stone": 0, "wood": 0, "food": 0, "inhabitant":0}
         self.job = "goldmine"
         self.action = "Neant"
