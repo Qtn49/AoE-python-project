@@ -217,6 +217,12 @@ def main():
             thr.append(Threadatuer(target=createWave, args=(20,2,board)).start())
             vague[10]=False
 
+        if vague[20] and horloge.minute == 20:
+            for ob in board.board:
+                if (ob.job == "champion" or ob.job=="king") and ob.vague == 20:
+                    ob.cacheTarget = forum
+                    ob.thr = Threadatuer(target=ob.defend, args=(forum.x, forum.y)).start()
+            vague[20] = False
         mouse_pos = pygame.mouse.get_pos()
 
 
