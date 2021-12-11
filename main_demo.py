@@ -18,13 +18,15 @@ from model.age.Age import *
 from view.menu import MainMenu
 
 def createWave(time, number, board):
-    # sleep(60)
+    sleep(60)
     for i in range(number):
         for j in range(5+i):
             c = Champion((4200-i*3*BASE, 450+j*2*BASE+i*BASE),'B', board, time)
+            c.thr = Threadatuer(target=c.defend, args=(c.x, c.y)).start()
             board.board.append(c)
         for j in range(4+i):
             c = Champion((4200-i*3*BASE+2*BASE+j*2*BASE, 450+(6-2)*2*BASE+i*3*BASE),'B', board, time)
+            c.thr = Threadatuer(target=c.defend, args=(c.x, c.y)).start()
             board.board.append(c)
     board.update_afg()
 
