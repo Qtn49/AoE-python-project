@@ -85,17 +85,19 @@ def main():
     hthr.start()
 
     if d.from_saved_game:
-         board = board.create_map_from_file('last_game.json', joueur1)
+        board = board.create_map_from_file('test.json', joueur1)
     else:
-         board = board.create_map_from_file('map_n.png', joueur1)
+         board = board.create_map_from_file('map2.png', joueur1)
     game = True
 
+    forum, king = None, None
+
     # les deux sont placés avant car trop pénible de chercher dans le tableau map
-    forum = Forum((500,4500),'R',joueur1, board)
-    board.board.append(forum)
-    king = King((4500, 500), 'B', board)
-    board.board.append(king)
-    board.update_afg()
+    for el in board.board:
+        if type(el) == Forum:
+            forum = el
+        elif type(el) == King:
+            king = el
 
     pygame.mouse.set_cursor(pygame.cursors.arrow)
 

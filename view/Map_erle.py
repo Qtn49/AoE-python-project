@@ -38,10 +38,10 @@ class MapE():
 
     def move_screen(self, add_x, add_y):
         if self.screenX+add_x*BASE > GAME_DIMENSIONS[0]*BASE-WIDTH or self.screenX+add_x*BASE < 0:
-            print("LIMITE DE H")
+            # print("LIMITE DE H")
             return False
         if self.screenY+add_y*BASE < 0 or self.screenY+add_y*BASE > GAME_DIMENSIONS[0]*BASE-HEIGHT:
-            print("LIMITE DE V")
+            # print("LIMITE DE V")
             return False
 
         self.screenX += add_x*BASE
@@ -63,12 +63,11 @@ class MapE():
         return jsonpickle.decode(json_content)
 
     def create_map_from_file(self, file_path, joueur):
-        print(file_path[file_path.rfind('.'):])
-        # if file_path[file_path.rfind('.'):] == "json":
-        #     map = MapE()
-        #     map.board = MapE.get_board_from_json(file_path)
-        #     self.update_images(map.board)
-        #     return map
+        if file_path[file_path.rfind('.'):] == ".json":
+            map = MapE()
+            map.board = MapE.get_board_from_json('resources/json/' + file_path)
+            self.update_images(map.board)
+            return map
 
         img_script = mpimg.imread('resources/png/' + file_path).tolist()
 
@@ -126,9 +125,6 @@ class MapE():
                 image = pygame.image.load(os.path.join("model/Unit/images/king.png")).convert()
             elif type(el) is Champion:
                 image = pygame.image.load(os.path.join("model/Unit/images/champion.png")).convert()
-            if type(el) is Forum:
+            if image is not None:
                 image = pygame.transform.scale(image, (BASE * el.size, BASE * el.size))
-            else:
-                print(type(el))
-
-            el.image = image
+                el.image = image
