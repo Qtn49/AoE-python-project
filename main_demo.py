@@ -94,9 +94,10 @@ def main():
 
     # les deux sont placés avant car trop pénible de chercher dans le tableau map
     for el in board.board:
+
         if type(el) == Forum:
             forum = el
-        elif type(el) == King:
+        if type(el) == King:
             king = el
 
     pygame.mouse.set_cursor(pygame.cursors.arrow)

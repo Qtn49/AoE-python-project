@@ -17,7 +17,7 @@ class Villager(Unit):
         self.atk = 2
         self.atk_spd = 200
         self.rng = 1
-        self.sight = 4
+        self.sight = 3
 
         self.needFood = 30
         self.needWood = 0
@@ -58,9 +58,11 @@ class Villager(Unit):
                         cible = ob
                         x = cible.x
                         y = cible.y
+                        break
                     else:
                         print("non")
                         self.action["fetch"]=False
+                        return
 
             while cible and cible.contenu[self.but]:
                 print("----")
