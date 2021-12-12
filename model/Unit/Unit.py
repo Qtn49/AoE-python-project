@@ -23,6 +23,8 @@ class Unit(pygame.sprite.Sprite):
         """
 		create
 		"""
+        super().__init__()
+        self.vague = None
         self.cacheTarget = None
         self.thr = None
         self.action = {"atk": False, "defend": False, "Construction": False, "fetch": False}
@@ -35,7 +37,7 @@ class Unit(pygame.sprite.Sprite):
         self.x = pos[0]
         self.y = pos[1]
         self.board = board
-        super().__init__()
+
 
     def control(self, x, y):
         """
@@ -70,7 +72,7 @@ class Unit(pygame.sprite.Sprite):
         # définir la case d'arrivée
         newX = legal(newX)
         newY = legal(newY)
-        
+
         # bouger tant que le lieu d'arrivée n'est pas le bon
         while self.x != newX or self.y != newY:
             dir = self.direction(newX, newY)
@@ -86,7 +88,7 @@ class Unit(pygame.sprite.Sprite):
         collide = self.choice(dirX, dirY)
 
         if not collide or (collide[0] and not dirY) or (collide[1] and not dirX):
-            print("BLOCK")
+            # print("BLOCK")
             return False
 
         butX = legal(self.x) + BASE * dirX * (1 - collide[0])
@@ -259,7 +261,7 @@ class Unit(pygame.sprite.Sprite):
         self.action["atk"] = False
         return
 
-    def defend(self, newX, newY):
+    def defend(self, newX, newY,h=None, forum=None):
         """
 		defend a position
 		"""
@@ -271,6 +273,10 @@ class Unit(pygame.sprite.Sprite):
             for ob in zone:
                 if ob.team != self.team:
                     self.attack(ob)
+
+            if h and forum and self.vague == h.minute:
+                newX = forum.x
+                newY = forum.y
 
             if self.pv <= 0:
                 img = pygame.image.load("model/Unit/images/R_square.png")

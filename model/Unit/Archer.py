@@ -25,4 +25,4 @@ class Archer(Unit):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team);
+        super().__init__(pos, team)

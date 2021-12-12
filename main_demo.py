@@ -17,16 +17,16 @@ from model.Unit.King import *
 from model.age.Age import *
 from view.menu import MainMenu
 
-def createWave(time, number, board):
-    sleep(60)
+def createWave(time, number, board, h, forum):
+    sleep(3)
     for i in range(number):
         for j in range(5+i):
             c = Champion((4200-i*3*BASE, 450+j*2*BASE+i*BASE),'B', board, time)
-            c.thr = Threadatuer(target=c.defend, args=(c.x, c.y)).start()
+            c.thr = Threadatuer(target=c.defend, args=(c.x, c.y, h, forum)).start()
             board.board.append(c)
         for j in range(4+i):
             c = Champion((4200-i*3*BASE+2*BASE+j*2*BASE, 450+(6-2)*2*BASE+i*3*BASE),'B', board, time)
-            c.thr = Threadatuer(target=c.defend, args=(c.x, c.y)).start()
+            c.thr = Threadatuer(target=c.defend, args=(c.x, c.y, h, forum)).start()
             board.board.append(c)
     board.update_afg()
 
@@ -221,14 +221,16 @@ def main():
                 if ob.job=="champion" and ob.vague==10:
                     ob.cacheTarget = forum
                     ob.thr = Threadatuer(target=ob.defend, args=(forum.x,forum.y)).start()
-            thr.append(Threadatuer(target=createWave, args=(20,2,board)).start())
+            thr.append(Threadatuer(target=createWave, args=(20,2,board,horloge, forum)).start())
             vague[10]=False
 
         if vague[20] and horloge.minute == 20:
             for ob in board.board:
                 if (ob.job == "champion" or ob.job=="king") and ob.vague == 20:
-                    ob.cacheTarget = forum
-                    ob.thr = Threadatuer(target=ob.defend, args=(forum.x, forum.y)).start()
+                    ob.action = {"atk": False, "defend": False, "Construction": False, "fetch": False}
+                    sleep(1)
+                    # ob.cacheTarget = forum
+                    # ob.thr = Threadatuer(target=ob.defend, args=(forum.x, forum.y)).start()
             vague[20] = False
         mouse_pos = pygame.mouse.get_pos()
 

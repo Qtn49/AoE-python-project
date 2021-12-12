@@ -28,8 +28,8 @@ class Console():
                 timer.seconde = 0
                 label2 = tk.Label(root, text='TIMER10 done !', font=('helvetica', 10))
                 canvas1.create_window(200, 210, window=label2)
-            if (x1 == "TIMER25"):
-                timer.minute = 25
+            if (x1 == "TIMER20"):
+                timer.minute = 20
                 timer.seconde = 0
                 label3 = tk.Label(root, text='TIMER25 done !', font=('helvetica', 10))
                 canvas1.create_window(200, 210, window=label3)

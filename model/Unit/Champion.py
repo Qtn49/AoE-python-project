@@ -8,7 +8,7 @@ class Champion(Unit):
         ### Tout ce qui fait un champion ###
         self.pv=50
         self.maxpv=50
-        self.vague=vague
+
         self.size=1
         self.job="champion"
         self.spd=300
@@ -31,4 +31,5 @@ class Champion(Unit):
         self.images.append(self.N_img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        super().__init__(pos, team,board);
+        super().__init__(pos, team,board)
+        self.vague = vague
