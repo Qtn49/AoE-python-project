@@ -201,10 +201,10 @@ class LoadMenu(Menu):
                         self.run_display = False
                     elif selected_text == self.texts['last_game']:
                         self.run_display = False
-                        self.new_display = False
+                        self.menu.run_display = False
+                        self.menu.from_saved_game = True
                         self.game = True
                         self.from_saved_game = True
-
 
                 if event.type == pygame.QUIT:
                     self.run_display = False

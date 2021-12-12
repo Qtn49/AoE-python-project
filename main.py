@@ -52,13 +52,13 @@ def main():
     hthr = Threadatuer(target=horloge.horloge, args=())
     hthr.start()
 
-    if m.from_saved_game:
-         board = board.create_map_from_file('last_game.json', joueur1)
-    else:
-         board = board.create_map_from_file('map.png', joueur1)
+    # if m.from_saved_game:
+    #      board = board.create_map_from_file('last_game.json', joueur1)
+    # else:
+    #      board = board.create_map_from_file('map.png', joueur1)
 
     game = True
-    vil0 = Villager((0, 4500), 'R', board)
+    vil0 = Villager((0, 4500), 'R', board, joueur1)
     vil1 = Champion((0, 4000), 'B', board)
     board.board.append(vil0)
     board.board.append(vil1)
@@ -72,6 +72,9 @@ def main():
     board.board.append(forum)
     board.update_afg()
 
+    # board.create_json_file('test')
+    # board = board.create_map_from_file('test.json', joueur1)
+
     pygame.mouse.set_cursor(pygame.cursors.arrow)
 
     for i in range(5):
@@ -83,11 +86,11 @@ def main():
         board.board.append(champ)
 
     for i in range(5):
-        champ = Knight((100, 4000+i*BASE),board,'R')
+        champ = Knight((100, 4000+i*BASE),board,'R', joueur1)
         board.board.append(champ)
 
     for i in range(5):
-        champ = Knight((600+i*2*BASE, 4050),'R',board)
+        champ = Knight((600+i*2*BASE, 4050),'R',board, joueur1)
         board.board.append(champ)
 
     for i in range(4):
